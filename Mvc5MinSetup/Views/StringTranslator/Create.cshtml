@@ -1,0 +1,9 @@
+﻿@model Mvc5MinSetup.ViewModels.Input.TranslatorInput
+@using (Html.BeginForm())
+{
+    using (Html.Awe().BeginContext())
+    {
+        @Html.EditorFor(o => o.Text)
+        @Html.EditorFor(o => o.LanguageCode)
+    }
+}

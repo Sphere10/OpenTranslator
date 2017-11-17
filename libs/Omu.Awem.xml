@@ -1,0 +1,1165 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Omu.Awem</name>
+    </assembly>
+    <members>
+        <member name="T:Omu.Awem.Helpers.AwesomeHtmlHelperExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeHtmlHelperExtensions.Init``1(Omu.AwesomeMvc.AwesomeHtmlHelper{``0})">
+            <summary>
+            Set the defaults for awem.js and jquery.validate (if present) by calling utils.init; 
+            sets date format, first day of week, decimal separator, isMobileOrTablet
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ahtml"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Utils.MobileUtils">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Utils.MobileUtils.IsMobile">
+            <summary>
+            is the request coming from a mobile device
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Utils.MobileUtils.IsMobileOrTablet">
+            <summary>
+            is the request coming froma mobile or tablet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.AngularExtensions">
+            <summary>
+            extensions for angular js
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AngularExtensions.NgModel``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.String)">
+            <summary>
+            set angular ng-model
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="h"></param>
+            <param name="scopeProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AngularExtensions.NgModel``1(Omu.AwesomeMvc.AjaxDropdown{``0},System.String)">
+            <summary>
+            set angular ng-model
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="h"></param>
+            <param name="scopeProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AngularExtensions.NgModel``1(Omu.AwesomeMvc.AjaxCheckboxList{``0},System.String)">
+            <summary>
+            set angular ng-model
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="h"></param>
+            <param name="scopeProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.AwesomeModExtensions">
+            <summary>
+            ASP.net MVC Awesome mod extensions
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.LookupGrid``1(Omu.AwesomeMvc.Lookup{``0},System.String)">
+            <summary>
+            grid inside the lookup popup
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="lookup"></param>
+            <param name="popupUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.MultiLookupGrid``1(Omu.AwesomeMvc.MultiLookup{``0},System.String)">
+            <summary>
+            grid inside the multilookup popup
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="multilookup"></param>
+            <param name="popupUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Odropdown``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            Odropdown extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.MenuDropdown``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            menu dropdown extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.ColorDropdown``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            color dropdown extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Combobox``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.ComboboxCfg})">
+            <summary>
+            combobox extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.TimePicker``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.TimePickerCfg})">
+            <summary>
+            timepicker extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.ImgDropdown``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            imgdropdown extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.ButtonGroup``1(Omu.AwesomeMvc.AjaxRadioList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            buttongroup extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.ButtonGroup``1(Omu.AwesomeMvc.AjaxCheckboxList{``0},System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            buttongroup extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Multiselect``1(Omu.AwesomeMvc.AjaxCheckboxList{``0},System.Action{Omu.Awem.Helpers.MultiselectCfg})">
+            <summary>
+            multiselect extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="arl"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod``1(Omu.AwesomeMvc.InitPopup{``0},System.Action{Omu.Awem.Helpers.PopupCfg})">
+            <summary>
+            dropdown popup
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod``1(Omu.AwesomeMvc.InitPopupForm{``0},System.Action{Omu.Awem.Helpers.PopupCfg})">
+            <summary>
+            dropdown popup
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod``1(Omu.AwesomeMvc.Lookup{``0},System.Action{Omu.Awem.Helpers.LookupModCfg})">
+            <summary>
+            Lookup mods
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod``1(Omu.AwesomeMvc.MultiLookup{``0},System.Action{Omu.Awem.Helpers.LookupModCfg})">
+            <summary>
+            Lookup mods
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod``1(Omu.AwesomeMvc.Grid{``0},System.Action{Omu.Awem.Helpers.GridModCfg})">
+            <summary>
+            grid mods extension
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="grid"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModExtensions.Mod(Omu.AwesomeMvc.Column,System.Action{Omu.Awem.Helpers.ColumnModCfg})">
+            <summary>
+            grid Column mod extension
+            </summary>
+            <param name="column"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.AwesomeModHelpers">
+            <summary>
+            awesome mod helpers
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AwesomeModHelpers.Odropdown``1(Omu.AwesomeMvc.AwesomeHtmlHelper{``0},System.String,System.Action{Omu.Awem.Helpers.OdropdownCfg})">
+            <summary>
+            Odropdown Awesome Mod 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ahtml"></param>
+            <param name="prop"></param>
+            <param name="setCfg"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.IInlColBuilder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.IInlColBuilder.AddInline(Omu.Awem.Helpers.InlElem)">
+            <summary>
+            
+            </summary>
+            <param name="el"></param>
+        </member>
+        <member name="P:Omu.Awem.Helpers.IInlColBuilder.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Helpers.InlColBuilder">
+            <summary>
+            Grid Inline edit column builder
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlColBuilder.#ctor(Omu.AwesomeMvc.Column)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlColBuilder.AddInline(Omu.Awem.Helpers.InlElem)">
+            <summary>
+            add inline element
+            </summary>
+            <param name="el"></param>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlColBuilder.Column">
+            <summary>
+            grid column
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlColBuilder.Elements">
+            <summary>
+            inline elements collection
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Helpers.InlElem">
+            <summary>
+            Grid inline edit mod editor element
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlElem.Format">
+            <summary>
+            html format
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlElem.JsFormat">
+            <summary>
+            js format
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlElem.ModelProp">
+            <summary>
+            model property used for binding in post action (save)
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Helpers.InlElem.ValProp">
+            <summary>
+            value property
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Helpers.InlineEditExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineEditExtensions.InlineId``1(``0,System.String,System.String)">
+            <summary>
+            Inline hidden input for Id column, will use "Id" as name if bind or valprop is not specified
+            </summary>
+            <param name="builder"></param>
+            <param name="valProp">grid model property to get value from, when not set will use Column.Bind</param>
+            <param name="modelProp">viewmodel property to match in the edit/create action, when not set valProp will be used</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineEditExtensions.Inline``2(``0,Omu.AwesomeMvc.IAwesomeHelper{``1},System.String)">
+            <summary>
+            set inline format for the column; value from valProp is used to replace #Value in the format
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TH"></typeparam>
+            <param name="builder"></param>
+            <param name="helper">awesome editor helper</param>
+            <param name="valProp">grid model property to get value from, when not set will use Column.Bind; </param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineEditExtensions.Inline``1(``0,System.String,System.String,System.String)">
+            <summary>
+            set inline format for the column; value from valProp is used to replace #Value in the format
+            </summary>
+            <param name="builder"></param>
+            <param name="format">editor string format, #Value and #Prefix will be replaced, prefix is used for unique ids </param>
+            <param name="valProp">grid model property to get value from, when not set will use Column.Bind</param>
+            <param name="modelProp">viewmodel property to match in the edit/create action, when not set valProp will be used, used for validation only here, you set the input name in the string format</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineEditExtensions.InlineReadonly``1(``0,System.String,System.String,System.String)">
+            <summary>
+            set readonly inline format for the column
+            </summary>
+            <param name="builder"></param>
+            <param name="displayFormat">display format, .Prop will be replaced with values from the grid row model </param>
+            <param name="valProp">grid model property to get value from, when not set will use Column.Bind</param>
+            <param name="modelProp">viewmodel property to match in the edit/create action, when not set valProp will be used, used for validation only here, you set the input name in the string format</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineEditExtensions.InlineBool``1(``0,System.String,System.String,System.String)">
+            <summary>
+            Inline checkbox, by default will use column.Bind + "Checked" for valueProp and column.Bind for modelProp
+            </summary>
+            <param name="modelProp">viewmodel property to match in the edit/create action, when not set valProp will be used</param>
+            <param name="builder"></param>
+            <param name="valProp">grid model property to get value from, when not set will use Column.Bind</param>
+            <param name="cssClass">css class for the checkbox input</param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.LookupModCfg">
+            <summary>
+            Lookup mods configuration
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.LookupModCfg.#ctor(Omu.AwesomeMvc.AweInfo)">
+            <summary>
+            
+            </summary>
+            <param name="lookupAwe"></param>
+        </member>
+        <member name="M:Omu.Awem.Helpers.LookupModCfg.OutClickClose(System.Boolean)">
+            <summary>
+            Close popup when clicking outside of it
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.LookupModCfg.Dropdown(System.Boolean)">
+            <summary>
+            dropdown popup from opener position
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.LookupModCfg.ShowHeader(System.Boolean)">
+            <summary>
+            show header
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.MovableRowsCfg">
+            <summary>
+            Movable rows mod cfg
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MovableRowsCfg.#ctor(Omu.AwesomeMvc.AweInfo)">
+            <summary>
+            
+            </summary>
+            <param name="awe"></param>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MovableRowsCfg.DropOn(System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="gridId"></param>
+            <param name="ctxid">use context prefix, default true</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MovableRowsCfg.GetIds">
+            <summary>
+            get grid ids
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.ColumnModCfg">
+            <summary>
+            Column mods config
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.#ctor(Omu.AwesomeMvc.Column)">
+            <summary>
+            
+            </summary>
+            <param name="column"></param>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.Autohide(System.Int32)">
+            <returns></returns>
+            <summary>
+            hide column on small screens, or when resizing the browser (should be used with columns selector mod)
+            </summary>
+            <param name="order">hide order ( greater number - last to be hidden, 0 - no autohide, lesser number - first to be hidden ) </param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.NoAutohide">
+            <summary>
+            disable autohide for this column, use when setting autohide for all columns using grid ColumnsAutohide grid mod
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.Nohide">
+            <summary>
+            use to disable hiding of the column from the columns selector, it will also disable autohiding
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.InlineFunc(System.String,System.Action{Omu.Awem.Helpers.InlineFuncOptions})">
+            <summary>
+            define a js function that will set the inline format of the column; the func will receive the grid row model as the first parameter + additional params
+            </summary>
+            <param name="func">js func</param>
+            <param name="setOptions">set additional options</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ColumnModCfg.AddInline(Omu.Awem.Helpers.InlElem)">
+            <summary>
+            adds inline element
+            </summary>
+            <param name="el"></param>
+        </member>
+        <member name="P:Omu.Awem.Helpers.ColumnModCfg.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Helpers.ComboboxCfg">
+            <summary>
+            Combobox config
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.CloseOnEmpty(System.Boolean)">
+            <summary>
+            close dropdown when combo search text is empty
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.UseConVal(System.Boolean)">
+            <summary>
+            use content value instead of key
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.Caption(System.String)">
+            <summary>
+            caption when no item is selected
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.AutoSelectFirst">
+            <summary>
+            autoselect first item on load when no value is matched (change will be triggered)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.NoSelectClose">
+            <summary>
+            don't close dropdown on item select
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.MinWidth(System.String)">
+            <summary>
+            set css width of the dropdown 
+            </summary>
+            <param name="width">(px or em e.g. 12px)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.MinWidth(System.Int32)">
+            <summary>
+            set min width in em
+            </summary>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.SearchFunc(System.String,System.String,System.String)">
+            <summary>
+            js func to be used for search
+            </summary>
+            <param name="func"></param>
+            <param name="url"></param>
+            <param name="key">cache key, id used by default</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.ComboboxCfg.ItemFunc(System.String)">
+            <summary>
+            js func used to render dropdown item
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.AweHelpersExtensions">
+            <summary>
+            extensions for inline helpers
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AweHelpersExtensions.AsInline``1(``0,System.String)">
+            <summary>
+            get format for grid inline edit
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="helper"></param>
+            <param name="valueProp">grid model property to get value from</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AweHelpersExtensions.ParentInline``1(``0,System.String,System.String)">
+            <summary>
+            Set parent for grid inline editing editor
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="helper"></param>
+            <param name="parent"></param>
+            <param name="alias"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.AweHelpersExtensions.Button``1(``0,System.String,System.String,System.Action{Omu.Awem.Helpers.PopupButtonCfg})">
+            <summary>
+            
+            </summary>
+            <param name="helper"></param>
+            <param name="text"></param>
+            <param name="click"></param>
+            <param name="setCfg"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.InlineFuncOptions">
+            <summary>
+            options for grid inline func
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.InlineFuncOptions.Param(System.Action{Omu.Awem.Helpers.InlColBuilder})">
+            <summary>
+            add parameter
+            </summary>
+            <param name="buildInlCol"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.MultiselectCfg">
+            <summary>
+            Multiselect config
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.Reorderable(System.Boolean)">
+            <summary>
+            make selected items reorderable
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.Caption(System.String)">
+            <summary>
+            caption when no item is selected
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.NoSelectClose">
+            <summary>
+            don't close dropdown on item select
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.MinWidth(System.String)">
+            <summary>
+            set css width of the dropdown 
+            </summary>
+            <param name="width">(px or em e.g. 12px)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.MinWidth(System.Int32)">
+            <summary>
+            set min width in em
+            </summary>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.SearchFunc(System.String,System.String,System.String)">
+            <summary>
+            js func to be used for search
+            </summary>
+            <param name="func"></param>
+            <param name="url"></param>
+            <param name="key">cache key, id used by default</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.ItemFunc(System.String)">
+            <summary>
+            js func used to render dropdown item
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.MultiselectCfg.CaptionFunc(System.String)">
+            <summary>
+            js func used to render dropdown caption
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.PopupButtonCfg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupButtonCfg.CssClass(System.String)">
+            <summary>
+            Set css class for the button
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupButtonCfg.HtmlAttributes(System.Object)">
+            <summary>
+            set html attributes
+            </summary>
+            <param name="o">An object that contains the HTML attributes</param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.PopupCfg">
+            <summary>
+            Popup config
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupCfg.Inline">
+            <summary>
+            Inline popup
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupCfg.Toggle(System.Boolean)">
+            <summary>
+            Toggle open
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupCfg.OutClickClose(System.Boolean)">
+            <summary>
+            Close popup when clicking outside of it
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupCfg.Dropdown(System.Boolean)">
+            <summary>
+            dropdown popup from opener position
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.PopupCfg.ShowHeader(System.Boolean)">
+            <summary>
+            show header
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Utils.ControllerExtensions">
+            <summary>
+            controller extensions utilities methods
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Utils.ControllerExtensions.GetErrorsInline(System.Web.Mvc.ModelStateDictionary)">
+            <summary>
+            get modelstate errors in the format required for the inline edit grid mod
+            </summary>
+            <param name="modelState"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.GridModCfg">
+            <summary>
+            Grid mods configuration
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.#ctor(Omu.AwesomeMvc.AweInfo)">
+            <summary>
+            
+            </summary>
+            <param name="gridAwe"></param>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.InfiniteScroll">
+            <summary>
+            automatically go to next/prev page when scrolling to the end/beginning of the page
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.PageInfo">
+            <summary>
+            add page info ( page 1 of 75 ) in the right bottom corner of the grid
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.AutoMiniPager">
+            <summary>
+            automatically switch the pager to a more compact version on smaller screens, or when resizing the browser to smaller size
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.MiniPager">
+            <summary>
+            use minipager
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.PageSize">
+            <summary>
+            add page size selector 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.ColumnsSelector">
+            <summary>
+            add columns selector dropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.ColumnsAutohide">
+            <summary>
+            Autohide columns
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.KeyNav">
+            <summary>
+            Autohide columns
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.InlineEdit(System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            set Inline editing urls
+            </summary>
+            <param name="createUrl"></param>
+            <param name="editUrl"></param>
+            <param name="oneRow">inline edit one row at a time</param>
+            <param name="reloadOnSave"></param>
+            <param name="rowClickEdit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.Loading">
+            <summary>
+            set Loading animation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.MovableRows(System.String[])">
+            <summary>
+            movable grid rows
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.MovableRows(System.Action{Omu.Awem.Helpers.MovableRowsCfg})">
+            <summary>
+            movable grid rows
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.GridModCfg.Custom(System.String)">
+            <summary>
+            set mod by string func name
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Helpers.OdropdownCfg">
+            <summary>
+            Odropdown config
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.PopupClass(System.String)">
+            <summary>
+            css class to set for the dropdown popup
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.InLabel(System.String)">
+            <summary>
+            label text in front of the caption/selected item text
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.Caption(System.String)">
+            <summary>
+            caption when no item is selected
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.AutoSelectFirst">
+            <summary>
+            autoselect first item on load when no value is matched (change will be triggered)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.NoSelectClose">
+            <summary>
+            don't close dropdown on item select
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.MinWidth(System.String)">
+            <summary>
+            set css width of the dropdown 
+            </summary>
+            <param name="width">(px or em e.g. 12px)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.MinWidth(System.Int32)">
+            <summary>
+            set min width in em
+            </summary>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.SearchFunc(System.String,System.String,System.String)">
+            <summary>
+            js func to be used for search
+            </summary>
+            <param name="func"></param>
+            <param name="url"></param>
+            <param name="key">cache key, id used by default</param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.ItemFunc(System.String)">
+            <summary>
+            js func used to render dropdown item
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.OdropdownCfg.CaptionFunc(System.String)">
+            <summary>
+            js func used to render dropdown caption
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.DayCell">
+            <summary>
+            scheduler day cell
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.DayCell.Ticks">
+            <summary>
+            cell time representation start in ticks 
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.DayCell.Events">
+            <summary>
+            cell events
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.DayCell.Day">
+            <summary>
+            cell day  ( for month view )
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.DayCell.Date">
+            <summary>
+            cell date ( for month view ) 
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.EventDisplay">
+            <summary>
+            Scheduler Event display dto
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.EventDisplay.Id">
+            <summary>
+            event id
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.EventDisplay.Title">
+            <summary>
+            event title
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.EventDisplay.Time">
+            <summary>
+            event time
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.EventDisplay.Color">
+            <summary>
+            event color
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.SchedulerEvent">
+            <summary>
+            Scheduler event dto
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.Id">
+            <summary>
+            event id
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.Title">
+            <summary>
+            event title
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.Start">
+            <summary>
+            event start utc
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.End">
+            <summary>
+            event end utc
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.AllDay">
+            <summary>
+            all day event
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.Notes">
+            <summary>
+            event notes
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerEvent.Color">
+            <summary>
+            event color
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.SchedulerHour">
+            <summary>
+            scheduler hour type
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerHour.FullDay">
+            <summary>
+            24 hours
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerHour.WorkingHours">
+            <summary>
+            8 to 20
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.SchedulerModelBuilder">
+            <summary>
+            Scheduler model builder for the awesome grid
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Scheduler.SchedulerModelBuilder.#ctor(Omu.AwesomeMvc.GridParams)">
+            <summary>
+            
+            </summary>
+            <param name="gridParams"></param>
+        </member>
+        <member name="M:Omu.Awem.Scheduler.SchedulerModelBuilder.GetViewTypes">
+            <summary>
+            get view types for the button group
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Scheduler.SchedulerModelBuilder.GetHoursTypes">
+            <summary>
+            get hours type for the dropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Scheduler.SchedulerModelBuilder.GetHourSteps">
+            <summary>
+            hours step dropdown items
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Scheduler.SchedulerModelBuilder.Build">
+            <summary>
+            build the scheduler view grid model
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.Culture">
+            <summary>
+            Current culture
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.GetEvents">
+            <summary>
+            Get events based on start and end utc dates
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.ViewType">
+            <summary>
+            Scheduler view type
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.HoursType">
+            <summary>
+            Scheduler view hours type (full day, working hours)
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.HourStep">
+            <summary>
+            hours step
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.Cmd">
+            <summary>
+            Command (prev|next|today), used to change the current date
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.MinutesOffset">
+            <summary>
+            minutes offset, utc relative to the client ( js getTimezoneOffset() )
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerModelBuilder.Date">
+            <summary>
+            scheduler view date
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.SchedulerRow">
+            <summary>
+            Scheduler grid model item
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.Time">
+            <summary>
+            row time
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.RowClass">
+            <summary>
+            css class for the row
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.Date">
+            <summary>
+            row date
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.Cells">
+            <summary>
+            row day cells
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.AllDay">
+            <summary>
+            is an all day row
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.Title">
+            <summary>
+            event title
+            </summary>
+        </member>
+        <member name="P:Omu.Awem.Scheduler.SchedulerRow.Notes">
+            <summary>
+            event notes
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Scheduler.SchedulerView">
+            <summary>
+            Scheduler view types
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerView.Day">
+            <summary>
+            day view
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerView.Week">
+            <summary>
+            week view
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerView.WorkWeek">
+            <summary>
+            work week view
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerView.Month">
+            <summary>
+            month view
+            </summary>
+        </member>
+        <member name="F:Omu.Awem.Scheduler.SchedulerView.Agenda">
+            <summary>
+            agenda view
+            </summary>
+        </member>
+        <member name="T:Omu.Awem.Helpers.TimePickerCfg">
+            <summary>
+            TimePicker mod configuration
+            </summary>
+        </member>
+        <member name="M:Omu.Awem.Helpers.TimePickerCfg.Caption(System.String)">
+            <summary>
+            caption for when there's no value
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.TimePickerCfg.AutoSelectFirst">
+            <summary>
+            autoselect first item on load when no value is matched (change will be triggered)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Omu.Awem.Helpers.TimePickerCfg.Step(System.Int32)">
+            <summary>
+            step in minutes
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

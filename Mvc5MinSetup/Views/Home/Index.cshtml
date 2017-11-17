@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Language Translation";
+}
+
+ <h2>Language Translation </h2>
+@Html.InitCrudPopupsForGrid("LanguageTranslator", "StringTranslator")
+@* popup names will be action + gridid; name is used when calling awe.open(name) *@
+
+    <div class="bar">
+        <button type="button" onclick="awe.open('createLanguageTranslator')" class="awe-btn mbtn">Add String</button>
+    </div>
+
+    @(Html.Awe().Grid("LanguageTranslator")
+			.Mod(o => o.PageInfo().ColumnsSelector().ColumnsAutohide())
+			.Url(Url.Action("GridGetItems", "StringTranslator"))
+			.Resizable()
+			.Reorderable()
+			.Height(350)
+			.Columns(
+				new Column{Name = "Id", Width = 55 },
+				new Column{Name = "Name", Header = "Original Text" }.Mod(o => o.Nohide()),
+				new Column{Name = "Date", Header = "Translated Text" },
+				new Column{ClientFormat = ".Meals", Header = "Language"},
+				new Column{ClientFormat = GridUtils.EditFormatForGrid("DinnersGrid"), Width = 50}.Mod(o => o.Nohide()),
+				new Column{ClientFormat = GridUtils.DeleteFormatForGrid("DinnersGrid"), Width = 50}.Mod(o => o.Nohide())))
+<br/>
+
+
