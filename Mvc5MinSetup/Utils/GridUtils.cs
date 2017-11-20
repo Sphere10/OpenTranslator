@@ -105,8 +105,9 @@ namespace Mvc5MinSetup.Utils
 
             var tabindex = nofocus ? "tabindex = \"-1\"" : string.Empty;
 
-            return string.Format("<button type=\"button\" class=\"awe-btn awe-nonselect {3}\" {4} onclick=\"awe.open('{0}', {{ params:{{ id: '.{1}' }} }}, event)\">{2}</button>",
+           var a = string.Format("<button type=\"button\" class=\"awe-btn awe-nonselect {3}\" {4} onclick=\"awe.open('{0}', {{ params:{{ id: '.{1}' }} }}, event)\">{2}</button>",
                 popupName, key, deleteContent, btnClass, tabindex);
+			 return a;
         }
 
         public static string InlineDeleteFormat(string popupName, string key = "Id", bool nofocus = false)

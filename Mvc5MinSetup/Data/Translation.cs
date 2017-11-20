@@ -17,6 +17,6 @@ namespace Mvc5MinSetup.Data
         public decimal Id { get; set; }
         public string TextId { get; set; }
         public string LanguageCode { get; set; }
-        public string Text { get; set; }
+        public string Translated_Text { get; set; }
     }
 }

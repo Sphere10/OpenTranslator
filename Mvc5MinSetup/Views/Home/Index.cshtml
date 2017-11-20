@@ -18,11 +18,12 @@
 			.Height(350)
 			.Columns(
 				new Column{Name = "Id", Width = 55 },
-				new Column{Name = "Name", Header = "Original Text" }.Mod(o => o.Nohide()),
-				new Column{Name = "Date", Header = "Translated Text" },
-				new Column{ClientFormat = ".Meals", Header = "Language"},
-				new Column{ClientFormat = GridUtils.EditFormatForGrid("DinnersGrid"), Width = 50}.Mod(o => o.Nohide()),
-				new Column{ClientFormat = GridUtils.DeleteFormatForGrid("DinnersGrid"), Width = 50}.Mod(o => o.Nohide())))
+				new Column { Name = "TextId", Width = 55 },
+				new Column{Name = "Text", Header = "Original Text" }.Mod(o => o.Nohide()),
+				new Column{Name = "Translated_Text", Header = "Translated Text" },
+				new Column { Name = "LanguageName", Header = "Language" },
+				new Column{ClientFormat = GridUtils.EditFormatForGrid("LanguageTranslator"), Width = 50}.Mod(o => o.Nohide()),
+				new Column{ClientFormat = GridUtils.DeleteFormatForGrid("LanguageTranslator"), Width = 50}.Mod(o => o.Nohide())))
 <br/>
 
 

@@ -119,6 +119,16 @@
     <Content Include="Content\themes\wui\loading.gif" />
     <Content Include="Content\themes\wui\pm.png" />
     <Content Include="Content\themes\wui\pm3.png" />
+    <Content Include="Data\StringTranslation.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StringTranslation.edmx</DependentUpon>
+      <LastGenOutput>StringTranslation.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\StringTranslation.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StringTranslation.edmx</DependentUpon>
+      <LastGenOutput>StringTranslation.cs</LastGenOutput>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Scripts\awem.js" />
     <Content Include="Scripts\AwesomeMvc.js" />
@@ -135,11 +145,37 @@
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Textarea.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_FieldLayout.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
+    <Compile Include="Data\StringTranslation.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringTranslation.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StringTranslation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StringTranslation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringTranslation.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Text.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Translation.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TranslationDetailsView.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Db.cs" />
     <Compile Include="ViewModels\Input\TranslatorInput.cs" />
     <Content Include="Content\Common.css" />
@@ -174,6 +210,13 @@
     <Content Include="Views\Shared\EditorTemplates\MultiLookupDropdown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Odropdown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TimePicker.cshtml" />
+    <EntityDeploy Include="Data\StringTranslation.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StringTranslation.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\StringTranslation.edmx.diagram">
+      <DependentUpon>StringTranslation.edmx</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -183,7 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Data\" />
     <Folder Include="Views\Languages\" />
   </ItemGroup>
   <ItemGroup>

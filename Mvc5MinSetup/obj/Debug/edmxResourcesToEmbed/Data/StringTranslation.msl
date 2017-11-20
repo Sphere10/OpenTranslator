@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StringTranslationModelStoreContainer" CdmEntityContainer="StringTranslationDBEntities">
+    <EntitySetMapping Name="Translations">
+      <EntityTypeMapping TypeName="StringTranslationModel.Translation">
+        <MappingFragment StoreEntitySet="Translations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Texts">
+      <EntityTypeMapping TypeName="StringTranslationModel.Text">
+        <MappingFragment StoreEntitySet="Text">
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TranslationDetailsViews">
+      <EntityTypeMapping TypeName="StringTranslationModel.TranslationDetailsView">
+        <MappingFragment StoreEntitySet="TranslationDetailsView">
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+          <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

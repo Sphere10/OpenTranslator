@@ -15,5 +15,10 @@ namespace Mvc5MinSetup.Controllers.Awesome
             var items = Db.Languages.Select(o => new KeyContent(o.LanguageCode, o.LanguageName));
             return Json(items);
         }
+		 public ActionResult get(string code)
+        {
+            var items = Db.Languages.Where(x=> x.LanguageCode==code).FirstOrDefault();
+            return Json(items);
+        }
     }
 }

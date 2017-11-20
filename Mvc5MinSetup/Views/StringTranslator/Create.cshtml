@@ -3,6 +3,7 @@
 {
     using (Html.Awe().BeginContext())
     {
+		@Html.HiddenFor(o => o.TextId)
         @Html.EditorFor(o => o.Text)
         @Html.EditorFor(o => o.LanguageCode)
     }

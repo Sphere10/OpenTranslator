@@ -12,11 +12,11 @@ namespace Mvc5MinSetup.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Text
+    public partial class TranslationDetailsView
     {
-        public decimal Id { get; set; }
-        public string TextId { get; set; }
         public string Original_Text { get; set; }
-        public bool System { get; set; }
+        public string Translated_Text { get; set; }
+        public string LanguageCode { get; set; }
+        public string TextId { get; set; }
     }
 }
