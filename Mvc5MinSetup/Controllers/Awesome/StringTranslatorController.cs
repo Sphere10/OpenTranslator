@@ -16,6 +16,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
 
 		private static object MapToGridModel(TranslationDetailsView o)
         {
+			var a = Db.Languages.Where(x=> x.LanguageCode==o.LanguageCode).FirstOrDefault();
             return
                 new
                 {
@@ -23,7 +24,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
 					TextId = o.TextId,
 					Text= o.Original_Text,
 					Translated_Text=o.Translated_Text,
-					LanguageName = o.LanguageCode
+					LanguageName = a.LanguageName
                 };
         }
 
@@ -36,9 +37,8 @@ namespace Mvc5MinSetup.Controllers.Awesome
             return Json(new GridModelBuilder<TranslationDetailsView>(items, g)
             {
                 Key = "TextId", // needed for api select, update, tree, nesting, EF
-				/* GetItem = () => items.(Convert.ToInt32(g.Key))*/// called by the grid.api.update ( edit popupform success js func )
-
-				Map = MapToGridModel
+				GetItem = () => items.Single(x=> x.TextId == g.Key),// called by the grid.api.update ( edit popupform success js func )
+ 				Map = MapToGridModel
             }.Build());
         }
 
@@ -60,9 +60,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
         public ActionResult Edit(TranslatorInput input)
         {
             if (!ModelState.IsValid) return PartialView("Create", input);
-           
-           using (entities = new StringTranslationDBEntities())  
-				{  
+            
 					using (var transaction = entities.Database.BeginTransaction())  
 					{  
 						try  
@@ -85,19 +83,16 @@ namespace Mvc5MinSetup.Controllers.Awesome
 							transaction.Rollback();  
 						}  
 					}  
-				} 
-            
-
-            // returning the key to call grid.api.update
-            return Json(new { TextId = input.TextId });
+		
+           
+			return Json(new { Id = input.TextId });
         }
 
-		public ActionResult Delete(string id, string gridId)
+		public ActionResult Delete(string id)
         {
             return PartialView(new DeleteConfirmInput
             {
                 TextId = id,
-                GridId = gridId,
                 Message = string.Format("Are you sure you want to delete record ?")
             });
         }
@@ -105,9 +100,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
         [HttpPost]
         public ActionResult Delete(DeleteConfirmInput input)
         {
-           using (entities = new StringTranslationDBEntities())  
-				{  
-					using (var transaction = entities.Database.BeginTransaction())  
+           		using (var transaction = entities.Database.BeginTransaction())  
 					{  
 						try  
 						{
@@ -125,11 +118,10 @@ namespace Mvc5MinSetup.Controllers.Awesome
 							transaction.Rollback();  
 						}  
 					}  
-				} 
-            
-
+				
+           
             // returning the key to call grid.api.update
-            return Json(new { TextId = input.TextId });
+             return Json(new { Id = input.TextId });
         }
 
         public ActionResult Create()
@@ -142,9 +134,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
         {
             if (!ModelState.IsValid) return PartialView(input);
 
-			using (entities = new StringTranslationDBEntities())  
-				{  
-					using (var transaction = entities.Database.BeginTransaction())  
+			using (var transaction = entities.Database.BeginTransaction())  
 					{  
 						try  
 						{  
@@ -154,10 +144,10 @@ namespace Mvc5MinSetup.Controllers.Awesome
 													.Replace('+', '_')
 													.Replace('/', '-')
 													.TrimEnd('=');
-
+							input.TextId = id;
 							Text text= new Text();
 							text.Original_Text=input.Text;
-							text.TextId= id;
+							text.TextId= input.TextId;
 							text.System=true;
 							entities.Texts.Add(text);  
 							entities.SaveChanges();  
@@ -177,9 +167,11 @@ namespace Mvc5MinSetup.Controllers.Awesome
 							transaction.Rollback();  
 						}  
 					}  
-				}  
 			
-           return PartialView(input);
+			
+           var dinner = entities.TranslationDetailsViews.Where(x=>x.TextId==input.TextId).FirstOrDefault();
+            // returning the key to call grid.api.update
+            return Json(MapToGridModel(dinner));
         }
 
     }
