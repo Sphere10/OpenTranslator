@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Omu.AwesomeMvc;
 using Mvc5MinSetup.ViewModels.Input;
+using HtmlAgilityPack;
 
 namespace Mvc5MinSetup.Controllers.Awesome
 {
@@ -138,6 +139,15 @@ namespace Mvc5MinSetup.Controllers.Awesome
 					{  
 						try  
 						{  
+							string url = String.Format("http://www.google.com/translate_t?hl=en&ie=UTF8&text={0}&langpair={1}", input.Text, "en|" + input.LanguageCode);
+							HtmlWeb web = new HtmlWeb();  
+							HtmlDocument doc = web.Load(url); 
+					
+							var itemList = doc.DocumentNode.SelectNodes("//span[@id='result_box']")
+								  .Select(p => p.InnerText)
+								  .ToList();
+							var TranslatedText = itemList[0];
+
 							long ticks = DateTime.Now.Ticks;
 							byte[] bytes = BitConverter.GetBytes(ticks);
 							string id = Convert.ToBase64String(bytes)
@@ -155,7 +165,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
 							Translation translation =new Translation();
 							translation.LanguageCode=input.LanguageCode;
 							translation.TextId=text.TextId;
-							translation.Translated_Text=input.Text;
+							translation.Translated_Text=TranslatedText;
 							entities.Translations.Add(translation);  
 							entities.SaveChanges();  
   

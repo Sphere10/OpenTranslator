@@ -58,3 +58,4 @@ D:\Herman\Project\Mvc5MinSetup\Mvc5MinSetup\bin\System.Web.WebPages.Razor.xml
 D:\Herman\Project\Mvc5MinSetup\Mvc5MinSetup\obj\Debug\Mvc5MinSetup.csprojResolveAssemblyReference.cache
 D:\Herman\Project\Mvc5MinSetup\Mvc5MinSetup\obj\Debug\Mvc5MinSetup.dll
 D:\Herman\Project\Mvc5MinSetup\Mvc5MinSetup\obj\Debug\Mvc5MinSetup.pdb
+D:\Herman\Project\Mvc5MinSetup\Mvc5MinSetup\bin\HtmlAgilityPack.dll
