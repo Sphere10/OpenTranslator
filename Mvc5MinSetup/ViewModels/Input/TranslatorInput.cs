@@ -1,4 +1,4 @@
-﻿using Omu.AwesomeMvc;
+using Omu.AwesomeMvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,9 +17,16 @@ namespace Mvc5MinSetup.ViewModels.Input
         public string Text { get; set; }
 
         [Required]
-        [UIHint("Odropdown")]
-        [AweUrl(Action = "GetAllLanguages", Controller = "Languages")]
+        [UIHint("LanguageCode")]
         [DisplayName("Select Language")]
-        public string LanguageCode { get; set; }
+        public List<string> LanguageCode { get; set; }
+
+		public string Marathi { get; set; }
+		public string Hindi { get; set; }
+		public string French { get; set; }
+		public string Chinese { get; set; }
+		public string Spanish { get; set; }
+
+
 	}
 }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Mvc5MinSetup.Controllers.Awesome.MultiLookup
+@using Mvc5MinSetup.Models
+@{
     ViewBag.Title = "Language Translation";
 }
 
@@ -12,6 +14,10 @@
         <button type="button" onclick="awe.open('createLanguageTranslator')" class="awe-btn mbtn">Add String</button>
     </div>
 
+
+
+
+
     @(Html.Awe().Grid("LanguageTranslator")
 			.Mod(o => o.PageInfo().ColumnsSelector().ColumnsAutohide())
 			.Url(Url.Action("GridGetItems", "StringTranslator"))
@@ -20,8 +26,12 @@
 			.Reorderable()
 			.Columns(
 				new Column{Name = "Text", Header = "Original Text" }.Mod(o => o.Nohide()),
-				new Column{Name = "Translated_Text", Header = "Translated Text" },
-				new Column { Name = "LanguageName", Header = "Language" },
+				new Column{Name = "Marathi" },
+				new Column { Name = "Hindi"},
+				new Column { Name = "French" },
+				new Column { Name = "Chinese" },
+				new Column { Name = "Spanish" },
+				
 				new Column{ClientFormat = GridUtils.EditFormatForGrid("LanguageTranslator"), Width = 50}.Mod(o => o.Nohide()),
 				new Column{ClientFormat = GridUtils.DeleteFormatForGrid("LanguageTranslator"), Width = 50}.Mod(o => o.Nohide())))
 <br/>

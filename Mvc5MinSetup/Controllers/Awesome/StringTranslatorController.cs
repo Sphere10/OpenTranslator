@@ -1,4 +1,4 @@
-﻿using Mvc5MinSetup.Models;
+using Mvc5MinSetup.Models;
 using Mvc5MinSetup.Data;
 using System;
 using System.Collections.Generic;
@@ -13,29 +13,33 @@ namespace Mvc5MinSetup.Controllers.Awesome
 {
     public class StringTranslatorController : Controller
     {
-      public StringTranslationDBEntities entities =new StringTranslationDBEntities();
+      public StringTranslationEntitiesModel entities =new StringTranslationEntitiesModel();
 
-		private static object MapToGridModel(TranslationDetailsView o)
+		private static object MapToGridModel(StringTranslationGrid o)
         {
-			var a = Db.Languages.Where(x=> x.LanguageCode==o.LanguageCode).FirstOrDefault();
+			//var a = Db.Languages.Where(x=> x.LanguageCode==o.LanguageCode).FirstOrDefault();
+
             return
                 new
                 {
 					Id = o.TextId,
 					TextId = o.TextId,
 					Text= o.Original_Text,
-					Translated_Text=o.Translated_Text,
-					LanguageName = a.LanguageName
+					Marathi=o.mr,
+					Hindi=o.hi,
+					French=o.fr,
+					Chinese=o.zh,
+					Spanish=o.es
                 };
         }
 
         public ActionResult GridGetItems(GridParams g, string search)
         {
             search = (search ?? "").ToLower();
-            var items = entities.TranslationDetailsViews.Where(o => o.Original_Text.ToLower().Contains(search)).AsQueryable();
-
-	
-            return Json(new GridModelBuilder<TranslationDetailsView>(items, g)
+            //var items = entities.TranslationDetailsViews.Where(o => o.Original_Text.ToLower().Contains(search)).AsQueryable();
+			 var items = entities.StringTranslationGrids.Where(o => o.Original_Text.ToLower().Contains(search)).AsQueryable();
+			 //var items = entities.StringTranslation().Where(o => o.Original_Text.ToLower().Contains(search)).AsQueryable();
+            return Json(new GridModelBuilder<StringTranslationGrid>(items, g)
             {
                 Key = "TextId", // needed for api select, update, tree, nesting, EF
 				GetItem = () => items.Single(x=> x.TextId == g.Key),// called by the grid.api.update ( edit popupform success js func )
@@ -43,51 +47,103 @@ namespace Mvc5MinSetup.Controllers.Awesome
             }.Build());
         }
 
-		 public ActionResult Edit(string id)
-        {
-            var dinner = entities.TranslationDetailsViews.Where(x=>x.TextId==id).FirstOrDefault();
+		public ActionResult Edit(string id)
+		{
+			var dinner = entities.Translations.Where(x => x.TextId == id).ToList();
+			List<string>list =new List<string>();
 
-            var input = new TranslatorInput
-            {
-                TextId = dinner.TextId,
-                Text = dinner.Original_Text,
-                LanguageCode= dinner.LanguageCode
-            };
+			var textid= dinner.First().TextId;
+			var text= entities.Texts.Where(o=>o.TextId == id).First().Original_Text;
+			//var text=dinner.First().Original_Text;
+			foreach(var s in dinner)
+			{
+				
+				list.Add(s.LanguageCode);
+			}
 
-            return PartialView("Create", input);
-        }
+			var test = entities.StringTranslationGrids.Where(x => x.TextId == id).FirstOrDefault();
+			var input = new TranslatorInput
+			{
+				TextId = textid,
+				Text = text,
+				LanguageCode = list,
+				Marathi=test.mr,
+				Hindi=test.hi,
+				French=test.fr,
+				Chinese=test.zh,
+				Spanish=test.es
+			};
 
-        [HttpPost]
-        public ActionResult Edit(TranslatorInput input)
-        {
-            if (!ModelState.IsValid) return PartialView("Create", input);
-            
-					using (var transaction = entities.Database.BeginTransaction())  
-					{  
-						try  
-						{  
-							Text text= entities.Texts.FirstOrDefault(x=>x.TextId == input.TextId);
-							text.Original_Text=input.Text;
-							text.System=true;
-							entities.SaveChanges();  
+			return PartialView("Create", input);
+		}
 
-							Translation translation = entities.Translations.FirstOrDefault(x=>x.TextId == input.TextId);
-							translation.LanguageCode=input.LanguageCode;
-							translation.Translated_Text=input.Text;
-							entities.SaveChanges();  
-  
-							transaction.Commit();  
-						}  
-						catch (Exception ex)  
-						{  
-							var a= ex;
-							transaction.Rollback();  
-						}  
-					}  
-		
-           
+		[HttpPost]
+		public ActionResult Edit(TranslatorInput input)
+		{
+			if (!ModelState.IsValid) return PartialView("Create", input);
+
+			using (var transaction = entities.Database.BeginTransaction())
+			{
+				try
+				{
+					Text text = entities.Texts.FirstOrDefault(x => x.TextId == input.TextId);
+					text.Original_Text = input.Text;
+					text.System = true;
+					entities.SaveChanges();
+					
+					foreach(var a in input.LanguageCode)
+					{
+						Translation translation = entities.Translations.FirstOrDefault(x => x.TextId == input.TextId && x.LanguageCode == a);
+
+						if(translation==null)
+						{
+							translation =new Translation();
+							translation.TextId=input.TextId;
+							entities.Translations.Add(translation);  
+						}
+						 
+						translation.LanguageCode = a;
+							if(a.Equals("mr"))
+							{
+								translation.Translated_Text = input.Marathi;
+							}
+							if(a.Equals("hi"))
+							{
+								translation.Translated_Text = input.Hindi;
+							}
+							if(a.Equals("fr"))
+							{
+							translation.Translated_Text = input.French;
+							}
+							if(a.Equals("zh"))
+							{
+								translation.Translated_Text = input.Chinese;
+							}
+							if(a.Equals("es"))
+							{
+								translation.Translated_Text = input.Spanish;
+							}
+
+							entities.SaveChanges();
+
+						
+						
+					}
+					
+					transaction.Commit();
+				}
+				catch (Exception ex)
+				{
+					var a = ex;
+					transaction.Rollback();
+				}
+
+				
+			}
+
+
 			return Json(new { Id = input.TextId });
-        }
+		}
 
 		public ActionResult Delete(string id)
         {
@@ -139,16 +195,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
 					{  
 						try  
 						{  
-							string url = String.Format("http://www.google.com/translate_t?hl=en&ie=UTF8&text={0}&langpair={1}", input.Text, "en|" + input.LanguageCode);
-							HtmlWeb web = new HtmlWeb();  
-							HtmlDocument doc = web.Load(url); 
-					
-							var itemList = doc.DocumentNode.SelectNodes("//span[@id='result_box']")
-								  .Select(p => p.InnerText)
-								  .ToList();
-							var TranslatedText = itemList[0];
-
-							long ticks = DateTime.Now.Ticks;
+			     			long ticks = DateTime.Now.Ticks;
 							byte[] bytes = BitConverter.GetBytes(ticks);
 							string id = Convert.ToBase64String(bytes)
 													.Replace('+', '_')
@@ -162,13 +209,39 @@ namespace Mvc5MinSetup.Controllers.Awesome
 							entities.Texts.Add(text);  
 							entities.SaveChanges();  
 
+					foreach(var a in input.LanguageCode)
+					{
 							Translation translation =new Translation();
-							translation.LanguageCode=input.LanguageCode;
 							translation.TextId=text.TextId;
-							translation.Translated_Text=TranslatedText;
+							translation.LanguageCode=a;
+
+								if(a.Equals("mr"))
+								{
+									translation.Translated_Text = input.Marathi;
+								}
+								if(a.Equals("hi"))
+								{
+									translation.Translated_Text = input.Hindi;
+								}
+								if(a.Equals("fr"))
+								{
+								translation.Translated_Text = input.French;
+								}
+								if(a.Equals("zh"))
+								{
+									translation.Translated_Text = input.Chinese;
+								}
+								if(a.Equals("es"))
+								{
+									translation.Translated_Text = input.Spanish;
+								}
+
+
+							
 							entities.Translations.Add(translation);  
 							entities.SaveChanges();  
-  
+						}
+
 							transaction.Commit();  
 						}  
 						catch (Exception ex)  
@@ -179,7 +252,8 @@ namespace Mvc5MinSetup.Controllers.Awesome
 					}  
 			
 			
-           var dinner = entities.TranslationDetailsViews.Where(x=>x.TextId==input.TextId).FirstOrDefault();
+           var dinner = entities.StringTranslationGrids.Where(x=>x.TextId==input.TextId).FirstOrDefault();
+
             // returning the key to call grid.api.update
             return Json(MapToGridModel(dinner));
         }

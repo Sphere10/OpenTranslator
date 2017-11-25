@@ -24,12 +24,11 @@ namespace Mvc5MinSetup.Models
         }
         static Db()
         {
-			 Insert(new Language { LanguageName = "Marathi", LanguageCode = "mr" });
-            Insert(new Language { LanguageName = "English", LanguageCode = "en" });
-            Insert(new Language { LanguageName = "French", LanguageCode = "fr" });
-            Insert(new Language { LanguageName = "Japaneese", LanguageCode = "jp" });
-            Insert(new Language { LanguageName = "Hindi", LanguageCode = "hi" });
-            Insert(new Language { LanguageName = "Tamil", LanguageCode = "tl" });
+			Insert(new Language { LanguageName = "Marathi", LanguageCode = "mr" });
+           Insert(new Language { LanguageName = "Hindi", LanguageCode = "hi" });
+           Insert(new Language { LanguageName = "French", LanguageCode = "fr" });
+           Insert(new Language { LanguageName = "Chinese", LanguageCode = "zh" });
+           Insert(new Language { LanguageName = "Spanish", LanguageCode = "es" });
 			
            
         }
