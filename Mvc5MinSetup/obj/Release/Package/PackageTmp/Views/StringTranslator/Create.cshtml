@@ -1,0 +1,28 @@
+﻿@model Mvc5MinSetup.ViewModels.Input.TranslatorInput
+@using (Html.BeginForm())
+{
+    using (Html.Awe().BeginContext())
+    {
+		@Html.HiddenFor(o => o.TextId)
+        @Html.EditorFor(o => o.Text)
+        @Html.LabelFor(o => o.LanguageCode)
+		<div class="epanel3">
+			@(Html.Awe().AjaxCheckboxList("LanguageCode")
+			.Multiselect() // custom extension that sets .Mod
+			.Url(Url.Action("GetAllLanguages", "Languages")))
+		</div>
+		@Html.EditorFor(o => o.Marathi)
+		@Html.EditorFor(o => o.Hindi)
+		@Html.EditorFor(o => o.French)
+		@Html.EditorFor(o => o.Chinese)
+		@Html.EditorFor(o => o.Spanish)
+
+		<br />
+		<br />
+
+		
+		
+
+	}
+}
+	

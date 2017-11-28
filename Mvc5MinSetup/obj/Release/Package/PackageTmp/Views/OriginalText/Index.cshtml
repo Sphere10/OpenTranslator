@@ -1,0 +1,14 @@
+﻿@Html.InitCrudPopupsForGrid("OriginalTextGrid", "OriginalText", 470, 1000)
+
+<div class="bar">
+	<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Create</button>
+</div>
+
+@(Html.Awe().Grid("OriginalTextGrid")
+			.Height(350)
+			.Url(Url.Action("OriginalTextGridGetItems"))
+			.Groupable(false)
+			.Columns(
+			new Column { Bind = "Original_Text" },
+			new Column { ClientFormat = GridUtils.EditFormatForGrid("OriginalTextGrid","TextId"), Width = 50 },
+			new Column { ClientFormat = GridUtils.DeleteFormatForGrid("OriginalTextGrid", "TextId"), Width = 50 }))

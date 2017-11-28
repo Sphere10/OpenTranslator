@@ -1,0 +1,12 @@
+﻿<div class="efield">
+    <div class="elabel">
+        @{
+            var postfix = ViewData.ModelMetadata.AdditionalValues.ContainsKey("__idpostfix") ? ViewData.ModelMetadata.AdditionalValues["__idpostfix"] : string.Empty;
+        }
+        @Html.Label("", new {@for = ViewData[Settings.ContextKey] + ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) + postfix})
+    </div>
+    <div class="einput">
+        @RenderBody()
+    </div>
+    @Html.ValidationMessage("")
+</div>

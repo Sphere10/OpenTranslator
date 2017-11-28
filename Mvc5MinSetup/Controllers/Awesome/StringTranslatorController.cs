@@ -13,7 +13,7 @@ namespace Mvc5MinSetup.Controllers.Awesome
 {
     public class StringTranslatorController : Controller
     {
-      public StringTranslationEntitiesModel entities =new StringTranslationEntitiesModel();
+      public StringTranslationDBEntities entities =new StringTranslationDBEntities();
 
 		private static object MapToGridModel(StringTranslationGrid o)
         {

@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="StringTranslationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LanguageName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Text">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,7 +48,9 @@ warning 6002: The table/view 'StringTranslation.dbo.TranslationDetailsView' does
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TextId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_TextId" />-->
+        <Function Name="TranslationSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="StringTranslationModelStoreContainer">
+          <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TranslationDetailsView" EntityType="Self.TranslationDetailsView" store:Type="Views" store:Schema="dbo">
@@ -56,29 +66,13 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StringTranslationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Translation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="StringTranslationDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Translations" EntityType="Self.Translation" />
-          <EntitySet Name="Texts" EntityType="StringTranslationModel.Text" />
           <EntitySet Name="TranslationDetailsViews" EntityType="StringTranslationModel.TranslationDetailsView" />
+          <EntitySet Name="Languages" EntityType="StringTranslationModel.Language" />
+          <EntitySet Name="Texts" EntityType="StringTranslationModel.Text" />
+          <EntitySet Name="Translations" EntityType="StringTranslationModel.Translation" />
+          <FunctionImport Name="TranslationSP" ReturnType="Collection(StringTranslationModel.TranslationSP_Result)" />
         </EntityContainer>
-        <EntityType Name="Text">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Original_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="System" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="TranslationDetailsView">
           <Key>
             <PropertyRef Name="Original_Text" />
@@ -91,19 +85,63 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
           <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LanguageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Text">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Original_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Translated_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="TranslationSP_Result">
+          <Property Type="String" Name="Original_Text" Nullable="false" />
+          <Property Type="String" Name="TextId" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="fr" Nullable="true" />
+          <Property Type="String" Name="jp" Nullable="true" />
+          <Property Type="String" Name="hi" Nullable="true" />
+          <Property Type="String" Name="es" Nullable="true" />
+          <Property Type="String" Name="zh" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StringTranslationModelStoreContainer" CdmEntityContainer="StringTranslationDBEntities">
-          <EntitySetMapping Name="Translations">
-            <EntityTypeMapping TypeName="StringTranslationModel.Translation">
-              <MappingFragment StoreEntitySet="Translations">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="TranslationDetailsViews">
+            <EntityTypeMapping TypeName="StringTranslationModel.TranslationDetailsView">
+              <MappingFragment StoreEntitySet="TranslationDetailsView">
                 <ScalarProperty Name="TextId" ColumnName="TextId" />
                 <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
                 <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+                <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="StringTranslationModel.Language">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -117,16 +155,29 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TranslationDetailsViews">
-            <EntityTypeMapping TypeName="StringTranslationModel.TranslationDetailsView">
-              <MappingFragment StoreEntitySet="TranslationDetailsView">
-                <ScalarProperty Name="TextId" ColumnName="TextId" />
-                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <EntitySetMapping Name="Translations">
+            <EntityTypeMapping TypeName="StringTranslationModel.Translation">
+              <MappingFragment StoreEntitySet="Translations">
                 <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
-                <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="TextId" ColumnName="TextId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TranslationSP" FunctionName="StringTranslationModel.Store.TranslationSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StringTranslationModel.TranslationSP_Result">
+                <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
+                <ScalarProperty Name="TextId" ColumnName="TextId" />
+                <ScalarProperty Name="fr" ColumnName="fr" />
+                <ScalarProperty Name="jp" ColumnName="jp" />
+                <ScalarProperty Name="hi" ColumnName="hi" />
+                <ScalarProperty Name="es" ColumnName="es" />
+                <ScalarProperty Name="zh" ColumnName="zh" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

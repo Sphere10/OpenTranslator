@@ -154,7 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Awesome\TranslationTextController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
+    <Compile Include="Controllers\Awesome\OriginalTextController.cs" />
+    <Compile Include="Data\Language.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\StringTranslation.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,12 +184,15 @@
     <Compile Include="Data\TranslationDetailsView.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TranslationSP_Result.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Db.cs" />
-    <Compile Include="ViewModels\Input\TranslatorInput.cs" />
+    <Compile Include="ViewModels\Input\TranslationInput.cs" />
+    <Compile Include="ViewModels\Input\TextInput.cs" />
     <Content Include="Content\Common.css" />
     <Compile Include="Controllers\Awesome\Lookup\ChefLookupController.cs" />
     <Compile Include="Controllers\Awesome\MultiLookup\MealsMultiLookupController.cs" />
-    <Compile Include="Controllers\Awesome\StringTranslatorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,7 +211,6 @@
     </Content>
     <Content Include="packages.config" />
     <Content Include="Views\Shared\Delete.cshtml" />
-    <Content Include="Views\StringTranslator\Create.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_viewstart.cshtml" />
@@ -220,6 +227,10 @@
     <Content Include="Data\StringTranslation.edmx.diagram">
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\TranslationText\Create.cshtml" />
+    <Content Include="Views\OriginalText\Create.cshtml" />
+    <Content Include="Views\OriginalText\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

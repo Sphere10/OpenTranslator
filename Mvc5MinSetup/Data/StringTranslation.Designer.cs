@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\User44\Downloads\Mvc5MinSetup\Mvc5MinSetup\Data\StringTranslation.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Herman\Project\MasterGrid\Mvc5MinSetup\Mvc5MinSetup\Data\StringTranslation.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

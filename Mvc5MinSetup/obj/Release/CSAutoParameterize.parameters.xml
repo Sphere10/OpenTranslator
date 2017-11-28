@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="StringTranslationEntities-Web.config Connection String" description="StringTranslationEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Data.TranslationDB.csdl|res://*/Data.TranslationDB.ssdl|res://*/Data.TranslationDB.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=DESKTOP-N3S8INS\SQLEXPRESS2016;initial catalog=StringTranslation;user id=sa;password=12345;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Herman\\Project\\MasterGrid\\Mvc5MinSetup\\Mvc5MinSetup\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StringTranslationEntities']/@connectionString" />
+  </parameter>
+  <parameter name="StringTranslationDBEntities-Web.config Connection String" description="StringTranslationDBEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Data.StringTranslation.csdl|res://*/Data.StringTranslation.ssdl|res://*/Data.StringTranslation.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=DESKTOP-N3S8INS\SQLEXPRESS2016;initial catalog=StringTranslation;user id=sa;password=12345;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Herman\\Project\\MasterGrid\\Mvc5MinSetup\\Mvc5MinSetup\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StringTranslationDBEntities']/@connectionString" />
+  </parameter>
+</parameters>

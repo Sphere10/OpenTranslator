@@ -12,6 +12,8 @@ namespace Mvc5MinSetup.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class StringTranslationDBEntities : DbContext
     {
@@ -25,8 +27,14 @@ namespace Mvc5MinSetup.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Translation> Translations { get; set; }
-        public virtual DbSet<Text> Texts { get; set; }
         public virtual DbSet<TranslationDetailsView> TranslationDetailsViews { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Text> Texts { get; set; }
+        public virtual DbSet<Translation> Translations { get; set; }
+    
+        public virtual ObjectResult<TranslationSP_Result> TranslationSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationSP_Result>("TranslationSP");
+        }
     }
 }
