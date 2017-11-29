@@ -27,7 +27,6 @@ namespace Mvc5MinSetup.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<TranslationDetailsView> TranslationDetailsViews { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Text> Texts { get; set; }
         public virtual DbSet<Translation> Translations { get; set; }

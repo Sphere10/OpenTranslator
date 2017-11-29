@@ -28,18 +28,6 @@
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'StringTranslation.dbo.TranslationDetailsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="TranslationDetailsView">
-    <Key>
-      <PropertyRef Name="Original_Text" />
-      <PropertyRef Name="Translated_Text" />
-      <PropertyRef Name="LanguageCode" />
-      <PropertyRef Name="TextId" />
-    </Key>
-    <Property Name="Original_Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
-    <Property Name="TextId" Type="varchar" MaxLength="500" Nullable="false" />
-  </EntityType>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TextId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_TextId" />-->
@@ -48,13 +36,5 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
     <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TranslationDetailsView" EntityType="Self.TranslationDetailsView" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [TranslationDetailsView].[Original_Text] AS [Original_Text], 
-    [TranslationDetailsView].[Translated_Text] AS [Translated_Text], 
-    [TranslationDetailsView].[LanguageCode] AS [LanguageCode], 
-    [TranslationDetailsView].[TextId] AS [TextId]
-    FROM [dbo].[TranslationDetailsView] AS [TranslationDetailsView]</DefiningQuery>
-    </EntitySet>
   </EntityContainer>
 </Schema>

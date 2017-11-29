@@ -1,5 +1,9 @@
-﻿@Html.InitCrudPopupsForGrid("OriginalTextGrid", "OriginalText", 470, 1000)
+﻿@{
+    ViewBag.Title = "Language Translation";
+}
 
+@Html.InitCrudPopupsForGrid("OriginalTextGrid", "OriginalText", 470, 1000)
+ <h2>Open Language Translation </h2>
 <div class="bar">
 	<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Create</button>
 </div>

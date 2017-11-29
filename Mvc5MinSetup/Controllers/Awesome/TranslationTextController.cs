@@ -33,31 +33,45 @@ namespace Mvc5MinSetup.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(TranslationInput input)
-        {
+       public ActionResult Create(TranslationInput input)
+       {
             if (!ModelState.IsValid)
             {
-                return PartialView(input);
+               return PartialView(input);
             }
-			var Originaltext = entities.Texts.FirstOrDefault(x => x.TextId == input.TextId);
-			if(Originaltext == null)
-			{
-				Text text= new Text();
-				text.Original_Text="";
-				text.TextId= input.TextId;
-				text.System=false;
-				entities.Texts.Add(text);  
-				entities.SaveChanges();  
-			}
-			Translation translation = new Translation();
-			translation.TextId = input.TextId;
-			translation.LanguageCode = input.LanguageCode;
-			translation.Translated_Text = input.TranslationText;
-			entities.Translations.Add(translation);  
-			entities.SaveChanges();
+			using (var transaction = entities.Database.BeginTransaction())  
+			{  
+				try  
+				{  
+					var Originaltext = entities.Texts.FirstOrDefault(x => x.TextId == input.TextId);
+					if(Originaltext == null)
+					{
+						Text text= new Text();
+						text.Original_Text="";
+						text.TextId= input.TextId;
+						text.System=false;
+						entities.Texts.Add(text);  
+						entities.SaveChanges();  
+					}
+					Translation translation = new Translation();
+					translation.TextId = input.TextId;
+					translation.LanguageCode = input.LanguageCode;
+					translation.Translated_Text = input.TranslationText;
+					entities.Translations.Add(translation);  
+					entities.SaveChanges();
+					transaction.Commit(); 
+						// use MapToGridModel like in Grid Crud Demo when grid uses Map
+					return Json(translation);
+				}  
+				catch (Exception ex)  
+				{  
+					var a= ex;
+					transaction.Rollback();
+					return PartialView(input);
+				}  
+            }  
 
-            return Json(translation); // use MapToGridModel like in Grid Crud Demo when grid uses Map
-        }
+       }
 
         public ActionResult Edit(int id)
         {

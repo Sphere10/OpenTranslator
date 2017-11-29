@@ -33,18 +33,6 @@
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'StringTranslation.dbo.TranslationDetailsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="TranslationDetailsView">
-          <Key>
-            <PropertyRef Name="Original_Text" />
-            <PropertyRef Name="Translated_Text" />
-            <PropertyRef Name="LanguageCode" />
-            <PropertyRef Name="TextId" />
-          </Key>
-          <Property Name="Original_Text" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
-          <Property Name="TextId" Type="varchar" MaxLength="500" Nullable="false" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TextId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_TextId" />-->
@@ -53,38 +41,17 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TranslationDetailsView" EntityType="Self.TranslationDetailsView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [TranslationDetailsView].[Original_Text] AS [Original_Text], 
-    [TranslationDetailsView].[Translated_Text] AS [Translated_Text], 
-    [TranslationDetailsView].[LanguageCode] AS [LanguageCode], 
-    [TranslationDetailsView].[TextId] AS [TextId]
-    FROM [dbo].[TranslationDetailsView] AS [TranslationDetailsView]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StringTranslationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="StringTranslationDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TranslationDetailsViews" EntityType="StringTranslationModel.TranslationDetailsView" />
           <EntitySet Name="Languages" EntityType="StringTranslationModel.Language" />
           <EntitySet Name="Texts" EntityType="StringTranslationModel.Text" />
           <EntitySet Name="Translations" EntityType="StringTranslationModel.Translation" />
           <FunctionImport Name="TranslationSP" ReturnType="Collection(StringTranslationModel.TranslationSP_Result)" />
         </EntityContainer>
-        <EntityType Name="TranslationDetailsView">
-          <Key>
-            <PropertyRef Name="Original_Text" />
-            <PropertyRef Name="Translated_Text" />
-            <PropertyRef Name="LanguageCode" />
-            <PropertyRef Name="TextId" />
-          </Key>
-          <Property Name="Original_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Translated_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Language">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,16 +93,6 @@ warning 6035: The relationship 'FK_TextId' has columns that are not part of the 
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StringTranslationModelStoreContainer" CdmEntityContainer="StringTranslationDBEntities">
-          <EntitySetMapping Name="TranslationDetailsViews">
-            <EntityTypeMapping TypeName="StringTranslationModel.TranslationDetailsView">
-              <MappingFragment StoreEntitySet="TranslationDetailsView">
-                <ScalarProperty Name="TextId" ColumnName="TextId" />
-                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
-                <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
-                <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Languages">
             <EntityTypeMapping TypeName="StringTranslationModel.Language">
               <MappingFragment StoreEntitySet="Languages">

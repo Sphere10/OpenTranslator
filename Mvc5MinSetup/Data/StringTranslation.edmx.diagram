@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3d1cccc2a47f40269a725409e9517668" Name="Diagram1">
-        <EntityTypeShape EntityType="StringTranslationModel.TranslationDetailsView" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="StringTranslationModel.Language" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="StringTranslationModel.Text" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="StringTranslationModel.Translation" Width="1.5" PointX="3.375" PointY="3.75" />

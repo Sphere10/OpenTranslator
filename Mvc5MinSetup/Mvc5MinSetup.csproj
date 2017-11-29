@@ -181,9 +181,6 @@
     <Compile Include="Data\Translation.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\TranslationDetailsView.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\TranslationSP_Result.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>

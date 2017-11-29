@@ -59,29 +59,31 @@ namespace Mvc5MinSetup.Controllers
         [HttpPost]
         public ActionResult Create(TextInput input)
         {
-            if (!ModelState.IsValid)
-            {
-                return PartialView(input);
-            }
+           if (!ModelState.IsValid)
+           {
+               return PartialView(input);
+           }
 
             var Originaltext = entities.Texts.FirstOrDefault(x => x.TextId == input.TextId);
-			if(Originaltext == null)
-			{
-				Text text= new Text();
-				text.Original_Text=input.OriginalText;
-				text.TextId= input.TextId;
-				text.System=true;
-				entities.Texts.Add(text);  
-				entities.SaveChanges();  
-			}
-			else
-			{
-				Originaltext.Original_Text=input.OriginalText;
-				Originaltext.System=true; 
-				entities.SaveChanges(); 
-			}
-			var updatedText = entities.Texts.FirstOrDefault(x => x.TextId == input.TextId);
-            return Json(updatedText); // use MapToGridModel like in Grid Crud Demo when grid uses Map
+            if (Originaltext == null)
+            {
+                Text text = new Text();
+                text.Original_Text = input.OriginalText;
+                text.TextId = input.TextId;
+                text.System = true;
+                entities.Texts.Add(text);
+                entities.SaveChanges();
+                // use MapToGridModel like in Grid Crud Demo when grid uses Map
+                return Json(entities.Texts.FirstOrDefault(x => x.TextId == input.TextId));
+            }
+            else
+            {
+                Originaltext.Original_Text = input.OriginalText;
+                Originaltext.System = true;
+                entities.SaveChanges();
+                // use MapToGridModel like in Grid Crud Demo when grid uses Map
+                return Json(entities.TranslationSP().FirstOrDefault(x => x.TextId == input.TextId));
+            }
         }
 
         public ActionResult Edit(string id)
