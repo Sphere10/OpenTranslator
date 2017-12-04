@@ -28,8 +28,10 @@ namespace Mvc5MinSetup.Data
         }
     
         public virtual DbSet<Language> Languages { get; set; }
-        public virtual DbSet<Text> Texts { get; set; }
         public virtual DbSet<Translation> Translations { get; set; }
+        public virtual DbSet<Text> Texts { get; set; }
+        public virtual DbSet<UserMaster> UserMasters { get; set; }
+        public virtual DbSet<test> tests { get; set; }
     
         public virtual ObjectResult<TranslationSP_Result> TranslationSP()
         {

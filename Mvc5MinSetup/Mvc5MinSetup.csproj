@@ -154,9 +154,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Awesome\AdminController.cs" />
     <Compile Include="Controllers\Awesome\TranslationTextController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
     <Compile Include="Controllers\Awesome\OriginalTextController.cs" />
+    <Compile Include="Controllers\Awesome\UserController.cs" />
     <Compile Include="Data\Language.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -175,6 +177,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\test.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -184,9 +189,16 @@
     <Compile Include="Data\TranslationSP_Result.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\UserMaster.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Db.cs" />
+    <Compile Include="ViewModels\Input\EditTranslationInput.cs" />
+    <Compile Include="ViewModels\Input\LanguageInput.cs" />
+    <Compile Include="ViewModels\Input\AdminInput.cs" />
     <Compile Include="ViewModels\Input\TranslationInput.cs" />
     <Compile Include="ViewModels\Input\TextInput.cs" />
+    <Compile Include="ViewModels\Input\UserInput.cs" />
     <Content Include="Content\Common.css" />
     <Compile Include="Controllers\Awesome\Lookup\ChefLookupController.cs" />
     <Compile Include="Controllers\Awesome\MultiLookup\MealsMultiLookupController.cs" />
@@ -228,6 +240,11 @@
     <Content Include="Views\OriginalText\Create.cshtml" />
     <Content Include="Views\OriginalText\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Views\Languages\Create.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\Admin\EditTranslation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -237,7 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Languages\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

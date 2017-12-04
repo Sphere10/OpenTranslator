@@ -13,7 +13,7 @@ namespace Mvc5MinSetup.Helpers.Awesome
         }
 
         /*beging*/
-        public static IHtmlString InitCrudPopupsForGrid<T>(this HtmlHelper<T> html, string gridId, string crudController, int createPopupHeight = 430, int maxWidth = 0)
+        public static IHtmlString InitCrudPopupsForGrid<T>(this HtmlHelper<T> html, string gridId, string crudController, int createPopupHeight = 430, int maxWidth = 0, string Title=" Item")
         {
             var url = GetUrlHelper(html);
 
@@ -27,7 +27,7 @@ namespace Mvc5MinSetup.Helpers.Awesome
                 .Height(createPopupHeight)
                 .MaxWidth(maxWidth)
                 .Url(url.Action("Create", crudController))
-                .Title("Translate String")
+                .Title("Add " + Title)
                 .Modal()
                 .Success("utils.itemCreated('" + gridId + "')")
                 .ToString()
@@ -39,7 +39,7 @@ namespace Mvc5MinSetup.Helpers.Awesome
                   .Height(createPopupHeight)
                   .MaxWidth(maxWidth)
                   .Url(url.Action("Edit", crudController))
-                  .Title("Edit item")
+                  .Title("Edit " + Title)
                   .Modal()
                   .Success("utils.itemEdited('" + gridId + "')")
 
@@ -49,6 +49,7 @@ namespace Mvc5MinSetup.Helpers.Awesome
                   .Group(gridId)
                   .Url(url.Action("Delete", crudController))
                   .Success("utils.itemDeleted('" + gridId + "')")
+				  .Title("Delete " + Title)
                   .OnLoad("utils.delConfirmLoad('" + gridId + "')") // calls grid.api.select and animates the row
                   .Height(200)
                   .Modal();

@@ -47,7 +47,6 @@ namespace Mvc5MinSetup.Controllers
 					if(Originaltext == null)
 					{
 						Text text= new Text();
-						text.Original_Text="";
 						text.TextId= input.TextId;
 						text.System=false;
 						entities.Texts.Add(text);  

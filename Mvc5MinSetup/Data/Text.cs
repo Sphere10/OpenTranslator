@@ -16,7 +16,6 @@ namespace Mvc5MinSetup.Data
     {
         public decimal Id { get; set; }
         public string TextId { get; set; }
-        public string Original_Text { get; set; }
         public bool System { get; set; }
     }
 }

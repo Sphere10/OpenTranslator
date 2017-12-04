@@ -12,7 +12,7 @@ namespace Mvc5MinSetup.App_Start
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "OriginalText", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

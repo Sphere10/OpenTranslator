@@ -13,12 +13,12 @@ namespace Mvc5MinSetup.Data
     
     public partial class TranslationSP_Result
     {
-        public string Original_Text { get; set; }
         public string TextId { get; set; }
         public string fr { get; set; }
         public string jp { get; set; }
         public string hi { get; set; }
         public string es { get; set; }
         public string zh { get; set; }
+        public string en { get; set; }
     }
 }

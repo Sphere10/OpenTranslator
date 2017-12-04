@@ -10,16 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Texts">
-      <EntityTypeMapping TypeName="StringTranslationModel.Text">
-        <MappingFragment StoreEntitySet="Text">
-          <ScalarProperty Name="System" ColumnName="System" />
-          <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
-          <ScalarProperty Name="TextId" ColumnName="TextId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Translations">
       <EntityTypeMapping TypeName="StringTranslationModel.Translation">
         <MappingFragment StoreEntitySet="Translations">
@@ -30,18 +20,46 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Texts">
+      <EntityTypeMapping TypeName="StringTranslationModel.Text">
+        <MappingFragment StoreEntitySet="Text">
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="TranslationSP" FunctionName="StringTranslationModel.Store.TranslationSP">
       <ResultMapping>
         <ComplexTypeMapping TypeName="StringTranslationModel.TranslationSP_Result">
-          <ScalarProperty Name="Original_Text" ColumnName="Original_Text" />
           <ScalarProperty Name="TextId" ColumnName="TextId" />
           <ScalarProperty Name="fr" ColumnName="fr" />
           <ScalarProperty Name="jp" ColumnName="jp" />
           <ScalarProperty Name="hi" ColumnName="hi" />
           <ScalarProperty Name="es" ColumnName="es" />
           <ScalarProperty Name="zh" ColumnName="zh" />
+          <ScalarProperty Name="en" ColumnName="en" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="UserMasters">
+      <EntityTypeMapping TypeName="StringTranslationModel.UserMaster">
+        <MappingFragment StoreEntitySet="UserMaster">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tests">
+      <EntityTypeMapping TypeName="StringTranslationModel.test">
+        <MappingFragment StoreEntitySet="test">
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+          <ScalarProperty Name="Langugaes" ColumnName="Langugaes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

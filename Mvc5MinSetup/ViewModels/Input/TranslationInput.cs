@@ -16,6 +16,7 @@ namespace Mvc5MinSetup.ViewModels.Input
 
         [Required]
 		[UIHint("Odropdown")]
+		[Editable(false)]
         [AweUrl(Action = "GetAllLanguages", Controller = "Languages")]
         [DisplayName("Select Language")]
         public string LanguageCode { get; set; }
