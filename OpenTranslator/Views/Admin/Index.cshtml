@@ -1,0 +1,84 @@
+﻿@{
+	ViewBag.Title = "Language Translation";
+}
+@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
+<center><h2>Open Language Translation - Admin Screen </h2></center>
+<style>
+	.awe-ajaxcheckboxlist-field li {
+		display: inline-block;
+	}
+</style>
+
+
+<script>
+    $(function () {
+		
+		$('#chkColumns').change(function () {
+            var val = $('#chkColumns').val();
+            if (!val) val = "[]";
+			$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true } });
+        });
+	});
+	function formatCell(lunch, prop) {
+		debugger;
+		var price = lunch[prop];
+		var textid = lunch["TextId"];
+		var code = prop;
+		var div = "";
+		if (price != null)
+			div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + textid + '\', code : \'' + code + '\' } })">' + price + '</a>';
+		else
+			div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + textid + '\', code : \'' + code + '\' } })"><div style="min-height:20px; min-width:100px;">' + "  " + '</div></a>';
+		return div;
+    }
+</script>
+ @(Html.Awe().InitPopupForm()
+				.Name("pf1")
+				.Url(Url.Action("Edit", "Admin"))
+				.Title("Edit Translation"))
+
+
+<div class="bar">
+	<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Add String</button>
+	@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems")).Load(true)
+	@*<button type="button" class="awe-btn" id="btnUpdateColumns">Update columns</button>*@
+</div>
+
+@(Html.Awe().Grid("OriginalTextGrid")
+			.Url(Url.Action("OriginalTextGridGetItems"))
+			.Groupable(false)
+			.Columns())
+
+<br /><br />
+
+@Html.InitCrudPopupsForGrid("Languages", "Languages", 470, 1000, " Language")
+
+<div class="bar">
+	<button type="button" onclick="awe.open('createLanguages')" class="awe-btn mbtn">Add Language</button>
+</div>
+
+@(Html.Awe().Grid("Languages")
+			.Url(Url.Action("LanguageItems", "Languages"))
+			.Groupable(false)
+			.Columns(
+			new Column { Bind = "LanguageCode" },
+			new Column { Bind = "LanguageName" },
+			new Column { ClientFormat = GridUtils.EditFormatForGrid("Languages", "Id"), Width = 50 },
+			new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Languages", "Id"), Width = 50 }))
+
+<br /><br />
+@Html.InitCrudPopupsForGrid("Admin", "User", 470, 1000, " User")
+<div class="bar">
+	<button type="button" onclick="awe.open('createAdmin')" class="awe-btn mbtn">Add user</button>
+</div>
+
+@(Html.Awe().Grid("Admin")
+			.Url(Url.Action("UserDataItems", "User"))
+			.Groupable(false)
+			.Columns(
+			new Column { Bind = "EmailId" },
+			new Column { Bind = "Password" },
+			new Column { ClientFormat = GridUtils.EditFormatForGrid("Admin", "Id"), Width = 50 },
+			new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Admin", "Id"), Width = 50 }))
+
+

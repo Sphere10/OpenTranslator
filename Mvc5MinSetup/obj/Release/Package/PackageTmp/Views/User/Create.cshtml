@@ -1,7 +1,0 @@
-﻿@model Mvc5MinSetup.ViewModels.Input.UserInput
-@using (Html.BeginForm())
-{
-	<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
-	@Html.EditorFor(o => o.EmailId)
-	@Html.EditorFor(o => o.Password)
-}

@@ -1,0 +1,8 @@
+﻿@model OpenTranslator.ViewModels.Input.AdminInput
+@using (Html.BeginForm())
+{
+	<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
+	@Html.EditorFor(o => o.TextId)
+	@Html.EditorFor(o => o.LanguageCode)
+	@Html.EditorFor(o => o.Text)
+}

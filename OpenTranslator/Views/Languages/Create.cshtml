@@ -1,0 +1,9 @@
+﻿@model OpenTranslator.ViewModels.Input.LanguageInput
+@using (Html.Awe().BeginContext())
+{
+	using (Html.BeginForm())
+	{
+    @Html.EditorFor(o => o.LanguageCode)
+	@Html.EditorFor(o => o.LanguageName)
+	}
+}

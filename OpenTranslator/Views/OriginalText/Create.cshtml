@@ -1,0 +1,28 @@
+﻿@model OpenTranslator.ViewModels.Input.TextInput
+@using (Html.Awe().BeginContext())
+{
+    var gridId = "TranslationGrid";
+    using (Html.BeginForm())
+    {
+        @Html.EditorFor(o => o.TextId)
+        @Html.EditorFor(o => o.OriginalText)
+    }
+
+    @Html.InitCrudPopupsForGrid(gridId, "TranslationText", 230)
+    
+    <div class="bar">
+        @Html.CreateButtonForGrid(gridId, new { TextId = Model.TextId}, "Add Translation")
+    </div>
+    <div>
+        
+    @(Html.Awe().Grid(gridId).Url(Url.Action("GridGetItems", "TranslationText"))
+			.Parameter("TextId", Model.TextId)
+			.Height(230)
+			.Groupable(false)
+			.Columns(
+			  new Column { Bind = "LanguageCode" },
+			  new Column { Bind = "Translated_Text" },
+			  new Column { ClientFormat = Html.EditFormatForGrid(gridId,"Id"), Width = 52 },
+			  new Column { ClientFormat = Html.DeleteFormatForGrid(gridId,"Id"), Width = 52 }))
+</div>
+}
