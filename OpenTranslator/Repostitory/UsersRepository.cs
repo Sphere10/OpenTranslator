@@ -9,11 +9,14 @@ namespace OpenTranslator.Repostitory
 {
 	public class UsersRepository : IUsers
 	{
-		private StringTranslationDBEntities DBcontext;
-		public UsersRepository(StringTranslationDBEntities objempcontext)
+		private StringTranslationEntities DBcontext;
+		
+
+		public UsersRepository(StringTranslationEntities objempcontext)
 		{
 			this.DBcontext = objempcontext;
 		}
+
 		public void InsertUser(UserMaster User)
 		{
 			DBcontext.UserMasters.Add(User);

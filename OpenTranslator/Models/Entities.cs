@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Omu.AwesomeMvc;
+using OpenTranslator.Models.Input;
+using System;
 using System.Collections.Generic;
 
 namespace OpenTranslator.Models
@@ -11,6 +13,11 @@ namespace OpenTranslator.Models
 
 	}	
 
+	public class GridFormatData
+	{
+		public List<GridArrayRow> GridRows {get;set; }
+		public List<Column> GridColumn { get;set;}
+	}
 	
 	
 }

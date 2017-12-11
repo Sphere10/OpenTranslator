@@ -9,46 +9,51 @@ namespace OpenTranslator.Repostitory
 {
 	public class TranslationRepository : ITranslation
 	{
-		private StringTranslationDBEntities DBcontext;
-		public TranslationRepository(StringTranslationDBEntities objempcontext)
+		private StringTranslationEntities DBcontext;
+
+
+		public TranslationRepository(StringTranslationEntities objempcontext)
 		{
 			this.DBcontext = objempcontext;
 		}
-		public void InsertTextTranslation(Text text, Translation translation)
+
+		public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
 		{
-			using (var transaction = DBcontext.Database.BeginTransaction())  
-				{  
-					try  
-					{
-						DBcontext.Texts.Add(text);
-						DBcontext.SaveChanges();
-						DBcontext.Translations.Add(translation);
-						DBcontext.SaveChanges();
-						transaction.Commit();  
-					}
-					catch
-					{
-						transaction.Rollback();  
-					}
+			using (var transaction = DBcontext.Database.BeginTransaction())
+			{
+				try
+				{
+					DBcontext.Texts.Add(text);
+					DBcontext.SaveChanges();
+					DBcontext.Translations.Add(translation);
+					DBcontext.SaveChanges();
+					DBcontext.TranslationLogs.Add(translation_log);
+					DBcontext.SaveChanges();
+					transaction.Commit();
+				}
+				catch
+				{
+					transaction.Rollback();
+				}
 			}
-			
+
 		}
 		public void InsertTranslation(Translation translation)
 		{
-			using (var transaction = DBcontext.Database.BeginTransaction())  
-				{  
-					try  
-					{
-						DBcontext.Translations.Add(translation);
-						DBcontext.SaveChanges();
-						transaction.Commit();  
-					}
-					catch
-					{
-						transaction.Rollback();  
-					}
+			using (var transaction = DBcontext.Database.BeginTransaction())
+			{
+				try
+				{
+					DBcontext.Translations.Add(translation);
+					DBcontext.SaveChanges();
+					transaction.Commit();
+				}
+				catch
+				{
+					transaction.Rollback();
+				}
 			}
-			
+
 		}
 		public IEnumerable<Text> GetText()
 		{
@@ -58,23 +63,34 @@ namespace OpenTranslator.Repostitory
 		{
 			return DBcontext.Translations.ToList();
 		}
-		public Translation GetTranslationID(int Id)
+		public Translation GetTranslationID(string Id)
 		{
-			return DBcontext.Translations.Find(Id);
+			return DBcontext.Translations.Where(x => x.TextId == Id).FirstOrDefault();
 		}
 		public void UpdateTranslation(Translation translation)
 		{
-			DBcontext.Entry(translation).State = EntityState.Modified;
 			DBcontext.SaveChanges();
+			DBcontext.Entry(translation).State = EntityState.Modified;
 		}
 		public void DeleteTranslation(string TextId)
 		{
-			
-			DBcontext.Translations.RemoveRange(DBcontext.Translations.Where(x=>x.TextId == TextId));
-			DBcontext.SaveChanges();
-			Text text = DBcontext.Texts.Where(x=>x.TextId == TextId).FirstOrDefault();
-			DBcontext.Texts.Remove(text);
-			DBcontext.SaveChanges();
+			using (var transaction = DBcontext.Database.BeginTransaction())
+			{
+				try
+				{
+
+					DBcontext.Translations.RemoveRange(DBcontext.Translations.Where(x => x.TextId == TextId));
+					DBcontext.SaveChanges();
+					Text text = DBcontext.Texts.Where(x => x.TextId == TextId).FirstOrDefault();
+					DBcontext.Texts.Remove(text);
+					DBcontext.SaveChanges();
+					transaction.Commit();
+				}
+				catch
+				{
+					transaction.Rollback();
+				}
+			}
 		}
 
 		public void Save()

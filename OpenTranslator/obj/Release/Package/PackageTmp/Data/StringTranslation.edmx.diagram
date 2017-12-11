@@ -4,12 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3d1cccc2a47f40269a725409e9517668" Name="Diagram1">
-        <EntityTypeShape EntityType="StringTranslationModel.Language" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="StringTranslationModel.Translation" Width="1.5" PointX="3.375" PointY="3.75" />
-        <EntityTypeShape EntityType="StringTranslationModel.Text" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="StringTranslationModel.UserMaster" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="StringTranslationModel.test" Width="1.5" PointX="5.375" PointY="0.75" />
+      <Diagram DiagramId="c03c76471b754449a58d0708d3f4bf71" Name="Diagram1">
+        <EntityTypeShape EntityType="StringTranslationModel.Language" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StringTranslationModel.Text" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StringTranslationModel.TranslationArchive" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StringTranslationModel.TranslationLog" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StringTranslationModel.Translation" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StringTranslationModel.UserMaster" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

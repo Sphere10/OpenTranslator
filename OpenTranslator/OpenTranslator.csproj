@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mvc5MinSetup</RootNamespace>
-    <AssemblyName>Mvc5MinSetup</AssemblyName>
+    <RootNamespace>OpenTranslator</RootNamespace>
+    <AssemblyName>OpenTranslator</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -155,9 +155,8 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Awesome\AdminController.cs" />
-    <Compile Include="Controllers\Awesome\TranslationTextController.cs" />
+    <Compile Include="Controllers\Awesome\AdminUsersController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
-    <Compile Include="Controllers\Awesome\OriginalTextController.cs" />
     <Compile Include="Controllers\Awesome\UserController.cs" />
     <Compile Include="Data\Language.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
@@ -177,37 +176,40 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\test.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Translation.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\TranslationSP_Result.cs">
+    <Compile Include="Data\TranslationArchive.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TranslationLog.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UserMaster.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Db.cs" />
+    <Compile Include="Models\Input\AdminInput.cs" />
+    <Compile Include="Models\Input\DeleteConfirmInput.cs" />
+    <Compile Include="Models\Input\EditTranslationInput.cs" />
+    <Compile Include="Models\Input\LanguageInput.cs" />
+    <Compile Include="Models\Input\TextInput.cs" />
+    <Compile Include="Models\Input\TranslationInput.cs" />
+    <Compile Include="Models\Input\UserInput.cs" />
+    <Compile Include="Repostitory\ITranslationArchive.cs" />
+    <Compile Include="Repostitory\ITranslationLog.cs" />
     <Compile Include="Repostitory\ITranslation.cs" />
     <Compile Include="Repostitory\IUsers.cs" />
     <Compile Include="Repostitory\ILanguages.cs" />
+    <Compile Include="Repostitory\TranslationArchiveReopsitory.cs" />
     <Compile Include="Repostitory\TranslationRepository.cs" />
+    <Compile Include="Repostitory\TranslationLogRepository.cs" />
     <Compile Include="Repostitory\UsersRepository.cs" />
     <Compile Include="Repostitory\LanguageRepository.cs" />
-    <Compile Include="ViewModels\Input\EditTranslationInput.cs" />
-    <Compile Include="ViewModels\Input\LanguageInput.cs" />
-    <Compile Include="ViewModels\Input\AdminInput.cs" />
-    <Compile Include="ViewModels\Input\TranslationInput.cs" />
-    <Compile Include="ViewModels\Input\TextInput.cs" />
-    <Compile Include="ViewModels\Input\UserInput.cs" />
     <Content Include="Content\Common.css" />
-    <Compile Include="Controllers\Awesome\Lookup\ChefLookupController.cs" />
-    <Compile Include="Controllers\Awesome\MultiLookup\MealsMultiLookupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -218,7 +220,6 @@
     <Content Include="Scripts\utils.js" />
     <Compile Include="Utils\DemoUtils.cs" />
     <Compile Include="Utils\GridUtils.cs" />
-    <Compile Include="ViewModels\Input\DeleteConfirmInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -242,15 +243,13 @@
     <Content Include="Data\StringTranslation.edmx.diagram">
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\TranslationText\Create.cshtml" />
-    <Content Include="Views\OriginalText\Create.cshtml" />
-    <Content Include="Views\OriginalText\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\Languages\Create.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Admin\EditTranslation.cshtml" />
+    <Content Include="Views\AdminUsers\Create.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -260,6 +259,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Awesome\Lookup\" />
+    <Folder Include="Controllers\Awesome\MultiLookup\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

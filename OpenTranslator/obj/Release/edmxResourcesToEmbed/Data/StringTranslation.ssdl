@@ -16,6 +16,25 @@
     <Property Name="TextId" Type="varchar" MaxLength="500" Nullable="false" />
     <Property Name="System" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="TranslationArchive">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TextId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TranslationLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TextId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="System_Date" Type="datetime" Nullable="false" />
+  </EntityType>
   <EntityType Name="Translations">
     <Key>
       <PropertyRef Name="Id" />
@@ -34,32 +53,14 @@
     <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'StringTranslation.dbo.test' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="test">
-    <Key>
-      <PropertyRef Name="Langugaes" />
-    </Key>
-    <Property Name="Langugaes" Type="char" MaxLength="2" Nullable="false" />
-    <Property Name="Translated_Text" Type="nvarchar(max)" />
-    <Property Name="LanguageCode" Type="char" MaxLength="2" />
-    <Property Name="TextId" Type="varchar" MaxLength="500" />
-  </EntityType>
-  <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TextId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_TextId" />-->
-  <Function Name="TranslationSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="StringTranslationModelStoreContainer">
     <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TranslationArchive" EntityType="Self.TranslationArchive" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TranslationLog" EntityType="Self.TranslationLog" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="test" EntityType="Self.test" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [test].[Langugaes] AS [Langugaes], 
-    [test].[Translated_Text] AS [Translated_Text], 
-    [test].[LanguageCode] AS [LanguageCode], 
-    [test].[TextId] AS [TextId]
-    FROM [dbo].[test] AS [test]</DefiningQuery>
-    </EntitySet>
   </EntityContainer>
 </Schema>

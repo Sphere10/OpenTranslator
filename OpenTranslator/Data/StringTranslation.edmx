@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="StringTranslationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="StringTranslationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Languages">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,6 +20,25 @@
           <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TextId" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="System" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TranslationArchive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TextId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TranslationLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TextId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Translated_Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="System_Date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Translations">
           <Key>
@@ -39,160 +58,142 @@
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'StringTranslation.dbo.test' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="test">
-          <Key>
-            <PropertyRef Name="Langugaes" />
-          </Key>
-          <Property Name="Langugaes" Type="char" MaxLength="2" Nullable="false" />
-          <Property Name="Translated_Text" Type="nvarchar(max)" />
-          <Property Name="LanguageCode" Type="char" MaxLength="2" />
-          <Property Name="TextId" Type="varchar" MaxLength="500" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_TextId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_TextId" />-->
-        <Function Name="TranslationSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="StringTranslationModelStoreContainer">
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TranslationArchive" EntityType="Self.TranslationArchive" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TranslationLog" EntityType="Self.TranslationLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Translations" EntityType="Self.Translations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="test" EntityType="Self.test" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [test].[Langugaes] AS [Langugaes], 
-    [test].[Translated_Text] AS [Translated_Text], 
-    [test].[LanguageCode] AS [LanguageCode], 
-    [test].[TextId] AS [TextId]
-    FROM [dbo].[test] AS [test]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StringTranslationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="StringTranslationDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Languages" EntityType="StringTranslationModel.Language" />
-          <EntitySet Name="Translations" EntityType="StringTranslationModel.Translation" />
-          <EntitySet Name="Texts" EntityType="StringTranslationModel.Text" />
-          <FunctionImport Name="TranslationSP" ReturnType="Collection(StringTranslationModel.TranslationSP_Result)" />
-          <EntitySet Name="UserMasters" EntityType="StringTranslationModel.UserMaster" />
-          <EntitySet Name="tests" EntityType="StringTranslationModel.test" />
-        </EntityContainer>
         <EntityType Name="Language">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LanguageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Translation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="Translated_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LanguageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="Text">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="System" Type="Boolean" Nullable="false" />
         </EntityType>
-        <ComplexType Name="TranslationSP_Result">
-          <Property Type="String" Name="TextId" Nullable="false" MaxLength="500" />
-          <Property Type="String" Name="fr" Nullable="true" />
-          <Property Type="String" Name="jp" Nullable="true" />
-          <Property Type="String" Name="hi" Nullable="true" />
-          <Property Type="String" Name="es" Nullable="true" />
-          <Property Type="String" Name="zh" Nullable="true" />
-          <Property Type="String" Name="en" Nullable="true" />
-        </ComplexType>
+        <EntityType Name="TranslationArchive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TranslationLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="System_Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserMaster">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="test">
-          <Key>
-            <PropertyRef Name="Langugaes" />
-          </Key>
-          <Property Name="Langugaes" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
-          <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
+        <EntityContainer Name="StringTranslationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Languages" EntityType="Self.Language" />
+          <EntitySet Name="Texts" EntityType="Self.Text" />
+          <EntitySet Name="TranslationArchives" EntityType="Self.TranslationArchive" />
+          <EntitySet Name="TranslationLogs" EntityType="Self.TranslationLog" />
+          <EntitySet Name="Translations" EntityType="Self.Translation" />
+          <EntitySet Name="UserMasters" EntityType="Self.UserMaster" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="StringTranslationModelStoreContainer" CdmEntityContainer="StringTranslationDBEntities">
+        <EntityContainerMapping StorageEntityContainer="StringTranslationModelStoreContainer" CdmEntityContainer="StringTranslationEntities">
           <EntitySetMapping Name="Languages">
             <EntityTypeMapping TypeName="StringTranslationModel.Language">
               <MappingFragment StoreEntitySet="Languages">
-                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Translations">
-            <EntityTypeMapping TypeName="StringTranslationModel.Translation">
-              <MappingFragment StoreEntitySet="Translations">
-                <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
                 <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
-                <ScalarProperty Name="TextId" ColumnName="TextId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Texts">
             <EntityTypeMapping TypeName="StringTranslationModel.Text">
               <MappingFragment StoreEntitySet="Text">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TextId" ColumnName="TextId" />
                 <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="TextId" ColumnName="TextId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="TranslationSP" FunctionName="StringTranslationModel.Store.TranslationSP">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="StringTranslationModel.TranslationSP_Result">
-                <ScalarProperty Name="TextId" ColumnName="TextId" />
-                <ScalarProperty Name="fr" ColumnName="fr" />
-                <ScalarProperty Name="jp" ColumnName="jp" />
-                <ScalarProperty Name="hi" ColumnName="hi" />
-                <ScalarProperty Name="es" ColumnName="es" />
-                <ScalarProperty Name="zh" ColumnName="zh" />
-                <ScalarProperty Name="en" ColumnName="en" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="UserMasters">
-            <EntityTypeMapping TypeName="StringTranslationModel.UserMaster">
-              <MappingFragment StoreEntitySet="UserMaster">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <EntitySetMapping Name="TranslationArchives">
+            <EntityTypeMapping TypeName="StringTranslationModel.TranslationArchive">
+              <MappingFragment StoreEntitySet="TranslationArchive">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tests">
-            <EntityTypeMapping TypeName="StringTranslationModel.test">
-              <MappingFragment StoreEntitySet="test">
                 <ScalarProperty Name="TextId" ColumnName="TextId" />
                 <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
                 <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
-                <ScalarProperty Name="Langugaes" ColumnName="Langugaes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TranslationLogs">
+            <EntityTypeMapping TypeName="StringTranslationModel.TranslationLog">
+              <MappingFragment StoreEntitySet="TranslationLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TextId" ColumnName="TextId" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+                <ScalarProperty Name="System_Date" ColumnName="System_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Translations">
+            <EntityTypeMapping TypeName="StringTranslationModel.Translation">
+              <MappingFragment StoreEntitySet="Translations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TextId" ColumnName="TextId" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMasters">
+            <EntityTypeMapping TypeName="StringTranslationModel.UserMaster">
+              <MappingFragment StoreEntitySet="UserMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

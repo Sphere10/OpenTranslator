@@ -1,62 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="StringTranslationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityContainer Name="StringTranslationDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Languages" EntityType="StringTranslationModel.Language" />
-    <EntitySet Name="Translations" EntityType="StringTranslationModel.Translation" />
-    <EntitySet Name="Texts" EntityType="StringTranslationModel.Text" />
-    <FunctionImport Name="TranslationSP" ReturnType="Collection(StringTranslationModel.TranslationSP_Result)" />
-    <EntitySet Name="UserMasters" EntityType="StringTranslationModel.UserMaster" />
-    <EntitySet Name="tests" EntityType="StringTranslationModel.test" />
-  </EntityContainer>
   <EntityType Name="Language">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LanguageName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-  </EntityType>
-  <EntityType Name="Translation">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-    <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-    <Property Name="Translated_Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LanguageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
   </EntityType>
   <EntityType Name="Text">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TextId" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="System" Type="Boolean" Nullable="false" />
   </EntityType>
-  <ComplexType Name="TranslationSP_Result">
-    <Property Type="String" Name="TextId" Nullable="false" MaxLength="500" />
-    <Property Type="String" Name="fr" Nullable="true" />
-    <Property Type="String" Name="jp" Nullable="true" />
-    <Property Type="String" Name="hi" Nullable="true" />
-    <Property Type="String" Name="es" Nullable="true" />
-    <Property Type="String" Name="zh" Nullable="true" />
-    <Property Type="String" Name="en" Nullable="true" />
-  </ComplexType>
+  <EntityType Name="TranslationArchive">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TextId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TranslationLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TextId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="System_Date" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Translation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
   <EntityType Name="UserMaster">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
-  <EntityType Name="test">
-    <Key>
-      <PropertyRef Name="Langugaes" />
-    </Key>
-    <Property Name="Langugaes" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-    <Property Name="Translated_Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
-    <Property Name="TextId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-  </EntityType>
+  <EntityContainer Name="StringTranslationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Languages" EntityType="Self.Language" />
+    <EntitySet Name="Texts" EntityType="Self.Text" />
+    <EntitySet Name="TranslationArchives" EntityType="Self.TranslationArchive" />
+    <EntitySet Name="TranslationLogs" EntityType="Self.TranslationLog" />
+    <EntitySet Name="Translations" EntityType="Self.Translation" />
+    <EntitySet Name="UserMasters" EntityType="Self.UserMaster" />
+  </EntityContainer>
 </Schema>

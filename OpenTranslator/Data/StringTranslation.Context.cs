@@ -12,13 +12,11 @@ namespace OpenTranslator.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
-    public partial class StringTranslationDBEntities : DbContext
+    public partial class StringTranslationEntities : DbContext
     {
-        public StringTranslationDBEntities()
-            : base("name=StringTranslationDBEntities")
+        public StringTranslationEntities()
+            : base("name=StringTranslationEntities")
         {
         }
     
@@ -28,14 +26,10 @@ namespace OpenTranslator.Data
         }
     
         public virtual DbSet<Language> Languages { get; set; }
-        public virtual DbSet<Translation> Translations { get; set; }
         public virtual DbSet<Text> Texts { get; set; }
+        public virtual DbSet<TranslationArchive> TranslationArchives { get; set; }
+        public virtual DbSet<TranslationLog> TranslationLogs { get; set; }
+        public virtual DbSet<Translation> Translations { get; set; }
         public virtual DbSet<UserMaster> UserMasters { get; set; }
-        public virtual DbSet<test> tests { get; set; }
-    
-        public virtual ObjectResult<TranslationSP_Result> TranslationSP()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TranslationSP_Result>("TranslationSP");
-        }
     }
 }

@@ -9,11 +9,13 @@ namespace OpenTranslator.Repostitory
 {
 	public class LanguageRepository : ILanguages
 	{
-		private StringTranslationDBEntities DBcontext;
-		public LanguageRepository(StringTranslationDBEntities objempcontext)
+		private StringTranslationEntities DBcontext;
+		
+		public LanguageRepository(StringTranslationEntities objempcontext)
 		{
 			this.DBcontext = objempcontext;
 		}
+
 		public void InsertLanguage(Language Language)
 		{
 			DBcontext.Languages.Add(Language);

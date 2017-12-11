@@ -1,12 +1,28 @@
-﻿@model Mvc5MinSetup.ViewModels.Input.TranslationInput
-@using (Html.BeginForm())
-{
+﻿@model OpenTranslator.Models.Input.TranslationInput
+	@using (Html.BeginForm())
+	{
+		@Html.HiddenFor(o => o.Id)
+		@Html.EditorFor(o => o.TextId)
+		@Html.EditorFor(o => o.LanguageCode)
+		@Html.EditorFor(o => o.TranslationText)
+	}
+<br /><br />
+	@(Html.Awe().Grid("Translation")
+			.Url(Url.Action("TranslationItems", "Admin"))
+			.Parameter("LanguageCode", Model.LanguageCode)
+			.Parameter("TextId", Model.TextId)
+			.Groupable(false)
+			.Width(650)
+			.Height(250)
+			.Columns(
+			new Column { Bind = "TextId" },
+			new Column { Bind = "Translated_Text" }))
 
-	@Html.EditorFor(o => o.TextId)
-	@Html.EditorFor(o => o.LanguageCode)
-	@Html.EditorFor(o => o.TranslationText)
-}
+
+
 <script>
 	$('#LanguageCode-awed').prop('disabled', true);
+	$('#TextId-awed').prop('disabled', true);
+
 </script>
 
