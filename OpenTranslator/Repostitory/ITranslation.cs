@@ -8,11 +8,12 @@ namespace OpenTranslator.Repostitory
 {
 	public interface ITranslation
 	{
-		void InsertTextTranslation(Text text, Translation translation,TranslationLog translation_log); // C
+		void InsertTextTranslation(Text text, Translation translation,TranslationLog translationlog); // C
 		void InsertTranslation(Translation translation); // C
 		IEnumerable<Text> GetText(); // R
 		IEnumerable<Translation> GetTranslation(); // R
 		Translation GetTranslationID(string Id); // R
+		List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode);
 		void UpdateTranslation(Translation translation); //U
 		void DeleteTranslation(string TextId); //D
 		void Save();

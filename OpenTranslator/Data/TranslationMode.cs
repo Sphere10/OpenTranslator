@@ -12,13 +12,11 @@ namespace OpenTranslator.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Translation
+    public partial class TranslationMode
     {
         public decimal Id { get; set; }
         public string TextId { get; set; }
         public string LanguageCode { get; set; }
-        public string Translated_Text { get; set; }
-        public bool OfficialBoolean { get; set; }
-        public int Votes { get; set; }
+        public int Mode { get; set; }
     }
 }

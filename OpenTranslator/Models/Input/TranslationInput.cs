@@ -14,6 +14,7 @@ namespace OpenTranslator.Models.Input
 
 		[Required]
         [UIHint("TextArea")]
+		[AweMeta("cols", "55")]
         public string TranslationText { get; set; }
 
         [Required]
@@ -22,5 +23,15 @@ namespace OpenTranslator.Models.Input
         [AweUrl(Action = "GetAllLanguages", Controller = "Languages")]
         [DisplayName("Select Language")]
         public string LanguageCode { get; set; }
+
+		[UIHint("Odropdown")]
+        [AweUrl(Action = "GetEnumItems", Controller = "Admin")]
+        [DisplayName("Select Mode")]
+        public int ModeOfTranslation { get; set; }
+
+
+		 public int Votes { get; set; }
+		
     }
+	
 }

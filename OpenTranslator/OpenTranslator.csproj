@@ -188,7 +188,13 @@
     <Compile Include="Data\TranslationLog.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TranslationMode.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\UserMaster.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Vote.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Db.cs" />
@@ -202,9 +208,12 @@
     <Compile Include="Repostitory\ITranslationArchive.cs" />
     <Compile Include="Repostitory\ITranslationLog.cs" />
     <Compile Include="Repostitory\ITranslation.cs" />
+    <Compile Include="Repostitory\ITranslationMode.cs" />
     <Compile Include="Repostitory\IUsers.cs" />
     <Compile Include="Repostitory\ILanguages.cs" />
+    <Compile Include="Repostitory\IVotes.cs" />
     <Compile Include="Repostitory\TranslationArchiveReopsitory.cs" />
+    <Compile Include="Repostitory\TranslationModeRepository.cs" />
     <Compile Include="Repostitory\TranslationRepository.cs" />
     <Compile Include="Repostitory\TranslationLogRepository.cs" />
     <Compile Include="Repostitory\UsersRepository.cs" />
@@ -218,6 +227,7 @@
     <Compile Include="Models\Entities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\utils.js" />
+    <Compile Include="Repostitory\VotesRepository.cs" />
     <Compile Include="Utils\DemoUtils.cs" />
     <Compile Include="Utils\GridUtils.cs" />
   </ItemGroup>

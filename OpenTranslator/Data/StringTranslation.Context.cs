@@ -29,7 +29,9 @@ namespace OpenTranslator.Data
         public virtual DbSet<Text> Texts { get; set; }
         public virtual DbSet<TranslationArchive> TranslationArchives { get; set; }
         public virtual DbSet<TranslationLog> TranslationLogs { get; set; }
+        public virtual DbSet<TranslationMode> TranslationModes { get; set; }
         public virtual DbSet<Translation> Translations { get; set; }
         public virtual DbSet<UserMaster> UserMasters { get; set; }
+        public virtual DbSet<Vote> Votes { get; set; }
     }
 }

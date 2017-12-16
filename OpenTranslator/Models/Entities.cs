@@ -18,6 +18,13 @@ namespace OpenTranslator.Models
 		public List<GridArrayRow> GridRows {get;set; }
 		public List<Column> GridColumn { get;set;}
 	}
+
+	public enum Translationmodes
+    {
+        Open = 0,
+        Selected = 1,
+		Locked = 2
+    }
 	
 	
 }

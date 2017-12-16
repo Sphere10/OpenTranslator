@@ -14,6 +14,8 @@ using System.Linq.Expressions;
 using OpenTranslator.Models;
 using System.Collections;
 using System.Dynamic;
+using System.Net;
+using Omu.Awem.Helpers;
 
 namespace OpenTranslator.Controllers.Awesome
 {
@@ -25,12 +27,24 @@ namespace OpenTranslator.Controllers.Awesome
 		private ILanguages ILanguages;
 		private ITranslationLog ITranslation_Log;
 		private ITranslationArchive ITranslationArchive;
+		private IVotes IVotes;
+		private ITranslationMode ITranslationMode;
 		public AdminController()
 		{
 			this.ITranslation = new TranslationRepository(new StringTranslationEntities());
 			this.ILanguages = new LanguageRepository(new StringTranslationEntities());
 			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
 			this.ITranslationArchive = new TranslationArchiveReopsitory(new StringTranslationEntities());
+			this.IVotes = new VotesRepository(new StringTranslationEntities());
+			this.ITranslationMode = new TranslationModeRepository(new StringTranslationEntities());
+		}
+		public ActionResult GetEnumItems()
+		{
+			string CurrentURL = Request.Url.AbsoluteUri;
+
+			var type = typeof(Models.Translationmodes);
+			var items = Enum.GetValues(type).Cast<int>().Select(o => new KeyContent(o, Enum.GetName(type, o))).ToList();
+			return Json(items);
 		}
 
 		public ActionResult GetColumnsItems(string[] columns)
@@ -67,7 +81,7 @@ namespace OpenTranslator.Controllers.Awesome
 		public GridFormatData Gridformat()
 		{
 			var languages = ILanguages.GetLanguages().Select(x => x.LanguageCode).Distinct();
-			var query = from r in ITranslation.GetTranslation()
+			var query = from r in ITranslation.GetTranslation().Where(x => x.OfficialBoolean == true)
 						group r by r.TextId into nameGroup
 						select new
 						{
@@ -117,8 +131,8 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				columns.Add(new Column { Header = gridDataList[0][i], ClientFormatFunc = "getVal(" + i + ", '" + gridDataList[0][i] + "')" });
 			}
-			
-			columns.Add(new Column { ClientFormat = GridUtils.DeleteFormatForGrid("OriginalTextGrid","TextId"), Width = 50 });
+
+			columns.Add(new Column { ClientFormat = GridUtils.DeleteFormatForGrid("OriginalTextGrid", "TextId"), Width = 50 });
 
 			var gridItems = new List<GridArrayRow>();
 			for (var i = 1; i < gridDataList.Count; i++)
@@ -134,13 +148,13 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 
 
-		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns,string UserType="Admin")
+		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin")
 		{
 
 			var GridData = this.Gridformat();
 			var columns = GridData.GridColumn.ToArray();
 
-			if(UserType.Equals("User"))
+			if (UserType.Equals("User"))
 			{
 				columns = columns.Take(columns.Count() - 1).ToArray();
 			}
@@ -214,6 +228,8 @@ namespace OpenTranslator.Controllers.Awesome
 				translation.LanguageCode = input.LanguageCode;
 				translation.TextId = text.TextId;
 				translation.Translated_Text = input.Text;
+				translation.OfficialBoolean = true;
+				translation.Votes = 0;
 
 				TranslationLog translation_log = new TranslationLog();
 				translation_log.TextId = input.TextId;
@@ -262,28 +278,11 @@ namespace OpenTranslator.Controllers.Awesome
 				}
 			}
 		}
-
-		public ActionResult Edit(string TextId, string code)
-		{
-			Language languages = ILanguages.GetLanguages().Where(x => x.LanguageName == code).FirstOrDefault();
-			Translation translation = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.LanguageCode == languages.LanguageCode).FirstOrDefault();
-
-			if (translation == null)
-			{
-				return PartialView("EditTranslation", new TranslationInput { TextId = TextId, TranslationText = null, LanguageCode = languages.LanguageCode });
-			}
-			else
-			{
-				var id = Convert.ToInt32(translation.Id.ToString());
-				return PartialView("EditTranslation", new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id });
-			}
-
-		}
 		public ActionResult TranslationItems(GridParams g, string TextId, string LanguageCode)
 		{
-			var items = ITranslation_Log.GetTranslationLogByCode(TextId, LanguageCode).AsQueryable();
+			var items = ITranslation.GetTranslationLogByCode(TextId, LanguageCode).AsQueryable();
 			var key = Convert.ToInt32(g.Key);
-			var model = new GridModelBuilder<TranslationLog>(items, g)
+			var model = new GridModelBuilder<Translation>(items.AsQueryable(), g)
 			{
 				Key = "Id",
 				GetItem = () => items.Single(x => x.Id == key)
@@ -291,7 +290,135 @@ namespace OpenTranslator.Controllers.Awesome
 			return Json(model);
 
 		}
+		[HttpPost]
+		public ActionResult VoteCount(string vote, string textid, string text, string code)
+		{
+			var getMode= ITranslationMode.GetTranslationModeByID(textid,code);
 
+			if(getMode.Mode==1 || getMode.Mode==2)
+			{
+				return PartialView();
+			}
+			else
+			{
+			if (Request.Cookies["BrowserId"] == null)
+			{
+				Guid id = Guid.NewGuid();
+				Response.Cookies["BrowserId"].Value = id.ToString();
+				Response.Cookies["BrowserId"].Expires = DateTime.Now.AddMonths(1);
+			}
+			
+			Guid cookieValue =  Guid.Parse(Request.Cookies["BrowserId"].Value);
+			string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
+			string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+
+
+			//var session = HttpContext.Session.SessionID;
+			var voteData = IVotes.GetVoteByCookieID(cookieValue);
+
+			var items = ITranslation.GetTranslationLogByCode(textid, code).ToList();
+			var list = items;
+			var data = items.Where(x => x.Translated_Text == text).FirstOrDefault();
+			if (voteData == null)
+			{
+				data.Votes = data.Votes + 1;
+				Vote addVote = new Vote();
+				addVote.CookieID = cookieValue;
+				addVote.Translation_Id = data.Id;
+				addVote.IP = myIP;
+				IVotes.InsertVote(addVote);
+				
+			}
+			else
+			{
+				var voteList = IVotes.GetVoteList(cookieValue);
+				var voteResult = voteList.Where(x => items.Any(p => p.Id == x.Translation_Id));
+				foreach (var item in items)
+				{
+					var id = Convert.ToInt32(item.Id);
+					var updateVote= IVotes.GetVoteBytranslationId(id,cookieValue);
+					//
+					if (updateVote != null)
+					{
+						item.Votes = item.Votes - 1;
+						data.Votes = data.Votes + 1;
+						ITranslation.UpdateTranslation(item);
+						IVotes.RemoveVote(updateVote.Id);
+						Vote addVote = new Vote();
+						addVote.CookieID = cookieValue;
+						addVote.Translation_Id = data.Id;
+						addVote.IP = myIP;
+						IVotes.InsertVote(addVote);
+
+
+					}
+
+				}
+				if (voteResult.Count() == 0)
+				{
+					data.Votes = data.Votes + 1;
+					Vote addVote = new Vote();
+					addVote.CookieID = cookieValue;
+					addVote.Translation_Id = data.Id;
+					addVote.IP = myIP;
+					IVotes.InsertVote(addVote);
+				}
+			}
+
+			foreach (var item in items)
+			{
+				item.OfficialBoolean = false;
+			}
+			var maxVote = list.Max(s => s.Votes);
+
+			var mapdata = list.Where(x => x.Votes == maxVote).ToList();
+			if (mapdata.Count > 1)
+			{
+				data.OfficialBoolean = true;
+			}
+			else
+			{
+				var setdata = list.Where(x => x.Votes == maxVote).FirstOrDefault();
+				setdata.OfficialBoolean = true;
+				setdata.Votes = maxVote;
+
+				ITranslation.UpdateTranslation(setdata);
+
+			}
+			ITranslation.UpdateTranslation(data);
+
+			return Json(data);
+
+			}
+		}
+
+
+		public ActionResult Edit(string TextId, string code)
+		{
+			Language languages = ILanguages.GetLanguages().Where(x => x.LanguageName == code).FirstOrDefault();
+			Translation translation = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.LanguageCode == languages.LanguageCode &&x.OfficialBoolean==true).FirstOrDefault();
+			var translationMode= ITranslationMode.GetTranslationModeByID(TextId,languages.LanguageCode);
+
+			if (translation == null)
+			{
+				return PartialView("EditTranslation", new TranslationInput { TextId = TextId, TranslationText = null, LanguageCode = languages.LanguageCode , ModeOfTranslation=0});
+			}
+			else
+			{
+				var id = Convert.ToInt32(translation.Id.ToString());
+				if(translationMode==null)
+				{
+					return PartialView("EditTranslation", new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation=0});
+
+				}
+				else
+				{
+					return PartialView("EditTranslation", new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation=translationMode.Mode});
+
+				}
+			}
+
+		}
 
 		[HttpPost]
 		public ActionResult Edit(TranslationInput input)
@@ -300,15 +427,76 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				return PartialView("EditTranslation", input);
 			}
-			if (input.Id != 0)
+			var updateMode= ITranslationMode.GetTranslationModeByID(input.TextId,input.LanguageCode);
+			if(updateMode== null)
 			{
-				var Translatedtext = ITranslation.GetTranslation().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode).FirstOrDefault();
-				Translatedtext.Translated_Text = input.TranslationText;
-				ITranslation.UpdateTranslation(Translatedtext);
-
-				var Translate_Log_data = ITranslation_Log.GetTranslationLog().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
-				if (Translate_Log_data == null)
+				TranslationMode mode = new TranslationMode();
+				mode.TextId=input.TextId;
+				mode.LanguageCode=input.LanguageCode;
+				mode.Mode=input.ModeOfTranslation;
+				ITranslationMode.InsertTranslationMode(mode);
+				if(input.ModeOfTranslation==2)
 				{
+					var griddata = this.Gridformat();
+					var gridrowData = griddata.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
+					return Json(MapToGridModel(gridrowData));
+				}
+
+			}
+			else
+			{
+				updateMode.Mode=input.ModeOfTranslation;
+				ITranslationMode.UpdateTranslationMode(updateMode);
+
+				if (updateMode.Mode == 2)
+				{
+					var updateGriddata = this.Gridformat();
+					var updateGridrowData = updateGriddata.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
+					return Json(MapToGridModel(updateGridrowData));
+				}
+			}
+			
+		
+				var getModes= ITranslationMode.GetTranslationModeByID(input.TextId,input.LanguageCode);
+
+				if(getModes.Mode==0 || getModes.Mode==1)
+				{
+					var repetTranslated = ITranslation.GetTranslation().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
+					if (repetTranslated != null)
+					{
+						return Json(repetTranslated);
+					}
+					var TranslatedData = ITranslation.GetTranslation().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.OfficialBoolean == true).FirstOrDefault();
+
+					var Translatedtext = new Translation();
+					Translatedtext.Translated_Text = input.TranslationText;
+					Translatedtext.LanguageCode = input.LanguageCode;
+					Translatedtext.TextId = input.TextId;
+					if (TranslatedData != null)
+					{
+						if (TranslatedData.Votes > 0)
+						{
+							Translatedtext.Votes = 0;
+							Translatedtext.OfficialBoolean = false;
+						}
+						else
+						{
+							TranslatedData.OfficialBoolean = false;
+							ITranslation.UpdateTranslation(TranslatedData);
+							Translatedtext.Votes = 0;
+							Translatedtext.OfficialBoolean = true;
+
+						}
+					}
+					else
+					{
+						Translatedtext.Votes = 0;
+						Translatedtext.OfficialBoolean = true;
+
+					}
+
+					ITranslation.InsertTranslation(Translatedtext);
+
 					TranslationLog translation_log = new TranslationLog();
 					translation_log.TextId = Translatedtext.TextId;
 					translation_log.System_Date = DateTime.Now;
@@ -316,35 +504,13 @@ namespace OpenTranslator.Controllers.Awesome
 					translation_log.Translated_Text = Translatedtext.Translated_Text;
 
 					ITranslation_Log.InsertTranslationLog(translation_log);
+					
 				}
-
-				//	return Json(new { TextId = input.TextId });
 				var data = this.Gridformat();
-				var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
-				return Json(MapToGridModel(rowData));
+					var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
+					return Json(MapToGridModel(rowData));
 
-			}
-			else
-			{
-				var Translatedtext = new Translation();
-				Translatedtext.Translated_Text = input.TranslationText;
-				Translatedtext.LanguageCode = input.LanguageCode;
-				Translatedtext.TextId = input.TextId;
-				ITranslation.InsertTranslation(Translatedtext);
-
-				TranslationLog translation_log = new TranslationLog();
-				translation_log.TextId = Translatedtext.TextId;
-				translation_log.System_Date = DateTime.Now;
-				translation_log.LanguageCode = Translatedtext.LanguageCode;
-				translation_log.Translated_Text = Translatedtext.Translated_Text;
-
-				ITranslation_Log.InsertTranslationLog(translation_log);
-				var data = this.Gridformat();
-				var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
-				return Json(MapToGridModel(rowData));
-
-			}
-
+			
 		}
 
 		public ActionResult Delete(string id, string gridId)

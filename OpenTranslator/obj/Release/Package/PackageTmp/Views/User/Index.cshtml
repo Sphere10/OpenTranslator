@@ -3,8 +3,8 @@
 }
 
 @Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
-<input type="button" value="User Screen" onclick="location.href='@Url.Action("Index", "User")'" />
-<input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />
+@*<input type="button" value="User Screen" onclick="location.href='@Url.Action("Index", "User")'" />*@
+@*<input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />*@
 <center><h2>Open Language Translation - User Screen </h2></center>
 <style>
 	.awe-ajaxcheckboxlist-field li {
@@ -27,7 +27,8 @@
  @(Html.Awe().InitPopupForm()
 				.Name("pf1")
 				.Url(Url.Action("Edit", "Admin"))
-				.Title("Edit Translation"))
+				.Title("Edit Translation")
+				.Success("UpdateGrid"))
 
 
 <div class="bar">
@@ -43,7 +44,10 @@
 
 <br /><br />
 <script>
-	
+	function UpdateGrid(result, popup) {
+		debugger;
+		$('#OriginalTextGrid').data('api').load({});
+	}
 	function getVal(i, columnname) {
 		debugger;
 		return function (model) {

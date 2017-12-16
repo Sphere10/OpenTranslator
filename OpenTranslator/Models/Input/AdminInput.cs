@@ -13,6 +13,7 @@ namespace OpenTranslator.Models.Input
 
         [Required]
         [UIHint("TextArea")]
+		[AweMeta("placeholder", "try Ma...")]
         public string Text { get; set; }
 
         [Required]

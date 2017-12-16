@@ -67,6 +67,10 @@ namespace OpenTranslator.Repostitory
 		{
 			return DBcontext.Translations.Where(x => x.TextId == Id).FirstOrDefault();
 		}
+		public List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode)
+		{
+			return DBcontext.Translations.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).ToList();
+		}
 		public void UpdateTranslation(Translation translation)
 		{
 			DBcontext.SaveChanges();

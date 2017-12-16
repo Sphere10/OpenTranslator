@@ -40,6 +40,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TranslationModes">
+      <EntityTypeMapping TypeName="StringTranslationModel.TranslationMode">
+        <MappingFragment StoreEntitySet="TranslationMode">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TextId" ColumnName="TextId" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="Mode" ColumnName="Mode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Translations">
       <EntityTypeMapping TypeName="StringTranslationModel.Translation">
         <MappingFragment StoreEntitySet="Translations">
@@ -47,6 +57,8 @@
           <ScalarProperty Name="TextId" ColumnName="TextId" />
           <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
           <ScalarProperty Name="Translated_Text" ColumnName="Translated_Text" />
+          <ScalarProperty Name="OfficialBoolean" ColumnName="OfficialBoolean" />
+          <ScalarProperty Name="Votes" ColumnName="Votes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -56,6 +68,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="EmailId" ColumnName="EmailId" />
           <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votes">
+      <EntityTypeMapping TypeName="StringTranslationModel.Vote">
+        <MappingFragment StoreEntitySet="Vote">
+          <ScalarProperty Name="IP" ColumnName="IP" />
+          <ScalarProperty Name="CookieID" ColumnName="CookieID" />
+          <ScalarProperty Name="Translation_Id" ColumnName="Translation_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
