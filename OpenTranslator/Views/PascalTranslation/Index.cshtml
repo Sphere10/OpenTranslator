@@ -1,41 +1,27 @@
 ﻿@{
 	ViewBag.Title = "Open Translation";
 }
-
-@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 <input type="button" value="User Screen" onclick="location.href='@Url.Action("Index", "User")'" />
 <input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />
 <input type="button" value="Pascal Translation Screen" onclick="location.href='@Url.Action("Index", "PascalTranslation")'" />
-<center><h2>Open Language Translation - User Screen </h2></center>
-<style>
-	.awe-ajaxcheckboxlist-field li {
-		display: inline-block;
-	}
-</style>
+@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
+<center><h2>Open Language Translation - Pascal Translation </h2></center>
+
+@using (Html.BeginForm("GetUploadedFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
+		<input type="file" name="postedFile" id="postedFile" />
+		<input type="submit" value="Import" />
+}
+@*@using (Html.BeginForm("DownloadPoFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
+		<input type="file" name="postedFile" id="postedFile" />
+		<input type="submit" value="Export" />
+}*@
 
 
-<script>
-    $(function () {
-		
-		$('#chkColumns').change(function () {
-            var val = $('#chkColumns').val();
-            if (!val) val = "[]";
-			$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true } });
-        });
-	});
-	
-</script>
- @(Html.Awe().InitPopupForm()
-				.Name("pf1")
-				.Url(Url.Action("Edit", "User"))
-				.Title("Edit Translation")
-				.Success("UpdateGrid"))
-
-
-<div class="bar">
-	
-	@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems","Admin")).Load(true)
-</div>
+<br /><br />
 
 @(Html.Awe().Grid("OriginalTextGrid")
 			.Url(Url.Action("OriginalTextGridGetItems","Admin"))
@@ -44,15 +30,18 @@
 			.Columns())
 
 <br /><br />
+@(Html.Awe().InitPopupForm()
+				.Name("pf1")
+				.Url(Url.Action("Edit", "PascalTranslation"))
+				.Title("Edit Translation")
+				.Success("UpdateGrid"))
 <script>
 	function UpdateGrid(result, popup) {
-		debugger;
 		$('#OriginalTextGrid').data('api').load({});
 	}
+
 	function getVal(i, columnname) {
-		debugger;
 		return function (model) {
-			debugger;
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")
@@ -60,9 +49,12 @@
 			else
 				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><div style="min-height:20px; min-width:100px;">' + "  " + '</div></a>';
 			return div;
-        };
-    }
+		};
+	}
 </script>
+
+
+
 
 
 

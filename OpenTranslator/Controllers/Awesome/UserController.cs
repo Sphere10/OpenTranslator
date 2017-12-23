@@ -14,6 +14,10 @@ namespace OpenTranslator.Controllers.Awesome
             return View();
         }
 
-        
+        public ActionResult Edit(string TextId, string code)
+        {
+            AdminController adminController = new AdminController();
+            return adminController.Edit(TextId,code,"User");
+        }
     }
 }

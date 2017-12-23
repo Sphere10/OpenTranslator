@@ -1,0 +1,73 @@
+﻿@model OpenTranslator.Models.Input.TranslationInput
+	@using (Html.BeginForm())
+	{
+		<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
+		@Html.HiddenFor(o => o.Id)
+		@Html.EditorFor(o => o.TextId)
+		@Html.EditorFor(o => o.LanguageCode)
+		@Html.EditorFor(o => o.TranslationText)
+		@Html.HiddenFor(o => o.ModeOfTranslation)
+	}
+<br /><br />
+<span id="spnerror" style="color:red; margin-left:120px">@ViewBag.errormsg</span>
+@(Html.Awe().Grid("Translation")
+			.Url(Url.Action("TranslationItems", "Admin"))
+			.Parameter("LanguageCode", Model.LanguageCode)
+			.Parameter("TextId", Model.TextId)
+			.Groupable(false)
+			.Width(650)
+			.Height(250)
+			.Columns(
+			new Column { Bind = "Translated_Text" },
+			new Column { Bind = "Votes" },
+			new Column
+			{
+				Width = 80,
+				ClientFormatFunc = "toggleButton"
+				//ClientFormat = "<i class='awe-sord' style='font-size:48px; color: red'></i>",
+
+			}))
+
+
+<script>
+	$('#LanguageCode-awed').prop('disabled', true);
+	$('#TextId-awed').prop('disabled', true);
+	if (@Model.ModeOfTranslation == 2)
+	{
+		//$('.awe-okbtn').prop('disabled', true);
+		$('#TranslationText').prop('readonly', true);
+	}
+		
+	
+	$("#TranslationText").width("400px");
+	var toggleButton = function (model, prop) {
+		debugger;
+		var textid = model.TextId;
+		var text = model.Translated_Text;
+		var code = model.LanguageCode;
+		return '<input type="button" value="Vote" onclick="GetCount(\'Like\',\'' + textid + '\',\'' + text + '\',\'' + code + '\')" /> ';
+	}
+	function GetCount(value, textid, text, code) {
+		debugger;
+		$.ajax({
+			url: '@Url.Action("VoteCount", "Admin")',
+			type: 'POST',
+			dataType: 'json',
+			// we set cache: false because GET requests are often cached by browsers
+			// IE is particularly aggressive in that respect
+			cache: false,
+			data: { vote: value, textid: textid, text: text, code: code },
+			success: function () {
+				$('#Translation').data('api').load({});
+			},
+			error: function () {
+				$("#spnerror").text("Translation Mode is Locked or Selected.");
+				//alert("");
+			}
+    });
+
+	}
+
+
+</script>
+

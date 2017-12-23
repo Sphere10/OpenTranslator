@@ -157,6 +157,7 @@
     <Compile Include="Controllers\Awesome\AdminController.cs" />
     <Compile Include="Controllers\Awesome\AdminUsersController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
+    <Compile Include="Controllers\Awesome\PascalTranslationController.cs" />
     <Compile Include="Controllers\Awesome\UserController.cs" />
     <Compile Include="Data\Language.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
@@ -260,6 +261,10 @@
     <Content Include="Views\Admin\EditTranslation.cshtml" />
     <Content Include="Views\AdminUsers\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\EditTranslation.cshtml" />
+    <Content Include="Views\PascalTranslation\Index.cshtml" />
+    <Content Include="Views\PascalTranslation\FileUpload.cshtml" />
+    <Content Include="Views\PascalTranslation\EditTranslation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
