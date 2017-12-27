@@ -18,6 +18,7 @@
 	<span style="color:red;">@ViewBag.errormsg</span><br/>
 		<input type="file" name="postedFile" id="postedFile" />
 		<input type="submit"  class="awe-btn mbtn" value="Ok" />
+		<input type="hidden" id="hdnvalue" value="@ViewBag.errormsg" />
 		<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action("Index", "PascalTranslation")'">Cancel</button>
 }
 </div>
@@ -42,7 +43,7 @@
 
 <br /><br />
 @(Html.Awe().InitPopupForm()
-				.Name("EditTranslation")
+				.Name("pf1")
 				.Url(Url.Action("Edit", "PascalTranslation"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
@@ -50,30 +51,55 @@
 	function UpdateGrid(result, popup) {
 		$('#OriginalTextGrid').data('api').load({});
 	}
-	
-
-	var errormsg = '@ViewBag.errormsg';
-	var errormsgexport = '@ViewBag.errormsgexport';
-
-	if (errormsg!='')
-    	$("#importForm").show();
-	else
+	@*if (!$("#hdnValue").val())
+	{
+		debugger;
 		$("#importForm").hide();
+		$("#divButtons").show();
+	}
+	if (!@Html.Raw(Json.Encode(ViewBag.errormsgexport )))
+	{
+		debugger;
+		$("#exportForm").hide();
+		$("#divButtons").show();
+	}*@
 
-	if (errormsgexport!='')
-    	$("#exportForm").show();
+	var myVal = '@ViewBag.errormsg';
+    var va = '@ViewBag.errormsgexport';
+
+    if (myVal!='')
+    {
+		//$("#importForm").toggle();
+		var e = document.getElementById("importForm");
+		e.style.display = "block";
+    }
     else
-    	$("#exportForm").hide();
-    
+    {
+		var e = document.getElementById("importForm");
+        e.style.display = "none";
+    }
+
+    if (va!='')
+    {
+		//var e = document.getElementById("exportForm");
+		//e.style.display = "block";
+		$("#exportForm").show();
+    }
+    else
+    {
+		$("#exportForm").hide();
+    }
+
+
 
 	function getVal(i, columnname) {
 		return function (model) {
 			var div = "";
-			var row = model.Values[i];
-			if (row != "")
-				div = '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })">' + row + '</a>';
+			var a = model.Values[i];
+			if (a != "")
+				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })">' + a + '</a>';
 			else
-				div = '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><div style="min-height:20px; min-width:100px;">' + "  " + '</div></a>';
+				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><div style="min-height:20px; min-width:100px;">' + "  " + '</div></a>';
 			return div;
 		};
 	}

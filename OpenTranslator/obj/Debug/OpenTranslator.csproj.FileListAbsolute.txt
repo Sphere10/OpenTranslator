@@ -58,3 +58,5 @@ D:\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.dll
 D:\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.xml

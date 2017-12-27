@@ -12,6 +12,7 @@ using System.Data;
 using OpenTranslator.Repostitory;
 using OpenTranslator.Data;
 using OpenTranslator.Models.Input;
+using Ionic.Zip;
 
 namespace OpenTranslator.Controllers.Awesome
 {
@@ -38,22 +39,35 @@ namespace OpenTranslator.Controllers.Awesome
 		public ActionResult GetUploadedFile(HttpPostedFileBase postedFile)
         {
 			ViewBag.errormsg = "";
-
+			var executeproc = true;
 			if (postedFile != null)
             {
-			
-                string path = System.IO.Path.Combine(Server.MapPath("~/Content/"));
-                path = path + "1" + ".po";
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
-                postedFile.SaveAs(path);
-				var input = System.IO.File.ReadAllText(path);
-				using (var sr = new StreamReader(path, Encoding.UTF8))
-				this.LoadFromReader(sr,"Import");
+				string fileextension = System.IO.Path.GetExtension(postedFile.FileName);
+				if (fileextension != ".po")
+				{
+					ViewBag.errormsgexport = "File format is not .po";
+					return View("Index");
+				}
+				else
+				{
+					string path = System.IO.Path.Combine(Server.MapPath("~/Content/"));
+					path = path + "1" + ".po";
+					if (System.IO.File.Exists(path))
+						System.IO.File.Delete(path);
+					postedFile.SaveAs(path);
+					var input = System.IO.File.ReadAllText(path);
+					var LanguageCode = "en";
+					using (var sr = new StreamReader(path, Encoding.UTF8))
+					this.LoadFromReader(sr,"Import",LanguageCode);
+					if (System.IO.File.Exists(path))
+						System.IO.File.Delete(path);
+				}
+                
             }
 			else
 			{
 				ViewBag.errormsg = " Please select file";
+				
 			}
             return View("Index");
         }
@@ -74,7 +88,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 			return str;
 		}
-		public void LoadFromReader(TextReader reader, string input)
+		public void LoadFromReader(TextReader reader, string input, string LanguageCode, string filename="")
 		{
 			
 			var regex = new Regex(@"""(.*)""", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -130,21 +144,12 @@ namespace OpenTranslator.Controllers.Awesome
 							if(input.Equals("Import"))
 							{
 								if(!TextId.Equals("") && !Text.Equals(""))
-								this.InsterRecord(TextId,Text);
+								    this.InsterRecord(TextId,Text,LanguageCode);
 							}
 							else
 							{
 								if(!TextId.Equals("") && !Text.Equals(""))
-								{
-									List<Language> list = new List<Language>();
-									list = ILanguages.GetLanguages().ToList();	
-									for (int i = 0; i < list.Count; i++)
-									{
-										var Languagecode = list[i].LanguageCode;
-										
-										this.GetTranslationRecord(TextId,Text);
-									}
-								}
+									this.GetTranslationRecord(TextId,Text,LanguageCode);
 									
 							}
 						break;
@@ -152,15 +157,17 @@ namespace OpenTranslator.Controllers.Awesome
 				}
 				
 			}
-			System.IO.File.WriteAllText("D:\\Demo.en.po", sbPo.ToString());
+			string path = System.IO.Path.Combine(Server.MapPath("~/Content/Export/"));
+			if(input.Equals("Export"))
+				System.IO.File.WriteAllText(path + "\\" + filename + "."+ LanguageCode +".po", sbPo.ToString());
 		}
-		public void InsterRecord(string TextId, string Text)
+		public void InsterRecord(string TextId, string Text, string LanguageCode)
 		{
 			
 			AdminInput input = new AdminInput();
 			input.TextId = TextId;
 			input.Text = Text;
-			input.LanguageCode = "en";
+			input.LanguageCode = LanguageCode;
 			if (this.doesTextIdExist(input) == false)
 			{
 				input.TextId = input.TextId;
@@ -185,10 +192,13 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 		}
 
-		public void GetTranslationRecord(string TextId, string Text)
+		public void GetTranslationRecord(string TextId, string Text, string LanguageCode)
 		{
-				var Translations = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.Translated_Text == Text && x.OfficialBoolean == true).FirstOrDefault();
-				sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");
+				var Translations = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
+			    if(Translations == null)
+					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + "\"\r\n");
+				else
+					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");
 				
 		}
 
@@ -202,7 +212,7 @@ namespace OpenTranslator.Controllers.Awesome
 				if (text != null)
 				{
 					//ViewBag.errormsg += input.TextId  + " TextId already exist.\n";
-					ViewBag.errormsg = "Records already exist.\n";
+					ViewBag.errormsg = "Records already exist.";
 					return true;
 				}
 				else
@@ -216,7 +226,7 @@ namespace OpenTranslator.Controllers.Awesome
 				if (text != null)
 				{
 					//ViewBag.errormsg += input.TextId + "TextId already exist.";
-					ViewBag.errormsg = "Records already exist.\n";
+					ViewBag.errormsg = "Records already exist.";
 					return true;
 				}
 				else
@@ -229,23 +239,59 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult DownloadPoFile(HttpPostedFileBase postedFile)
         {
-			
-
+			ViewBag.errormsgexport = "";
 			if (postedFile != null)
-            {
-			
-                string path = System.IO.Path.Combine(Server.MapPath("~/Content/"));
-                path = path + "1" + ".po";
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
-                postedFile.SaveAs(path);
-				var input = System.IO.File.ReadAllText(path);
- 
-				using (var sr = new StreamReader(path, Encoding.UTF8))
-				this.LoadFromReader(sr,"Export");
-            }
-            return View("Index");
-        }
+			{
+				string fileextension = System.IO.Path.GetExtension(postedFile.FileName);
+				if (fileextension != ".po")
+				{
+					ViewBag.errormsgexport = "File format is not .po";
+					return View("Index");
+				}
+				else
+				{
+					string path = System.IO.Path.Combine(Server.MapPath("~/Content/Export/"));
+					System.IO.Directory.CreateDirectory(path);
+					string filepath = path + postedFile.FileName;
+					var filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
+					if (System.IO.File.Exists(filepath))
+						System.IO.File.Delete(filepath);
+					postedFile.SaveAs(filepath);
+					List<Language> list = new List<Language>();
+					list = ILanguages.GetLanguages().ToList();
+					for (int i = 0; i < list.Count; i++)
+					{
+						var Languagecode = list[i].LanguageCode;
+
+						var input = System.IO.File.ReadAllText(filepath);
+						sbPo = new StringBuilder();
+						using (var sr = new StreamReader(filepath, Encoding.UTF8))
+							this.LoadFromReader(sr, "Export", Languagecode, filename);
+					}
+					string SourceFolderPath = System.IO.Path.Combine(path, "Initial");
+
+					Response.Clear();
+					Response.ContentType = "application/zip";
+					Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}", "Languages" + ".zip"));
+
+					bool recurseDirectories = true;
+					using (ZipFile zip = new ZipFile())
+					{
+						zip.AddSelectedFiles("*", path, string.Empty, recurseDirectories);
+						zip.Save(Response.OutputStream);
+					}
+					Response.End();
+
+					System.IO.Directory.Delete(path, true);
+					ViewBag.errormsgexport = "File downloaded successfully.";
+				}
+			}
+			else
+			{
+				ViewBag.errormsgexport = "Please Select File";
+			}
+			return View("Index");
+		}
 
 		public ActionResult Edit(string TextId, string code)
         {

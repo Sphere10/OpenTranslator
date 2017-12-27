@@ -27,3 +27,6 @@ D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployme
 D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
 D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Release\OpenTranslator.dll
 D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Release\OpenTranslator.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Release\OpenTranslator.csprojResolveAssemblyReference.cache
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.xml
