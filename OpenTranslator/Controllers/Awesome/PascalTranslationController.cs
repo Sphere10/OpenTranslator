@@ -32,14 +32,21 @@ namespace OpenTranslator.Controllers.Awesome
         // GET: PascalTranslation
         public ActionResult Index()
         {
-		    return View();
+			if (Request.Cookies["UserId"] == null)
+			{
+				return RedirectToAction("Index","User");
+			}
+			else
+			{
+			  return View();
+			}
         }
 
 		[HttpPost]
 		public ActionResult GetUploadedFile(HttpPostedFileBase postedFile)
         {
 			ViewBag.errormsg = "";
-			var executeproc = true;
+			
 			if (postedFile != null)
             {
 				string fileextension = System.IO.Path.GetExtension(postedFile.FileName);

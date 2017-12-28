@@ -68,7 +68,15 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult Index()
 		{
-			return View();
+			if (Request.Cookies["UserId"] == null)
+			{
+				return RedirectToAction("Index","User");
+			}
+			else
+			{
+				return View();
+			}
+			
 		}
 		private static object MapToGridModel(GridArrayRow o)
 		{

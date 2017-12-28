@@ -10,11 +10,9 @@
 									@Html.ValidationSummary(true)
 	if (@ViewBag.Message != null)
 	{
-		<div style="border: 1px solid red">
-			@ViewBag.Message
-		</div>
+		<span style="color:red;">@ViewBag.Message</span><br />
 	}
-	<table>
+	<table style="text-align:center">
 		<tr>
 			<td>@Html.LabelFor(a => a.Email)</td>
 			<td>@Html.TextBoxFor(a => a.Email)</td>
@@ -25,7 +23,7 @@
 				@Html.LabelFor(a => a.Password)
 			</td>
 			<td>
-				@Html.PasswordFor(a => a.Password)
+				@Html.PasswordFor(a => a.Password, new { style = "width:204px; padding:5px; margin:0px" })
 			</td>
 			<td>
 				@Html.ValidationMessageFor(a => a.Password)

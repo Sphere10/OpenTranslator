@@ -1,11 +1,12 @@
 ﻿@{
 	ViewBag.Title = "Open Translation";
 }
-<input type="button" value="User Screen" onclick="location.href='@Url.Action("Index", "User")'" />
 <input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />
 <input type="button" value="Pascal Translation Screen" onclick="location.href='@Url.Action("Index", "PascalTranslation")'" />
 @Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 <center><h2>Open Language Translation - Pascal Translation </h2></center>
+
+<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" />
 
 <div id="divButtons">
 <button type="button" class="awe-btn mbtn" onclick='$("#exportForm").hide();$("#importForm").toggle();'>Import</button>
@@ -18,7 +19,6 @@
 	<span style="color:red;">@ViewBag.errormsg</span><br/>
 		<input type="file" name="postedFile" id="postedFile" />
 		<input type="submit"  class="awe-btn mbtn" value="Ok" />
-		<input type="hidden" id="hdnvalue" value="@ViewBag.errormsg" />
 		<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action("Index", "PascalTranslation")'">Cancel</button>
 }
 </div>
@@ -43,7 +43,7 @@
 
 <br /><br />
 @(Html.Awe().InitPopupForm()
-				.Name("pf1")
+				.Name("EditTranslation")
 				.Url(Url.Action("Edit", "PascalTranslation"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
@@ -51,55 +51,35 @@
 	function UpdateGrid(result, popup) {
 		$('#OriginalTextGrid').data('api').load({});
 	}
-	@*if (!$("#hdnValue").val())
-	{
-		debugger;
-		$("#importForm").hide();
-		$("#divButtons").show();
+	function logout() {
+		var url = '@Url.Action("Index", "User")';
+		window.location = url;
 	}
-	if (!@Html.Raw(Json.Encode(ViewBag.errormsgexport )))
-	{
-		debugger;
-		$("#exportForm").hide();
-		$("#divButtons").show();
-	}*@
 
-	var myVal = '@ViewBag.errormsg';
-    var va = '@ViewBag.errormsgexport';
+	var errormsg = '@ViewBag.errormsg';
+	var errormsgexport = '@ViewBag.errormsgexport';
 
-    if (myVal!='')
-    {
-		//$("#importForm").toggle();
-		var e = document.getElementById("importForm");
-		e.style.display = "block";
-    }
+	if (errormsg!='')
+    	$("#importForm").show();
+	else
+		$("#importForm").hide();
+
+	if (errormsgexport!='')
+    	$("#exportForm").show();
     else
-    {
-		var e = document.getElementById("importForm");
-        e.style.display = "none";
-    }
-
-    if (va!='')
-    {
-		//var e = document.getElementById("exportForm");
-		//e.style.display = "block";
-		$("#exportForm").show();
-    }
-    else
-    {
-		$("#exportForm").hide();
-    }
-
+    	$("#exportForm").hide();
 
 
 	function getVal(i, columnname) {
+		debugger;
 		return function (model) {
+			debugger;
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")
-				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })">' + a + '</a>';
+				div = a + '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
 			else
-				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><div style="min-height:20px; min-width:100px;">' + "  " + '</div></a>';
+				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
 			return div;
 		};
 	}

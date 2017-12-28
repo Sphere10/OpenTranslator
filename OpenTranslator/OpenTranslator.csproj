@@ -160,6 +160,7 @@
     <Compile Include="Controllers\Awesome\AdminController.cs" />
     <Compile Include="Controllers\Awesome\AdminUsersController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
+    <Compile Include="Controllers\Awesome\LoginController.cs" />
     <Compile Include="Controllers\Awesome\PascalTranslationController.cs" />
     <Compile Include="Controllers\Awesome\UserController.cs" />
     <Compile Include="Data\Language.cs">
@@ -206,6 +207,7 @@
     <Compile Include="Models\Input\DeleteConfirmInput.cs" />
     <Compile Include="Models\Input\EditTranslationInput.cs" />
     <Compile Include="Models\Input\LanguageInput.cs" />
+    <Compile Include="Models\Input\LoginInput.cs" />
     <Compile Include="Models\Input\TextInput.cs" />
     <Compile Include="Models\Input\TranslationInput.cs" />
     <Compile Include="Models\Input\UserInput.cs" />
@@ -268,6 +270,8 @@
     <Content Include="Views\PascalTranslation\Index.cshtml" />
     <Content Include="Views\PascalTranslation\FileUpload.cshtml" />
     <Content Include="Views\PascalTranslation\EditTranslation.cshtml" />
+    <Content Include="Views\Login\Create.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

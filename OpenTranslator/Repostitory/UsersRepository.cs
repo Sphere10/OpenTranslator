@@ -41,6 +41,12 @@ namespace OpenTranslator.Repostitory
 			DBcontext.UserMasters.Remove(User);
 			DBcontext.SaveChanges();
 		}
+		public UserMaster GetUser(string Email,string password)
+		{
+
+			return DBcontext.UserMasters.Where(x=>x.EmailId==Email&&x.Password==password).FirstOrDefault();
+			
+		}
 
 		public void Save()
 		{
