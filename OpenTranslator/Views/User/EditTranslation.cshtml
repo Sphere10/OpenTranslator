@@ -9,7 +9,6 @@
 		@Html.HiddenFor(o => o.ModeOfTranslation)
 	}
 <br /><br />
-<span id="spnerror" style="color:red; margin-left:120px">@ViewBag.errormsg</span>
 @(Html.Awe().Grid("Translation")
 			.Url(Url.Action("TranslationItems", "Admin"))
 			.Parameter("LanguageCode", Model.LanguageCode)
@@ -34,21 +33,19 @@
 	$('#TextId-awed').prop('disabled', true);
 	if (@Model.ModeOfTranslation == 2)
 	{
-		//$('.awe-okbtn').prop('disabled', true);
+		$('.awe-okbtn').prop('disabled', true);
 		$('#TranslationText').prop('readonly', true);
 	}
 		
 	
 	$("#TranslationText").width("400px");
 	var toggleButton = function (model, prop) {
-		debugger;
 		var textid = model.TextId;
 		var text = model.Translated_Text;
 		var code = model.LanguageCode;
 		return '<input type="button" value="Vote" onclick="GetCount(\'Like\',\'' + textid + '\',\'' + text + '\',\'' + code + '\')" /> ';
 	}
 	function GetCount(value, textid, text, code) {
-		debugger;
 		$.ajax({
 			url: '@Url.Action("VoteCount", "Admin")',
 			type: 'POST',

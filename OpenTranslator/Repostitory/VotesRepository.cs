@@ -18,6 +18,10 @@ namespace OpenTranslator.Repostitory
 		{
 			return DBcontext.Votes.Where(x => x.Translation_Id == id && x.CookieID == CookieID).FirstOrDefault();
 		}
+		public Vote GetVoteByTranslationID(decimal translationId)
+		{
+			return DBcontext.Votes.Where(x => x.Translation_Id == translationId ).FirstOrDefault();
+		}
 
 		public Vote GetVoteByCookieID(Guid CookieID)
 		{
@@ -39,6 +43,7 @@ namespace OpenTranslator.Repostitory
 			DBcontext.Votes.Remove(vote);
 			DBcontext.SaveChanges();
 		}
+		
 
 	}
 }

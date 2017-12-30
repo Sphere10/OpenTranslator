@@ -22,9 +22,10 @@
 <input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />
 <br /><br />
 <script>
-    $(function () {
-		
+	$(function () {
+		debugger;
 		$('#chkColumns').change(function () {
+			debugger;
             var val = $('#chkColumns').val();
             if (!val) val = "[]";
 			$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true } });
@@ -53,6 +54,14 @@
 
 <br /><br />
 <script>
+	function disableBack() {
+		window.location.hash = "User";
+		window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
+		window.onhashchange = function () { window.location.hash = "User"; }
+	}
+	window.onload = disableBack();
+	window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+
 	function RedirectToAdmin() {
 		var url = '@Url.Action("Index", "Admin")';
 		window.location = url;
@@ -62,9 +71,7 @@
 		$('#OriginalTextGrid').data('api').load({});
 	}
 	function getVal(i, columnname) {
-		debugger;
 		return function (model) {
-			debugger;
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")

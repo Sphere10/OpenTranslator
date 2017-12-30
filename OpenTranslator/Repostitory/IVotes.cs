@@ -9,6 +9,7 @@ namespace OpenTranslator.Repostitory
 	public interface IVotes
 	{
 		Vote GetVoteByCookieID(Guid CookieID);
+		Vote GetVoteByTranslationID(decimal TranslationId);
 		List<Vote> GetVoteList(Guid CookieID);
 		void InsertVote(Vote vote); // C
 		void RemoveVote(decimal voteId);

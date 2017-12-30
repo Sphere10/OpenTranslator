@@ -96,6 +96,10 @@ namespace OpenTranslator.Repostitory
 				}
 			}
 		}
+		public	List<Translation> GetTranslationByTextID(string TextId)
+		{
+			return DBcontext.Translations.Where(x=>x.TextId==TextId).ToList();
+		}
 
 		public void Save()
 		{

@@ -14,6 +14,7 @@ namespace OpenTranslator.Repostitory
 		IEnumerable<Translation> GetTranslation(); // R
 		Translation GetTranslationID(string Id); // R
 		List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode);
+		List<Translation> GetTranslationByTextID(string TextId);
 		void UpdateTranslation(Translation translation); //U
 		void DeleteTranslation(string TextId); //D
 		void Save();

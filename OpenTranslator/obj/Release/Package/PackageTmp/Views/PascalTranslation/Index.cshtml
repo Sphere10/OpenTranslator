@@ -71,15 +71,13 @@
 
 
 	function getVal(i, columnname) {
-		debugger;
 		return function (model) {
-			debugger;
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")
-				div = a + '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = a + '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
 			else
-				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
 			return div;
 		};
 	}
