@@ -75,9 +75,9 @@
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")
-				div = a + '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = '<span style="width:90% ; overflow: hidden;float: left; text-overflow: ellipsis;">' + a + '</span><span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
 			else
-				div = '<a onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = '<span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
 			return div;
 		};
 	}

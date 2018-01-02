@@ -268,8 +268,6 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\EditTranslation.cshtml" />
     <Content Include="Views\PascalTranslation\Index.cshtml" />
-    <Content Include="Views\PascalTranslation\FileUpload.cshtml" />
-    <Content Include="Views\PascalTranslation\EditTranslation.cshtml" />
     <Content Include="Views\Login\Create.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <None Include="Web.Debug.config">

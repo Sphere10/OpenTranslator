@@ -16,6 +16,7 @@ using System.Collections;
 using System.Dynamic;
 using System.Net;
 using Omu.Awem.Helpers;
+using System.Web.UI.WebControls;
 
 namespace OpenTranslator.Controllers.Awesome
 {
@@ -166,7 +167,7 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 
 
-		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin")
+		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin", bool clearsession = false)
 		{
 
 			var GridData = this.Gridformat();
@@ -174,14 +175,12 @@ namespace OpenTranslator.Controllers.Awesome
 			if (selectedColumns != null)
 			{
 				Session["SelectedColumns"] = selectedColumns;
+				
 				//Response.Cookies["SelectedColumns"].Value = selectedColumns.ToString() ;
 				//Response.Cookies["SelectedColumns"].Expires = DateTime.Now.AddMonths(1);
 			}
-			else
-			{
+			if(clearsession)
 				Session.Clear();
-			}
-
 			if (Session["SelectedColumns"] != null)
 			{
 				selectedColumns = (string[])Session["SelectedColumns"];
@@ -203,26 +202,24 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				g.Columns = columns.ToArray();
 			}
+			
+			selectedColumns = selectedColumns ?? new string[] { };
 
-			if (choosingColumns.HasValue)
-			{
-				selectedColumns = selectedColumns ?? new string[] { };
+			//make sure we always have Id and Person columns
+			selectedColumns = selectedColumns.Union(baseColumns).ToArray();
 
-				//make sure we always have Id and Person columns
-				selectedColumns = selectedColumns.Union(baseColumns).ToArray();
+			var currectColumns = g.Columns.ToList();
 
-				var currectColumns = g.Columns.ToList();
+			//remove unselected columns
+			currectColumns = currectColumns.Where(o => selectedColumns.Contains(o.Header)).ToList();
 
-				//remove unselected columns
-				currectColumns = currectColumns.Where(o => selectedColumns.Contains(o.Header)).ToList();
+			//add missing columns
+			var missingColumns = selectedColumns.Except(currectColumns.Select(o => o.Header)).ToArray();
 
-				//add missing columns
-				var missingColumns = selectedColumns.Except(currectColumns.Select(o => o.Header)).ToArray();
+			currectColumns.AddRange(columns.Where(o => missingColumns.Contains(o.Header)));
 
-				currectColumns.AddRange(columns.Where(o => missingColumns.Contains(o.Header)));
-
-				g.Columns = currectColumns.ToArray();
-			}
+			g.Columns = currectColumns.ToArray();
+			
 
 			var model = new GridModelBuilder<GridArrayRow>(GridData.GridRows.AsQueryable(), g)
 			{
@@ -327,7 +324,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		}
 		[HttpPost]
-		public ActionResult VoteCount(string vote, string textid, string text, string code)
+		public ActionResult VoteCount(string vote, string textid, decimal TranslationId, string code)
 		{
 			var getMode= ITranslationMode.GetTranslationModeByID(textid,code);
 
@@ -354,7 +351,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 			var items = ITranslation.GetTranslationLogByCode(textid, code).ToList();
 			var list = items;
-			var data = items.Where(x => x.Translated_Text == text).FirstOrDefault();
+			var data = items.Where(x => x.Id == TranslationId).FirstOrDefault();
 			if (voteData == null)
 			{
 				data.Votes = data.Votes + 1;

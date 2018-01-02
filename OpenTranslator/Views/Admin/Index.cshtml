@@ -16,15 +16,21 @@
 <script>
     $(function () {
 		
-		$('#chkColumns').change(function () {
-            var val = $('#chkColumns').val();
-            if (!val) val = "[]";
-			$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true } });
-        });
+		$(function () {
+			$('#chkColumns').change(function () {
+				var val = $('#chkColumns').val();
+				var clearSession = false;
+				if (!val) {
+					val = "[]";
+					var clearSession = true;
+				}
+				$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true, clearsession: clearSession } });
+			});
+		});
 	});
 </script>
  @(Html.Awe().InitPopupForm()
-				.Name("pf1")
+				.Name("EditTranslation")
 				.Url(Url.Action("Edit", "Admin"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
@@ -51,15 +57,13 @@
 	}
 
 	function getVal(i, columnname) {
-		debugger;
 		return function (model) {
-			debugger;
 			var div = "";
 			var a = model.Values[i];
 			if (a != "")
-				div = a + '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = '<span style="width:90% ; overflow: hidden;float: left; text-overflow: ellipsis;">' + a + '</span><span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
 			else
-				div = '<a onclick="awe.open(\'pf1\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })"><span class="ico-edit"></span></a>';
+				div = '<span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
 			return div;
 		};
 	}

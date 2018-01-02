@@ -526,8 +526,10 @@ tr.awe-drag td {
 }
 
 .awe-hrow td, .awe-row td, .awe-gfoot td {
-    overflow: hidden;
-    text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	
+	text-overflow: ellipsis;
 }
 
 .awe-row.awe-alt, .awe-li:nth-child(even):not(.awe-morecont) {

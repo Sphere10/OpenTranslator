@@ -25,8 +25,14 @@ namespace OpenTranslator.Controllers.Awesome
 			}
             return View();
         }
-	
+		
 
+		[HttpPost]
+        public ActionResult getSession()
+        {
+           var selectedColumns = (string[])Session["SelectedColumns"];
+           return Json(new {selectedColumns });
+        }
         public ActionResult Edit(string TextId, string code)
         {
             AdminController adminController = new AdminController();
