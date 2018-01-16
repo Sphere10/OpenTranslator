@@ -39,18 +39,34 @@
 	}
 
 	$("#TranslationText").width("400px");
-	var toggleButton = function (model, prop) {
-		var textid = model.TextId;
-		var code = model.LanguageCode;
-		return '<input type="button" value="Vote" onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" /> ';
+var toggleButton = function (model, prop) {
+
+		var response;
+		$.ajax({
+			url: '@Url.Action("GetUserCurrentVote", "Admin")',
+			type: 'POST',
+			async: false,
+			dataType: 'json',
+			cache: false,
+			data: { Id: model.Id },
+			success: function (value) {
+				response = value;
+			},
+			error: function (value) {
+				response = value;
+			}
+		});
+
+		if (response.value == true)
+			return '<img src="Content/themes/wui/Filled.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
+		else
+			return '<img src="Content/themes/wui/Blanck.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
 	}
 	function GetCount(value, textid, id, code) {
 		$.ajax({
 			url: '@Url.Action("VoteCount", "Admin")',
 			type: 'POST',
 			dataType: 'json',
-			// we set cache: false because GET requests are often cached by browsers
-			// IE is particularly aggressive in that respect
 			cache: false,
 			data: { vote: value, textid: textid, TranslationId: id, code: code },
 			success: function () {
@@ -58,7 +74,6 @@
 			},
 			error: function () {
 				$("#spnerror").text("Translation Mode is Locked or Selected.");
-				//alert("");
 			}
     });
 

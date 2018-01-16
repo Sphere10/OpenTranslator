@@ -2583,8 +2583,12 @@
         });
 
         function render() {
-            var lrs = dto($grid).lrs;
-            var pageSize = lrs.ps;
+			var lrs = dto($grid).lrs;
+			var pageSize = lrs.ps;
+			if ($grid.selector == "#OriginalTextGrid")
+			{
+				document.cookie = "PageSize=" + pageSize;
+			}
             var itemsCount = lrs.ic + delta;
 
             var first = pageSize * (lrs.p - 1) + 1;
@@ -2595,7 +2599,10 @@
             $pageInfo.html(first + ' - ' + (last) + ' ' + format(cd().GridInfo, [itemsCount]));
         }
     }
-
+	function getCookie(name) {
+		var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+		return v ? v[2] : null;
+	}
     function gridPageSize(o) {
         if (isMobile()) return;
 
@@ -2614,9 +2621,17 @@
         var $footer = $grid.find('.awe-footer');
         if (!$footer.length) return;
 
-        $grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + o.ps + '" /><div class="awe-display"></div></div>');
+		if ($grid.selector=="#OriginalTextGrid")
+		{
+			$grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + getCookie("PageSize") + '" /><div class="awe-display"></div></div>');
 
-        addIfLacks(o.ps);
+		}
+		else
+		{
+			$grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + o.ps + '" /><div class="awe-display"></div></div>');
+
+		}
+		addIfLacks(o.ps); gridPageSize
 
         var psi = o.i + 'PageSize';
 

@@ -42,6 +42,7 @@
 </div>
 
 @(Html.Awe().Grid("OriginalTextGrid")
+		.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 			.Url(Url.Action("OriginalTextGridGetItems"))
 			.Groupable(false)
 			.Columns())
@@ -77,6 +78,7 @@
 </div>
 
 @(Html.Awe().Grid("Languages")
+			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 			.Url(Url.Action("LanguageItems", "Languages"))
 			.Groupable(false)
 			.Columns(
@@ -92,6 +94,7 @@
 </div>
 
 @(Html.Awe().Grid("Admin")
+			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 			.Url(Url.Action("UserDataItems", "AdminUsers"))
 			.Groupable(false)
 			.Columns(

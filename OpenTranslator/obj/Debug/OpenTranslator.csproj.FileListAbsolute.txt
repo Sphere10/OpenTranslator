@@ -1,33 +1,3 @@
-D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.csprojResolveAssemblyReference.cache
-D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.pdb
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll.config
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.pdb
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Microsoft.Web.Infrastructure.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.Awem.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Razor.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.Awem.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.pdb
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Razor.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.xml
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.csprojResolveAssemblyReference.cache
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll.config
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll
@@ -58,7 +28,69 @@ D:\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.dll
 D:\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.pdb
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
-D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.xml
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
 D:\HERMAN\OpenTranslator\OpenTranslator\bin\DotNetZip.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll.config
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\OpenTranslator.pdb
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\EntityFramework.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Microsoft.Web.Infrastructure.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.Awem.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Razor.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\DotNetZip.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\EntityFramework.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.Awem.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.pdb
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.Razor.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.csprojResolveAssemblyReference.cache
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.dll
+D:\New folder\HERMAN\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll.config
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\OpenTranslator.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Microsoft.Web.Infrastructure.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.Awem.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Razor.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\DotNetZip.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\EntityFramework.SqlServer.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.Awem.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.AwesomeMvc.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\Omu.ValueInjecter.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Helpers.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Mvc.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.Razor.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Deployment.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\bin\System.Web.WebPages.Razor.xml
+D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.dll
+D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.pdb
+D:\Herman\Project\OpenTranslator\OpenTranslator\obj\Debug\OpenTranslator.csprojResolveAssemblyReference.cache

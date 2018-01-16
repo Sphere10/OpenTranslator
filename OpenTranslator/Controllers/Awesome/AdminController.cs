@@ -172,6 +172,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 			var GridData = this.Gridformat();
 			var columns = GridData.GridColumn.ToArray();
+			
 			if (selectedColumns != null)
 			{
 				Session["SelectedColumns"] = selectedColumns;
@@ -226,7 +227,6 @@ namespace OpenTranslator.Controllers.Awesome
 				Key = "TextId",
 				GetItem = () => GridData.GridRows.Single(x => x.TextId == g.Key),
 				Map = MapToGridModel
-
 			}.Build();
 			return Json(model);
 
@@ -323,6 +323,23 @@ namespace OpenTranslator.Controllers.Awesome
 			return Json(model);
 
 		}
+
+		[HttpPost]
+		public ActionResult GetUserCurrentVote(int  Id)
+		{
+			Guid cookieValue =  Guid.Parse(Request.Cookies["BrowserId"].Value);
+			var a= IVotes.GetVoteBytranslationId(Id,cookieValue);
+			if(a!=null)
+			{
+				return Json(new { value = true});
+			}
+			else
+			{
+				return Json(new { value = false});
+			}
+			
+		}
+
 		[HttpPost]
 		public ActionResult VoteCount(string vote, string textid, decimal TranslationId, string code)
 		{

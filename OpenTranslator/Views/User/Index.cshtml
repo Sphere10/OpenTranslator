@@ -49,8 +49,11 @@
 </div>
 
 @(Html.Awe().Grid("OriginalTextGrid")
+			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 			.Url(Url.Action("OriginalTextGridGetItems","Admin"))
 			.Parameter("UserType","User")
+			.Persistence(Persistence.Session)
+			.ColumnsPersistence(Persistence.Session)
 			.Groupable(false)
 			.Columns())
 

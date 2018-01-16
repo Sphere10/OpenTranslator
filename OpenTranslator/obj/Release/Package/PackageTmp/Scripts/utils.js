@@ -337,7 +337,7 @@
             return o;
         },
 
-        getGridParams: function (a) {
+		getGridParams: function (a) {
             return utils.serializeObj(a, ["SortNames", "SortDirections", "Groups", "Headers"], ["page", "pageSize", "Paging"]);
         },
 
@@ -567,7 +567,7 @@
             return (parseFloat(val.replace(',', '.')) * 100).toFixed() + ' %';
         },
 
-        gridModelBuilder: function (o, gridParams, items, opt) {
+		gridModelBuilder: function (o, gridParams, items, opt) {
             if (gridParams.Paging == null) gridParams.Paging = 1;
             var treeHeight = 0;
             var key = opt.key;
@@ -819,7 +819,7 @@
 
             if (opt.getChildren && !opt.key) {
                 throw "key should have value when GetChildren is set";
-            }
+			}
 
             var pageSize = parseInt(gridParams.pageSize || 10);
             if (pageSize < 1) pageSize = 10;
@@ -874,8 +874,7 @@
             if (!fitems) fitems = items;
             gridParams.Groups = gridParams.Groups || [];
 
-            var data = buildData(lazyKey);
-
+			var data = buildData(lazyKey);
             var model = {
                 Data: data,
                 PageCount: pageCount,

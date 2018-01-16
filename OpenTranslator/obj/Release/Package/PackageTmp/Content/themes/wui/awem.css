@@ -1,7 +1,9 @@
 ﻿.ico-edit, .ico-del, .ico-restore {
     background-image: url(editdel.png);
 }
-
+.ico-test {
+	background-image: url(download.png);
+}
 /*button group*/
 
 .buttonGroup {
