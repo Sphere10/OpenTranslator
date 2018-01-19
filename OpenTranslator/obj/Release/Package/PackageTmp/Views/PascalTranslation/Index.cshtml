@@ -1,53 +1,92 @@
 ﻿@{
+	//Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	//var pageName = ((RazorView)ViewContext.View).ViewPath;
+
 	ViewBag.Title = "Open Translation";
 }
-<input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />
-<input type="button" value="Pascal Translation Screen" onclick="location.href='@Url.Action("Index", "PascalTranslation")'" />
 @Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
-<center><h2>Open Language Translation - Pascal Translation </h2></center>
-
-<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" />
-
-<div id="divButtons">
-<button type="button" class="awe-btn mbtn" onclick='$("#exportForm").hide();$("#importForm").toggle();'>Import</button>
-<button type="button" class="awe-btn mbtn" onclick='$("#importForm").hide();$("#exportForm").toggle();'>Export</button>
-</div>
-<div id="importForm">
-@using (Html.BeginForm("GetUploadedFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-	<br />
-	<span style="color:red;">@ViewBag.errormsg</span><br/>
-		<input type="file" name="postedFile" id="postedFile" />
-		<input type="submit"  class="awe-btn mbtn" value="Ok" />
-		<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action("Index", "PascalTranslation")'">Cancel</button>
-}
-</div>
-<div id="exportForm">
-@using (Html.BeginForm("DownloadPoFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-	<br />
-	<span style="color:red;">@ViewBag.errormsgexport</span><br />
-		<input type="file" name="postedFile" id="postedFile" />
-		<input type="submit"  class="awe-btn mbtn" value="Ok" />
-		<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action("Index", "PascalTranslation")'">Cancel</button>
-}
-</div>
-
 <br /><br />
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div id="divButtons">
+				<button type="button" class="awe-btn mbtn" onclick='$("#exportForm").hide();$("#importForm").toggle();'>Import</button>
+				<button type="button" class="awe-btn mbtn" onclick='$("#importForm").hide();$("#exportForm").toggle();'>Export</button>
+			</div>
+			<div id="importForm">
+				@using (Html.BeginForm("GetUploadedFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+				{
+					<br />
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<span style="color:red;">@ViewBag.errormsg</span>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<div class="col-md-6">
+								<label>Select file for Import</label>
+								<input type="file" name="postedFile" id="postedFile" required />
+							</div>
+							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName"/>
+							<div class="col-md-6">
+								<input type="submit" class="awe-btn mbtn" value="Ok" />
+								<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action(ViewBag.pageName, "PascalTranslation")'">Cancel</button>
+							</div>
+						</div>
+					</div>
+					<br /><br /><br />
+				}
+			</div>
+			<div id="exportForm">
+				@using (Html.BeginForm("DownloadPoFile", "PascalTranslation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+				{
+					<br />
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<span style="color:red;">@ViewBag.errormsgexport</span>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<div class="col-md-6">
+								<label>Select file for Export</label>
+								<input type="file" name="postedFile" id="postedFile" required/>
+							</div>
+							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName"/>
+							<div class="col-md-6">
+								<input type="submit" class="awe-btn mbtn" value="Ok" />
+								<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action(ViewBag.pageName, "PascalTranslation")'">Cancel</button>
+							</div>
+						</div>
+					</div>
+					<br /><br /><br />
+				}
+			</div>
 
-@(Html.Awe().Grid("OriginalTextGrid")
-		.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-			.Url(Url.Action("OriginalTextGridGetItems","Admin"))
-			.Parameter("UserType","User")
-			.Groupable(false)
-			.Columns())
+			<br /><br />
+			
+			@(Html.Awe().Grid("OriginalTextGrid")
+						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
+						.Url(Url.Action("OriginalTextGridGetItems", "Admin"))
+						.Parameter("UserType", "User")
+						.Groupable(false)
+						.Columns())
 
-<br /><br />
-@(Html.Awe().InitPopupForm()
+			<br /><br />
+			@(Html.Awe().InitPopupForm()
 				.Name("EditTranslation")
 				.Url(Url.Action("Edit", "PascalTranslation"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
+
+
+		</div>
+	</div>
+</div>
+
+
+
 <script>
 	function UpdateGrid(result, popup) {
 		$('#OriginalTextGrid').data('api').load({});

@@ -1,32 +1,316 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - ASP.net MVC Awesome MVC5 min setup demo</title>
-    
-    <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/themes/wui/AwesomeMvc.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/themes/wui/awem.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Common.css")" rel="stylesheet" type="text/css" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewBag.Title</title>
+	<link rel="shortcut icon" href="~/Content/assets/img/favicon.png" />
+	<link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/themes/wui/AwesomeMvc.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/themes/wui/awem.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Common.css")" rel="stylesheet" type="text/css" />
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    @*jquery needs to be at the top*@
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+	@*jquery needs to be at the top*@
+
+	@* Theme CSS *@
+	<link href="@Url.Content("~/Content/assets/css/preload.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/assets/css/vendors.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/assets/css/syntaxhighlighter/shCore.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/assets/css/style-blue.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/assets/css/width-full.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div class="main">
-        @RenderBody()
-    </div>
-    
-    <script src="@Url.Content("~/Scripts/AwesomeMvc.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/awem.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/utils.js")" type="text/javascript"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
-    
-    @*call init after utils.js and validate.js*@
-    @Html.Awe().Init()
+	<div class="sb-site-container">
+		<div class="boxed">
 
-    <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+			<header id="header-full-top" class="hidden-xs header-full">
+				<div class="container">
+					<div class="header-full-title">
+						<img src="~/Content/assets/img/logo-3.png" class="img-responsive logo-image">
+					</div>
+					<nav class="top-nav">
+						<ul class="top-nav-social hidden-sm">
+							<li><a href="#" class="animated fadeIn animation-delay-6 rss"><i class="fa fa-rss"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-7 twitter"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-8 facebook"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-9 google-plus"><i class="fa fa-google-plus"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-8 vine"><i class="fa fa-vine"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-7 linkedin"><i class="fa fa-linkedin"></i></a></li>
+							<li><a href="#" class="animated fadeIn animation-delay-6 flickr"><i class="fa fa-flickr"></i></a></li>
+						</ul>
+
+						<div id="divLogin" class="dropdown animated fadeInDown animation-delay-11">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Login</a>
+							<div class="dropdown-menu dropdown-menu-right dropdown-login-box animated flipCenter">
+								@model OpenTranslator.Models.Input.LoginInput
+								
+									<h4>Login Form</h4>
+									<span id="spnerr" style="color:red;"></span><br />
+									<div class="form-group">
+										<div class="input-group login-input">
+											<span class="input-group-addon"><i class="fa fa-user"></i></span>
+											@Html.TextBoxFor(a => a.Email, new { id="txtemail", placeholder = "Email" })
+											@Html.ValidationMessageFor(a => a.Email)
+										</div>
+										<br>
+										<div class="input-group login-input">
+											<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+											@Html.PasswordFor(a => a.Password, new { id = "txtpassword", placeholder ="Password", style = "width:204px; padding:5px; margin:0px" })
+										</div>
+										<div class="checkbox pull-left">
+											<input type="checkbox" id="checkbox_remember1">
+											<label for="checkbox_remember1">
+												Remember me
+											</label>
+										</div>
+										<button type="button" class="btn btn-ar btn-primary pull-right" onclick="Login();">Login</button>
+										<div class="clearfix"></div>
+									</div>
+							</div>
+						</div> <!-- dropdown -->
+
+					</nav>
+				</div> <!-- container -->
+			</header> <!-- header-full -->
+
+
+			<nav class="navbar navbar-default navbar-header-full navbar-dark yamm navbar-static-top" role="navigation" id="header">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<i class="fa fa-bars"></i>
+						</button>
+						<a id="ar-brand" class="navbar-brand hidden-lg hidden-md hidden-sm" href="#">Open <span>Translator</span></a>
+					</div> <!-- navbar-header -->
+
+					<div class="dropdown-search-box pull-right">
+						<form role="form">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Search...">
+								<span class="input-group-btn">
+									<button class="btn btn-ar btn-primary" type="button">Go!</button>
+								</span>
+							</div>
+						</form>
+					</div>
+
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown">
+								<a href="#" onclick="location.href='@Url.Action("Index", "User")'">Home</a>
+							</li>
+							<li class="dropdown yamm-fw">
+								<a href="#" onclick="location.href='@Url.Action("Aboutus", "User")'">About</a>
+							</li>
+							
+						</ul>
+					</div><!-- navbar-collapse -->
+				</div><!-- container -->
+			</nav>
+		@*<section class="wrap-hero margin-bottom">
+	<div id="carousel-example-ny" class="carousel carousel-hero slide" data-ride="carousel" data-interval="9000">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#carousel-example-ny" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel-example-ny" data-slide-to="1"></li>
+			<li data-target="#carousel-example-ny" data-slide-to="2"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 col-md-push-6">
+							<div class="">
+								<img src="~/Content/assets/img/demo/mockup2.png" alt="" class="img-responsive animated zoomInUp animation-delay-30">
+							</div>
+						</div>
+						<div class="col-md-6 col-md-pull-6">
+							<div class="carousel-caption">
+								<h1 class="animated fadeInDownBig animation-delay-7 carousel-title">More than <span>3,800 sales</span> behind us</h1>
+								<ul class="list-unstyled carousel-list">
+									<li class=""><i class="fa fa-angle-right animated fadeIn animation-delay-11"></i><span class="animated fadeInRightBig animation-delay-13">Over <strong>100 templates</strong>, adding more every month.</span></li>
+									<li class=""><i class="fa fa-angle-right animated fadeIn animation-delay-15"></i><span class="animated fadeInRightBig animation-delay-16">Support and free <strong>updates forever</strong>.</span></li>
+									<li class=""><i class="fa fa-angle-right animated fadeIn animation-delay-19"></i><span class="animated fadeInRightBig animation-delay-19">Everything is <strong>customizable</strong>. Colors, fonts, headers...</span></li>
+								</ul>
+								<p class="animated zoomIn animation-delay-20">Lorem ipsum dolor sit amet consectetur adipisicing elit. In rerum maxime quis tenetur dolor <span>recusandae a nulla</span> qui enim dolorem.</p>
+
+							</div>
+						</div>
+					</div> <!--row -->
+				</div> <!-- container -->
+			</div> <!-- item -->
+		</div> <!-- carousel-inner -->
+		<!-- Controls -->
+		<a class="left carousel-control" href="#carousel-example-ny" data-slide="prev">
+			<i class="fa fa-angle-left"></i>
+		</a>
+		<a class="right carousel-control" href="#carousel-example-ny" data-slide="next">
+			<i class="fa fa-angle-right"></i>
+		</a>
+	</div>
+</section>*@ 
+		<section class="carousel-section">
+    <div id="carousel-example-generic" class="carousel carousel-razon slide" data-ride="carousel" data-interval="6200">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-7">
+                            <div class="carousel-caption">
+                                <div class="carousel-text">
+                                    <br />
+                                    <div class="col-md-8 animated rotateIn animation-delay-4">
+                                        <section>
+                                            <form action="/Form/GetPayloadCode" class="GetPayloadCodeForm" id="_9f6f15c5ad894cfd8adc8559e84b2854" method="post"><input Value="9f6f15c5-ad89-4cfd-8adc-8559e84b2854" data-val="true" data-val-required="The ID field is required." id="ID" name="ID" type="hidden" value="" />        <div class="form-group">
+        <label for="PublicKey">Public Key</label>
+        <textarea class="form-control" cols="20" data-val="true" data-val-required="The Public Key field is required." id="PublicKey" name="PublicKey" placeholder="Paste your public key here. See below for instructions." rows="4">
+</textarea>
+        <span class="field-validation-valid label label-warning" data-valmsg-for="PublicKey" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-group">
+        <label for="Email">Email (optional)</label>
+        <input class="form-control" data-val="true" data-val-email="The Email (optional) field is not a valid e-mail address." id="Email" name="Email" placeholder="Used for notifications only" type="text" value="" />
+        <span class="field-validation-valid label label-warning" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+    </div>
+    <input type="submit" value="Get Payload Code" class="btn btn-ar btn-lg btn-default">
+</form><div id="_9f6f15c5ad894cfd8adc8559e84b2854_Result"></div><script type="text/javascript">
+    function F_9f6f15c5ad894cfd8adc8559e84b2854_BeforeSubmit(o) {        
+		var btnElem = $('#_9f6f15c5ad894cfd8adc8559e84b2854 :input[type="submit"]');
+        btnElem.prop('disabled', true);
+		btnElem.nextAll().remove();
+		btnElem.after('<img class="formLoadingImage animated infinite rubberBand margin-left-10" src="/Content/images/logos/pascalcoin2-48.png"/>');
+    }
+
+    function F_9f6f15c5ad894cfd8adc8559e84b2854_Success(result) {
+        //alert(JSON.stringify(result));
+        var alertType = result.Result ? "success" : "danger";
+        var alertHeader = result.Result ? "" : "Apologies!";
+        var alertIcon = result.Result ? "fa fa-check" : "fa fa-exclamation";
+        $('#_9f6f15c5ad894cfd8adc8559e84b2854 :input[type="submit"]').prop('disabled', false);
+        $('#_9f6f15c5ad894cfd8adc8559e84b2854 .formLoadingImage').remove();
+        $("#_9f6f15c5ad894cfd8adc8559e84b2854_Result").html('<br/><div class="form-result alert alert-' + alertType+'"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="' + alertIcon + '"></i> ' + alertHeader + '</strong> ' + result.Message + '</div>');
+        if (result.Result) {
+            $('#_9f6f15c5ad894cfd8adc8559e84b2854')[0].reset();
+            $('#_9f6f15c5ad894cfd8adc8559e84b2854').closest('form').find('input[type=text], textarea').val('');
+        }
+    }
+</script><script type="text/javascript">jQuery(function(){awe.form({p:{t:'please confirm',w:500,h:200,m:1},i:'GetPayloadCodeFormawef',sf:F_9f6f15c5ad894cfd8adc8559e84b2854_Success,bf:F_9f6f15c5ad894cfd8adc8559e84b2854_BeforeSubmit,ua:1,cl:'GetPayloadCodeForm',ff:1,yes:'Yes',pos:'',no:'No',ms:'Are you sure you want to perform this action ?',u:''});});</script>
+                                        </section>
+                                    </div>
+                                    <div class="col-md-12 margin-top-20">
+                                        <p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> For users other than Poloniex, no payload code needed - simply input your public key inside the transaction payload (public or encrypted)</p>
+                                        <p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> Remaining funds are not sent instantly, but waited for 2 block confirmations</p>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-5 hidden-xs carousel-img-wrap">
+                            <div class="carousel-caption">
+                                <div class="carousel-text">
+                                    <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">Get Your First PascalCoin Account</h1>
+                                    <h2 class="animated fadeInDownBig animation-delay-5 carousel-subtitle">Instant For Poloniex Users</h2>
+                                    <ul class="list-unstyled carousel-list">
+                                        <li class="animated bounceInRight animation-delay-11"><span class ="inline-header">1.</span>Copy/Paste your public key into this form</li>
+                                        <li class="animated bounceInRight animation-delay-13"><span class ="inline-header">2.</span>Get Your Payload Code!</li>
+                                        <li class="animated bounceInRight animation-delay-14"><span class ="inline-header">3.</span>Withdraw 3 PASC or more to 77-44 using Payload Code</li>
+                                        <li class="animated bounceInRight animation-delay-15"><i class="fa fa-check"></i>You will be sent an account (PASA) instantly</li>
+                                        <li class="animated bounceInRight animation-delay-16"><i class="fa fa-check"></i>We will take 3 PASC for costs</li>
+                                        <li class="animated bounceInRight animation-delay-18"><i class="fa fa-check"></i>Remaining funds are sent to your new account</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+		
+		<!-- carousel -->
+				@RenderBody()
+		
+			<footer id="footer">
+				<p>&copy; 2018 <a href="#">Open Translator</a>. com. All rights reserved.</p>
+			</footer>
+
+		</div> <!-- boxed -->
+	</div> <!-- sb-site -->
+
+
+	<div id="back-top">
+		<a href="#header"><i class="fa fa-chevron-up"></i></a>
+	</div>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+	<script src="@Url.Content("~/Content/assets/js/vendors.js")"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	<script src="@Url.Content("~/Scripts/AwesomeMvc.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/awem.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/utils.js")" type="text/javascript"></script>
+	
+
+	@*call init after utils.js and validate.js*@
+	@Html.Awe().Init()
+	<script>
+		
+		function Login() {
+			var filter = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,6})?$/;
+			var email = $("#txtemail").val();
+			var password = $("#txtpassword").val();
+			var doajax = true;
+			if (email == undefined || email == "")
+			{
+				$("#spnerr").text("Enter Email");
+				setTimeout(function () { $("#divLogin").addClass("open"); }, 50);
+				doajax = false;
+			}
+			else if (password == undefined || password == "") {
+				$("#spnerr").text("Enter Password");
+				setTimeout(function () { $("#divLogin").addClass("open"); }, 50);
+				doajax =  false;
+			}
+			if (!filter.test(email)) {
+				$("#spnerr").text("Please enter a valid Email Address.");
+				setTimeout(function () { $("#divLogin").addClass("open"); }, 50);
+				doajax = false;
+			}
+			if (doajax == true)
+			{
+				$.ajax({
+				url: '@Url.Action("LoginNew", "Login")',
+				type: 'POST',
+				dataType: 'json',
+				async: false,
+				cache: false,
+				data: { uname: email, password: password },
+				success: function (response) {
+					if (response.value == "s") {
+						var url = '@Url.Action("Index", "Admin")';
+						window.location = url;
+					}
+					else
+					{
+						$("#spnerr").text(response.value);
+						setTimeout(function () { $("#divLogin").addClass("open"); }, 50);
+						return false;
+					}
+				},
+				error: function (response) {
+					//$("#spnerror").text("Translation Mode is Locked or Selected.");
+				}
+			});
+			}
+
+		}
+	</script>
+	
+	
 </body>
 </html>

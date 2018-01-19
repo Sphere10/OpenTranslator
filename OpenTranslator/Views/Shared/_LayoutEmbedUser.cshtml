@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewBag.Title</title>
+
+	<link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/themes/wui/AwesomeMvc.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/themes/wui/awem.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Common.css")" rel="stylesheet" type="text/css" />
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+	@*jquery needs to be at the top*@
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />
+			<br />
+		</div>
+	</nav>
+	@(Html.Awe().InitPopupForm()
+				.Name("Login")
+				.Url(Url.Action("Create", "Login"))
+				.Title("Admin Login")
+				.Width(100)
+				.Success("RedirectToAdmin"))
+
+
+	<div class="main">
+		@RenderBody()
+	</div>
+
+	<script src="@Url.Content("~/Scripts/AwesomeMvc.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/awem.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/utils.js")" type="text/javascript"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js" type="text/javascript"></script>
+	
+	@*call init after utils.js and validate.js*@
+	@Html.Awe().Init()
+
+	<script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	
+	<script>
+		function RedirectToAdmin() {
+			debugger;
+		var url = '@Url.Action("embeded", "Admin")';
+		window.location = url;
+	}
+	</script>
+</body>
+</html>

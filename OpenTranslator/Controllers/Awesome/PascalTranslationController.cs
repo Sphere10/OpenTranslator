@@ -38,13 +38,20 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 			else
 			{
-			  return View();
+				ViewBag.pageName="Index";
+			  return View("Index","_AdminLayout");
 			}
         }
+		public ActionResult embeded()
+		{
+			ViewBag.pageName="embeded";
+			return View("Index","_LayoutEmbedAdmin");
+		}
 
 		[HttpPost]
-		public ActionResult GetUploadedFile(HttpPostedFileBase postedFile)
+		public ActionResult GetUploadedFile(HttpPostedFileBase postedFile, string pagename)
         {
+			string path1 = Request.Url.AbsolutePath;
 			ViewBag.errormsg = "";
 			
 			if (postedFile != null)
@@ -52,8 +59,8 @@ namespace OpenTranslator.Controllers.Awesome
 				string fileextension = System.IO.Path.GetExtension(postedFile.FileName);
 				if (fileextension != ".po")
 				{
-					ViewBag.errormsgexport = "File format is not .po";
-					return View("Index");
+					ViewBag.errormsg = "File format is not .po";
+					//return View("Index");
 				}
 				else
 				{
@@ -76,7 +83,16 @@ namespace OpenTranslator.Controllers.Awesome
 				ViewBag.errormsg = " Please select file";
 				
 			}
-            return View("Index");
+			if(pagename == "Index")
+			{
+				ViewBag.pageName="Index";
+				 return View("Index","_AdminLayout");
+			}	
+			else
+			{
+				ViewBag.pageName="embeded";
+				return View("Index","_LayoutEmbedAdmin");
+			}
         }
 		private enum BlockType
 		{
@@ -244,7 +260,7 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 
 		[HttpPost]
-		public ActionResult DownloadPoFile(HttpPostedFileBase postedFile)
+		public ActionResult DownloadPoFile(HttpPostedFileBase postedFile, string pagename)
         {
 			ViewBag.errormsgexport = "";
 			if (postedFile != null)
@@ -253,7 +269,7 @@ namespace OpenTranslator.Controllers.Awesome
 				if (fileextension != ".po")
 				{
 					ViewBag.errormsgexport = "File format is not .po";
-					return View("Index");
+					
 				}
 				else
 				{
@@ -297,7 +313,17 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				ViewBag.errormsgexport = "Please Select File";
 			}
-			return View("Index");
+
+			if(pagename == "Index")
+			{
+				ViewBag.pageName="Index";
+				 return View("Index","_AdminLayout");
+			}	
+			else
+			{
+				ViewBag.pageName="embeded";
+				return View("Index","_LayoutEmbedAdmin");
+			}
 		}
 
 		public ActionResult Edit(string TextId, string code)

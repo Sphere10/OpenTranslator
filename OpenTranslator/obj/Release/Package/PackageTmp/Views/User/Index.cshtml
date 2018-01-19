@@ -2,60 +2,66 @@
 	ViewBag.Title = "Open Translation";
 }
 
-@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 
-<center><h2>Open Language Translation - User Screen </h2></center>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 
-<style>
-	.awe-ajaxcheckboxlist-field li {
-		display: inline-block;
-	}
-</style>
+			@*<center><h2>Open Language Translation - User Screen </h2></center>*@
 
- @(Html.Awe().InitPopupForm()
+			<style>
+				.awe-ajaxcheckboxlist-field li {
+					display: inline-block;
+				}
+			</style>
+
+			@(Html.Awe().InitPopupForm()
 				.Name("Login")
 				.Url(Url.Action("Create", "Login"))
 				.Title("Admin Login")
 				.Width(100)
 				.Success("RedirectToAdmin"))
 
-<input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />
-<br /><br />
-<script>
-	$(function () {
-		$('#chkColumns').change(function () {
-			var val = $('#chkColumns').val();
-			var clearSession = false;
-			if (!val)
-			{
-				val = "[]";
-				var clearSession = true;
-			}	
-			$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true, clearsession: clearSession} });
-        });
-	});
-	
-</script>
-<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div>
- @(Html.Awe().InitPopupForm()
+			@*<input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />*@
+
+			<script>
+				$(function () {
+					$('#chkColumns').change(function () {
+						var val = $('#chkColumns').val();
+						var clearSession = false;
+						if (!val) {
+							val = "[]";
+							var clearSession = true;
+						}
+						$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true, clearsession: clearSession } });
+					});
+				});
+
+			</script>
+			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div>
+			@(Html.Awe().InitPopupForm()
 				.Name("EditTranslation")
 				.Url(Url.Action("Edit", "User"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
 
-<div class="bar">
-	
-	@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems","Admin")).Load(true)
-</div>
+			<div class="bar">
 
-@(Html.Awe().Grid("OriginalTextGrid")
+				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+			</div>
+			@(Html.Awe().Grid("OriginalTextGrid")
 			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-			.Url(Url.Action("OriginalTextGridGetItems","Admin"))
-			.Parameter("UserType","User")
+			.Url(Url.Action("OriginalTextGridGetItems", "Admin"))
+			.Parameter("UserType", "User")
 			.Persistence(Persistence.Session)
 			.ColumnsPersistence(Persistence.Session)
 			.Groupable(false)
 			.Columns())
+		</div>
+	</div>
+</div>
+
 
 
 <br /><br />
@@ -63,7 +69,7 @@
 	function disableBack() {
 		window.location.hash = "User";
 		window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
-		window.onhashchange = function () { window.location.hash = "User"; }
+		window.onhashchange = function () { window.location.hash = ""; }
 		//session();
 	}
 	function session()
@@ -103,6 +109,7 @@
 			return div;
 		};
 	}
+	
 </script>
 
 

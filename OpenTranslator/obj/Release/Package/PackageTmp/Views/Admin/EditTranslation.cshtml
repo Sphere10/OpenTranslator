@@ -57,10 +57,11 @@ var toggleButton = function (model, prop) {
 			}
 		});
 
+
 		if (response.value == true)
-			return '<img src="Content/themes/wui/Filled.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
+			return '<img src="' + window.location.protocol + "//" + window.location.host + '/Content/themes/wui/Filled.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
 		else
-			return '<img src="Content/themes/wui/Blanck.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
+			return '<img src="' + window.location.protocol + "//" + window.location.host + '/Content/themes/wui/Blanck.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
 	}
 	function GetCount(value, textid, id, code) {
 		$.ajax({

@@ -1,11 +1,13 @@
 ﻿@model OpenTranslator.Models.Input.TranslationInput
 	@using (Html.BeginForm())
 	{
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary(true)
 		<span style="color:red; margin-left:120px">@ViewBag.errormsg</span>
 		@Html.HiddenFor(o => o.Id)
 		@Html.EditorFor(o => o.TextId)
 		@Html.EditorFor(o => o.LanguageCode)
-		@Html.EditorFor(o => o.TranslationText)
+		@Html.EditorFor(o => o.TranslationText, new { required="required" })
 		@Html.HiddenFor(o => o.ModeOfTranslation)
 	}
 <br /><br />
@@ -58,12 +60,13 @@
 		});
 
 		if (response.value == true)
-			return '<img src="Content/themes/wui/Filled.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
+			return '<img src="' + window.location.protocol + "//" + window.location.host + '/Content/themes/wui/Filled.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
 			else
-			return '<img src="Content/themes/wui/Blanck.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
+			return '<img src="' + window.location.protocol + "//" + window.location.host + '/Content/themes/wui/Blanck.png" height="18" width="18" style="cursor: pointer;"  onclick="GetCount(\'Like\',\'' + model.TextId + '\',\'' + model.Id + '\',\'' + model.LanguageCode + '\')" >';
 	}
 
 	function GetCount(value, textid, id, code) {
+
 		$.ajax({
 			url: '@Url.Action("VoteCount", "Admin")',
 			type: 'POST',
@@ -71,7 +74,8 @@
 			cache: false,
 			data: { vote: value, textid: textid, TranslationId: id, code: code },
 			success: function (value) {
-				$('#Translation').data('api').load({}).success(toggleButton(value, "change"));
+				//$('#Translation').data('api').load({}).success(toggleButton(value, "change"));
+				$('#Translation').data('api').load({});
 			},
 			error: function () {
 				$("#spnerror").text("Translation Mode is Locked or Selected.");
