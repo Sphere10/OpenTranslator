@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using OpenTranslator.Data;
 using System.Data.Entity;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class TranslationModeRepository : ITranslationMode
+    public class TranslationModeRepository : ITranslationMode
 	{
 		private StringTranslationEntities DBcontext;
 		

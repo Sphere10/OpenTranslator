@@ -1,48 +1,41 @@
-﻿using OpenTranslator.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Data.Entity;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class LanguageRepository : ILanguages
+	public class LanguageRepository : BaseRepository<Language>, ILanguages
 	{
-		private StringTranslationEntities DBcontext;
-		
-		public LanguageRepository(StringTranslationEntities objempcontext)
+        #region constructor
+        public LanguageRepository() : base()
 		{
-			this.DBcontext = objempcontext;
+		}
+        #endregion
+
+        #region ILanguage interface implementation
+
+        /// <summary>
+        /// Get all the languages in the store
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Language> GetLanguages()
+		{
+			return GetStringTranslationEntities().Languages.ToList();
 		}
 
-		public void InsertLanguage(Language Language)
-		{
-			DBcontext.Languages.Add(Language);
-			DBcontext.SaveChanges();
-		}
-		public IEnumerable<Language> GetLanguages()
-		{
-			return DBcontext.Languages.ToList();
-		}
+        /// <summary>
+        /// Get a particular Language object by Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
 		public Language GetLanguageID(int Id)
 		{
-			return DBcontext.Languages.Find(Id);
-		}
-		public void UpdateLanguage(Language Language)
-		{
-			DBcontext.Entry(Language).State = EntityState.Modified;
-			DBcontext.SaveChanges();
-		}
-		public void DeleteLanguage(int Id)
-		{
-			Language Language = DBcontext.Languages.Find(Id);
-			DBcontext.Languages.Remove(Language);
-			DBcontext.SaveChanges();
+			return GetStringTranslationEntities().Languages.Find(Id);
 		}
 
-		public void Save()
-		{
-		}
-	}
+        #endregion
+
+    }
 }

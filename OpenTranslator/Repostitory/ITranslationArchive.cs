@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenTranslator.Data;
-
-namespace OpenTranslator.Repostitory
+﻿namespace OpenTranslator.Repostitory
 {
-	public interface ITranslationArchive
+    public interface ITranslationArchive
 	{
 		void InsertDeletedRecords(string TextId); // C
 		//IEnumerable<Language> GetLanguages(); // R

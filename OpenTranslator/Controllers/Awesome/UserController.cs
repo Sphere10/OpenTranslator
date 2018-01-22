@@ -1,10 +1,5 @@
-﻿using OpenTranslator.Data;
-using OpenTranslator.Models.Input;
-using OpenTranslator.Repostitory;
+﻿using OpenTranslator.Models.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace OpenTranslator.Controllers.Awesome

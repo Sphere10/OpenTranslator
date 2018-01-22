@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public interface IUsers
+    public interface IUsers
 	{
 		void InsertUser(UserMaster User); // C
 		IEnumerable<UserMaster> GetUsers(); // R
