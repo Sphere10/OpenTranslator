@@ -334,6 +334,10 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Edit(TranslationInput input)
 		{
+			if (!ModelState.IsValid)
+            {
+                return PartialView("../User/EditTranslation", input);
+            }
 			AdminController adminController = new AdminController();
             return adminController.Edit(input);
 		}

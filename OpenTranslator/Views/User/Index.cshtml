@@ -36,8 +36,17 @@
 						}
 						$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true, clearsession: clearSession } });
 					});
+					$('#chkMissingTrans').change(function () {
+						if ($(this).is(":checked")) {
+							$(this).attr("checked", true);
+						}
+						document.cookie = "MissingTrans=" + $(this).is(':checked');
+						//alert(document.cookie)
+						$('#chkColumns').change();
+					});
 				});
 
+				
 			</script>
 			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div>
 			@(Html.Awe().InitPopupForm()
@@ -45,11 +54,12 @@
 				.Url(Url.Action("Edit", "User"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
-
+			
+			
 			<div class="bar">
-
 				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
 			</div>
+
 			@(Html.Awe().Grid("OriginalTextGrid")
 			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 			.Url(Url.Action("OriginalTextGridGetItems", "Admin"))

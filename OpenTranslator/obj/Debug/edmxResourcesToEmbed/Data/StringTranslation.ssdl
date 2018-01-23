@@ -8,6 +8,16 @@
     <Property Name="LanguageName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="Text">
     <Key>
       <PropertyRef Name="Id" />
@@ -74,6 +84,7 @@
   </EntityType>
   <EntityContainer Name="StringTranslationModelStoreContainer">
     <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TranslationArchive" EntityType="Self.TranslationArchive" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TranslationLog" EntityType="Self.TranslationLog" Schema="dbo" store:Type="Tables" />

@@ -167,6 +167,7 @@
     <Content Include="Content\assets\img\favicon.png" />
     <Content Include="Content\assets\img\loader.gif" />
     <Content Include="Content\assets\img\logo-3.png" />
+    <Content Include="Content\assets\img\slider-translator.jpg" />
     <Content Include="Content\assets\img\slide_back.jpg" />
     <Content Include="Content\assets\img\weblogo.png" />
     <Content Include="Content\assets\js\app.js" />
@@ -296,6 +297,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\sysdiagram.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -367,13 +371,6 @@
     <Content Include="Views\Shared\EditorTemplates\MultiLookupDropdown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Odropdown.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TimePicker.cshtml" />
-    <EntityDeploy Include="Data\StringTranslation.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StringTranslation.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Data\StringTranslation.edmx.diagram">
-      <DependentUpon>StringTranslation.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\assets\css\preload.css.map" />
     <Content Include="Content\assets\css\style-aqua.css.map" />
     <Content Include="Content\assets\css\style-blue.css.map" />
@@ -433,6 +430,13 @@
     <Content Include="Content\assets\fonts\socialglyphs-webfont.woff" />
     <Content Include="Content\assets\js\jquery.min.map" />
     <Content Include="Content\assets\js\jquery.slim.min.map" />
+    <EntityDeploy Include="Data\StringTranslation.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StringTranslation.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\StringTranslation.edmx.diagram">
+      <DependentUpon>StringTranslation.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\Languages\Create.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />

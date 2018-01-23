@@ -51,12 +51,12 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		 public ActionResult LoginNew(string uname , string password)
         {
-			var a= IUsers.GetUser(uname,password);
-			if(a!=null)
+			var Users= IUsers.GetUser(uname,password);
+			if(Users !=null)
 			{
 				if (Request.Cookies["UserId"] == null)
 				{
-					Response.Cookies["UserId"].Value = a.Id.ToString();
+					Response.Cookies["UserId"].Value = Users.Id.ToString();
 					Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
 				}		
 				return Json(new { value = "s"});; //RedirectToAction("Index", "Admin");

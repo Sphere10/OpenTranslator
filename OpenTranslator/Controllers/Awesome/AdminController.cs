@@ -92,6 +92,7 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 		private static object MapToGridModel(GridArrayRow o)
 		{
+		
 			return
 				new
 				{
@@ -134,6 +135,8 @@ namespace OpenTranslator.Controllers.Awesome
 				row.ItemArray = items.ToArray();
 				table.Rows.Add(row);
 			}
+
+			
 			var tableList = table.AsEnumerable().AsQueryable();
 			tableList.ToArray().AsQueryable();
 			List<string[]> gridDataList = new List<string[]>();
@@ -173,10 +176,6 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin", bool clearsession = false)
 		{
-
-			var GridData = this.Gridformat();
-			var columns = GridData.GridColumn.ToArray();
-			var deletecolomn = columns[columns.Length-1];
 			if (selectedColumns != null)
 			{
 				Session["SelectedColumns"] = selectedColumns;
@@ -184,6 +183,10 @@ namespace OpenTranslator.Controllers.Awesome
 				//Response.Cookies["SelectedColumns"].Value = selectedColumns.ToString() ;
 				//Response.Cookies["SelectedColumns"].Expires = DateTime.Now.AddMonths(1);
 			}
+			var GridData = this.Gridformat();
+			var columns = GridData.GridColumn.ToArray();
+			var deletecolomn = columns[columns.Length-1];
+			
 			if (clearsession)
 				Session.Clear();
 			if (Session["SelectedColumns"] != null)

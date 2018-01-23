@@ -14,14 +14,11 @@
 	@*jquery needs to be at the top*@
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<input type="button" value="Admin Screen" onclick="location.href='@Url.Action("embeded", "Admin")'" />
-			<input type="button" value="Pascal Translation Screen" onclick="location.href='@Url.Action("embeded", "PascalTranslation")'" />
-		</div>
-	</nav>
-	<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" />
 	<div class="main">
+		<br />
+		<input type="button" value="Admin Screen" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "Admin")'" />
+		<input type="button" value="Pascal Translation Screen" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "PascalTranslation")'" />
+		<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" /><br />
 		@RenderBody()
 	</div>
 

@@ -14,12 +14,7 @@
 	@*jquery needs to be at the top*@
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />
-			<br />
-		</div>
-	</nav>
+	
 	@(Html.Awe().InitPopupForm()
 				.Name("Login")
 				.Url(Url.Action("Create", "Login"))
@@ -29,6 +24,9 @@
 
 
 	<div class="main">
+		<br/>
+		<input type="button" value="Login" onclick="awe.open('Login')" class="awe-btn mbtn" style="float:right" />
+		<br/>
 		@RenderBody()
 	</div>
 

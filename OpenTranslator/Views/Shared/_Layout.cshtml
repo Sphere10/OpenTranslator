@@ -166,62 +166,23 @@
                                 <div class="carousel-text">
                                     <br />
                                     <div class="col-md-8 animated rotateIn animation-delay-4">
-                                        <section>
-                                            <form action="/Form/GetPayloadCode" class="GetPayloadCodeForm" id="_9f6f15c5ad894cfd8adc8559e84b2854" method="post"><input Value="9f6f15c5-ad89-4cfd-8adc-8559e84b2854" data-val="true" data-val-required="The ID field is required." id="ID" name="ID" type="hidden" value="" />        <div class="form-group">
-        <label for="PublicKey">Public Key</label>
-        <textarea class="form-control" cols="20" data-val="true" data-val-required="The Public Key field is required." id="PublicKey" name="PublicKey" placeholder="Paste your public key here. See below for instructions." rows="4">
-</textarea>
-        <span class="field-validation-valid label label-warning" data-valmsg-for="PublicKey" data-valmsg-replace="true"></span>
-    </div>
-    <div class="form-group">
-        <label for="Email">Email (optional)</label>
-        <input class="form-control" data-val="true" data-val-email="The Email (optional) field is not a valid e-mail address." id="Email" name="Email" placeholder="Used for notifications only" type="text" value="" />
-        <span class="field-validation-valid label label-warning" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-    </div>
-    <input type="submit" value="Get Payload Code" class="btn btn-ar btn-lg btn-default">
-</form><div id="_9f6f15c5ad894cfd8adc8559e84b2854_Result"></div><script type="text/javascript">
-    function F_9f6f15c5ad894cfd8adc8559e84b2854_BeforeSubmit(o) {        
-		var btnElem = $('#_9f6f15c5ad894cfd8adc8559e84b2854 :input[type="submit"]');
-        btnElem.prop('disabled', true);
-		btnElem.nextAll().remove();
-		btnElem.after('<img class="formLoadingImage animated infinite rubberBand margin-left-10" src="/Content/images/logos/pascalcoin2-48.png"/>');
-    }
-
-    function F_9f6f15c5ad894cfd8adc8559e84b2854_Success(result) {
-        //alert(JSON.stringify(result));
-        var alertType = result.Result ? "success" : "danger";
-        var alertHeader = result.Result ? "" : "Apologies!";
-        var alertIcon = result.Result ? "fa fa-check" : "fa fa-exclamation";
-        $('#_9f6f15c5ad894cfd8adc8559e84b2854 :input[type="submit"]').prop('disabled', false);
-        $('#_9f6f15c5ad894cfd8adc8559e84b2854 .formLoadingImage').remove();
-        $("#_9f6f15c5ad894cfd8adc8559e84b2854_Result").html('<br/><div class="form-result alert alert-' + alertType+'"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong><i class="' + alertIcon + '"></i> ' + alertHeader + '</strong> ' + result.Message + '</div>');
-        if (result.Result) {
-            $('#_9f6f15c5ad894cfd8adc8559e84b2854')[0].reset();
-            $('#_9f6f15c5ad894cfd8adc8559e84b2854').closest('form').find('input[type=text], textarea').val('');
-        }
-    }
-</script><script type="text/javascript">jQuery(function(){awe.form({p:{t:'please confirm',w:500,h:200,m:1},i:'GetPayloadCodeFormawef',sf:F_9f6f15c5ad894cfd8adc8559e84b2854_Success,bf:F_9f6f15c5ad894cfd8adc8559e84b2854_BeforeSubmit,ua:1,cl:'GetPayloadCodeForm',ff:1,yes:'Yes',pos:'',no:'No',ms:'Are you sure you want to perform this action ?',u:''});});</script>
-                                        </section>
+											<img class="img-circle img-responsive" src="~/Content/assets/img/slider-translator.jpg" />
                                     </div>
                                     <div class="col-md-12 margin-top-20">
-                                        <p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> For users other than Poloniex, no payload code needed - simply input your public key inside the transaction payload (public or encrypted)</p>
-                                        <p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> Remaining funds are not sent instantly, but waited for 2 block confirmations</p>                                        
+                                        @*<p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> For users other than Poloniex, no payload code needed - simply input your public key inside the transaction payload (public or encrypted)</p>
+                                        <p class="animated slideInLeft animation-delay-4"><i class="fa fa-asterisk"></i> Remaining funds are not sent instantly, but waited for 2 block confirmations</p>*@                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-5 hidden-xs carousel-img-wrap">
                             <div class="carousel-caption">
-                                <div class="carousel-text">
-                                    <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">Get Your First PascalCoin Account</h1>
-                                    <h2 class="animated fadeInDownBig animation-delay-5 carousel-subtitle">Instant For Poloniex Users</h2>
+                                <div class="carousel-text"><br /><br />
+                                    <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">Open Langauge Translator</h1>
                                     <ul class="list-unstyled carousel-list">
-                                        <li class="animated bounceInRight animation-delay-11"><span class ="inline-header">1.</span>Copy/Paste your public key into this form</li>
-                                        <li class="animated bounceInRight animation-delay-13"><span class ="inline-header">2.</span>Get Your Payload Code!</li>
-                                        <li class="animated bounceInRight animation-delay-14"><span class ="inline-header">3.</span>Withdraw 3 PASC or more to 77-44 using Payload Code</li>
-                                        <li class="animated bounceInRight animation-delay-15"><i class="fa fa-check"></i>You will be sent an account (PASA) instantly</li>
-                                        <li class="animated bounceInRight animation-delay-16"><i class="fa fa-check"></i>We will take 3 PASC for costs</li>
-                                        <li class="animated bounceInRight animation-delay-18"><i class="fa fa-check"></i>Remaining funds are sent to your new account</li>
+                                        <li class="animated bounceInRight animation-delay-11"><span class ="inline-header">1.</span>Add New Translation</li>
+                                        <li class="animated bounceInRight animation-delay-13"><span class ="inline-header">2.</span>Vote for a translation</li>
+                                        <li class="animated bounceInRight animation-delay-14"><span class ="inline-header">3.</span>Get Translation as per user votes</li>
                                     </ul>
                                 </div>
                             </div>

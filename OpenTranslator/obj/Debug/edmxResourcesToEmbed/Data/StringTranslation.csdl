@@ -8,6 +8,16 @@
     <Property Name="LanguageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="Text">
     <Key>
       <PropertyRef Name="Id" />
@@ -63,23 +73,24 @@
     <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
+  <EntityType Name="Vote">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Translation_Id" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="CookieID" Type="Guid" Nullable="false" />
+    <Property Name="IP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
   <EntityContainer Name="StringTranslationEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Languages" EntityType="Self.Language" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Texts" EntityType="Self.Text" />
     <EntitySet Name="TranslationArchives" EntityType="Self.TranslationArchive" />
     <EntitySet Name="TranslationLogs" EntityType="Self.TranslationLog" />
     <EntitySet Name="TranslationModes" EntityType="Self.TranslationMode" />
     <EntitySet Name="Translations" EntityType="Self.Translation" />
     <EntitySet Name="UserMasters" EntityType="Self.UserMaster" />
-    <EntitySet Name="Votes" EntityType="StringTranslationModel.Vote" />
+    <EntitySet Name="Votes" EntityType="Self.Vote" />
   </EntityContainer>
-  <EntityType Name="Vote">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Translation_Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="CookieID" Type="Guid" Nullable="false" />
-    <Property Name="IP" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>
