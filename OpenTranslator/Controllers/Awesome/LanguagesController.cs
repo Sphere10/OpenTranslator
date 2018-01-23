@@ -1,24 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 
-using OpenTranslator.Models;
-
 using Omu.AwesomeMvc;
+
 using OpenTranslator.Data;
 using OpenTranslator.Repostitory;
 using OpenTranslator.Models.Input;
-using System;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-	public class LanguagesController : Controller
+    public class LanguagesController : Controller
 	{
 		private ILanguages Ilanguages;
 		private ITranslation ITranslation;
 		public LanguagesController()
 		{
-			this.Ilanguages = new LanguageRepository(new StringTranslationEntities());
+			this.Ilanguages = new LanguageRepository();
 			this.ITranslation= new TranslationRepository(new StringTranslationEntities());
 		}
 
@@ -59,7 +57,7 @@ namespace OpenTranslator.Controllers.Awesome
 				Language language = new Language();
 				language.LanguageCode = input.LanguageCode;
 				language.LanguageName = input.LanguageName;
-				Ilanguages.InsertLanguage(language);
+				Ilanguages.Save(language);
 				// use MapToGridModel like in Grid Crud Demo when grid uses Map
 				return Json(language);
 			}
@@ -98,11 +96,11 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				return PartialView("Create", input);
 			}
-			var Language = new Language();
-			Language.Id = Convert.ToDecimal(input.Id);
-			Language.LanguageCode = input.LanguageCode;
-			Language.LanguageName = input.LanguageName;
-			Ilanguages.UpdateLanguage(Language);
+			var language = new Language();
+			language.Id = Convert.ToDecimal(input.Id);
+			language.LanguageCode = input.LanguageCode;
+			language.LanguageName = input.LanguageName;
+			Ilanguages.Update(language);
 			return Json(new { input.Id });
 		}
 
@@ -118,7 +116,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Delete(DeleteConfirmInput input)
 		{
-			Ilanguages.DeleteLanguage(input.Id);
+			Ilanguages.Delete(input.Id);
 			return Json(new { input.Id });
 		}
 	}

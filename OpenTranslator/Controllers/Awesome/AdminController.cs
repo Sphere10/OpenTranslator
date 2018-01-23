@@ -1,22 +1,18 @@
-﻿using OpenTranslator.Data;
-using OpenTranslator.Utils;
-using OpenTranslator.Models.Input;
-using Omu.AwesomeMvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
-using System.Web;
-using OpenTranslator.Repostitory;
 using System.Web.Mvc;
-using System.Linq.Expressions;
-using OpenTranslator.Models;
-using System.Collections;
-using System.Dynamic;
 using System.Net;
-using Omu.Awem.Helpers;
 using System.Web.UI.WebControls;
+
+using OpenTranslator.Data;
+using OpenTranslator.Utils;
+using OpenTranslator.Models.Input;
+using OpenTranslator.Repostitory;
+
+using Omu.AwesomeMvc;
+using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
 {
@@ -30,15 +26,22 @@ namespace OpenTranslator.Controllers.Awesome
 		private ITranslationArchive ITranslationArchive;
 		private IVotes IVotes;
 		private ITranslationMode ITranslationMode;
-		public AdminController()
+
+        #region Constructor
+        
+        public AdminController()
 		{
 			this.ITranslation = new TranslationRepository(new StringTranslationEntities());
-			this.ILanguages = new LanguageRepository(new StringTranslationEntities());
+			this.ILanguages = new LanguageRepository();
 			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
 			this.ITranslationArchive = new TranslationArchiveReopsitory(new StringTranslationEntities());
 			this.IVotes = new VotesRepository(new StringTranslationEntities());
 			this.ITranslationMode = new TranslationModeRepository(new StringTranslationEntities());
 		}
+
+        #endregion
+
+
 		public ActionResult GetEnumItems()
 		{
 			string CurrentURL = Request.Url.AbsoluteUri;
@@ -90,6 +93,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			return View("Index","_LayoutEmbedAdmin");
 		}
+
 		private static object MapToGridModel(GridArrayRow o)
 		{
 			

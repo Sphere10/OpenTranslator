@@ -20,6 +20,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -330,6 +331,8 @@
     <Compile Include="Models\Input\TextInput.cs" />
     <Compile Include="Models\Input\TranslationInput.cs" />
     <Compile Include="Models\Input\UserInput.cs" />
+    <Compile Include="Repostitory\BaseRepository.cs" />
+    <Compile Include="Repostitory\IBaseRepository.cs" />
     <Compile Include="Repostitory\ITranslationArchive.cs" />
     <Compile Include="Repostitory\ITranslationLog.cs" />
     <Compile Include="Repostitory\ITranslation.cs" />

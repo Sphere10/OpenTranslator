@@ -1,12 +1,11 @@
-﻿using OpenTranslator.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public interface IVotes
+    public interface IVotes
 	{
 		Vote GetVoteByCookieID(Guid CookieID);
 		Vote GetVoteByTranslationID(decimal TranslationId);

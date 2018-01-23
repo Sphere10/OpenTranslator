@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public interface ILanguages
+    public interface ILanguages : IBaseRepository<Language>
 	{
-		void InsertLanguage(Language Language); // C
-		IEnumerable<Language> GetLanguages(); // R
-		Language GetLanguageID(int Id); // R
-		void UpdateLanguage(Language Language); //U
-		void DeleteLanguage(int Id); //D
-		void Save();
+		IEnumerable<Language> GetLanguages(); 
+		Language GetLanguageID(int Id); 
 	}
 }

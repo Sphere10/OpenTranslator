@@ -1,12 +1,10 @@
-using OpenTranslator.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public interface ITranslationMode
+    public interface ITranslationMode
 	{
 	
 		void InsertTranslationMode(TranslationMode mode); // C

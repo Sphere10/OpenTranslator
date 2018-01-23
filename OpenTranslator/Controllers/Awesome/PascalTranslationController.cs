@@ -6,12 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using System.Text;
-using System.Web.Razor.Parser.SyntaxTree;
-using System.Web.Services.Description;
 using System.Data;
+
 using OpenTranslator.Repostitory;
 using OpenTranslator.Data;
 using OpenTranslator.Models.Input;
+
 using Ionic.Zip;
 
 namespace OpenTranslator.Controllers.Awesome
@@ -26,7 +26,7 @@ namespace OpenTranslator.Controllers.Awesome
 		public PascalTranslationController()
 		{
 			this.ITranslation = new TranslationRepository(new StringTranslationEntities());
-			this.ILanguages = new LanguageRepository(new StringTranslationEntities());
+			this.ILanguages = new LanguageRepository();
 			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
 		}
         // GET: PascalTranslation

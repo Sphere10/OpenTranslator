@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public interface ITranslation
+    public interface ITranslation
 	{
 		void InsertTextTranslation(Text text, Translation translation,TranslationLog translationlog); // C
 		void InsertTranslation(Translation translation); // C

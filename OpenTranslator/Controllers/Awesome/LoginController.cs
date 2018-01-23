@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+
 using OpenTranslator.Models.Input;
 using OpenTranslator.Repostitory;
 using OpenTranslator.Data;
-using System.Web.Routing;
 
 namespace OpenTranslator.Controllers.Awesome
 {
     public class LoginController : Controller
     {
 		private IUsers IUsers;
+
 		public LoginController()
 		{
 			this.IUsers = new UsersRepository(new StringTranslationEntities());
 		}
+
         // GET: Login
         public ActionResult Index()
         {
