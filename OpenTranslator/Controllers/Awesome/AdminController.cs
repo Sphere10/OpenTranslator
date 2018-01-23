@@ -92,7 +92,7 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 		private static object MapToGridModel(GridArrayRow o)
 		{
-		
+			
 			return
 				new
 				{
@@ -135,9 +135,28 @@ namespace OpenTranslator.Controllers.Awesome
 				row.ItemArray = items.ToArray();
 				table.Rows.Add(row);
 			}
+			if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
+			{
+				DataTable dtNewtable = new DataTable();
+				if (System.Web.HttpContext.Current.Session["SelectedColumns"] != null)
+				{
+					string[] selectedColumns = (string[])System.Web.HttpContext.Current.Session["SelectedColumns"];
+					foreach (var column in selectedColumns)
+					{
+						for (int i = table.Rows.Count - 1; i >= 0; i--)
+						{
+							// whatever your criteria is
 
-			
-			var tableList = table.AsEnumerable().AsQueryable();
+							if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
+								table.Rows[i].Delete();
+						}
+
+					}
+				}
+
+
+			}
+				var tableList = table.AsEnumerable().AsQueryable();
 			tableList.ToArray().AsQueryable();
 			List<string[]> gridDataList = new List<string[]>();
 			string[] columnNames = table.Columns.Cast<DataColumn>()
@@ -283,9 +302,23 @@ namespace OpenTranslator.Controllers.Awesome
 				ITranslation.InsertTextTranslation(text, translation, translation_log);
 
 				// returning the key to call grid.api.update
-				var data = this.Gridformat();
-				var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
-				return Json(MapToGridModel(rowData));
+				  var data = this.Gridformat();
+				    var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
+				if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
+				{
+					if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value != "true")
+					{ 
+						return Json(MapToGridModel(rowData));
+					}
+					else
+					{
+						return Json(rowData);
+					}
+				}
+				else
+				{
+					return Json(rowData);
+				}
 			}
 		}
 
@@ -615,11 +648,26 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 			var data = this.Gridformat();
 			var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
-			return Json(MapToGridModel(rowData));
-			
-			
+			if (System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
+			{
+				if (System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value != "true")
+				{
+					return Json(MapToGridModel(rowData));
+				}
+				else
+				{
+					return Json(data);
+				}
+			}
+			else
+			{
+				return Json(data);
+			}
+
+
+
 		}
-		
+
 		public ActionResult Delete(string id, string gridId)
 		{
 
