@@ -7,7 +7,7 @@
 {
 	//this  is for create form tag
 	@Html.AntiForgeryToken()          // this is for prevent CSRF attack
-									@Html.ValidationSummary(true)
+	@Html.ValidationSummary(true)
 	if (@ViewBag.Message != null)
 	{
 		<span style="color:red;">@ViewBag.Message</span><br />

@@ -2585,10 +2585,11 @@
         function render() {
 			var lrs = dto($grid).lrs;
 			var pageSize = lrs.ps;
-			if ($grid.selector == "#OriginalTextGrid")
+			if ($grid[0].id == "OriginalTextGrid")
 			{
 				document.cookie = "PageSize=" + pageSize;
 			}
+			//document.cookie = "PageSize=" + pageSize;
             var itemsCount = lrs.ic + delta;
 
             var first = pageSize * (lrs.p - 1) + 1;
@@ -2620,11 +2621,10 @@
 
         var $footer = $grid.find('.awe-footer');
         if (!$footer.length) return;
-
-		if ($grid.selector=="#OriginalTextGrid")
+		
+		if ($grid[0].id =="OriginalTextGrid")
 		{
 			$grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + getCookie("PageSize") + '" /><div class="awe-display"></div></div>');
-
 		}
 		else
 		{

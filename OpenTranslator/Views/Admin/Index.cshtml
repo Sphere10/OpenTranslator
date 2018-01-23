@@ -1,21 +1,113 @@
 ﻿@{
 	ViewBag.Title = "Open Translation";
+	
 }
 
 @Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
-<input type="button" value="Admin Screen" onclick="location.href='@Url.Action("Index", "Admin")'" />
-<input type="button" value="Pascal Translation Screen" onclick="location.href='@Url.Action("Index", "PascalTranslation")'" />
-<center><h2>Open Language Translation - Admin Screen </h2></center>
 <style>
 	.awe-ajaxcheckboxlist-field li {
 		display: inline-block;
 	}
 </style>
 
-<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" />
+
+
+@(Html.Awe().InitPopupForm()
+			.Name("EditTranslation")
+			.Url(Url.Action("Edit", "Admin"))
+			.Title("Edit Translation")
+			.Success("UpdateGrid"))
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="bar">
+				<br />
+				<input type="checkbox" id="chkMissingTrans">
+			<label for="chkMissingTrans">
+				Missing Translations
+			</label>
+			<br />
+				<br />
+				<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Add String</button>
+				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems")).Load(true)
+			</div>
+
+			@(Html.Awe().Grid("OriginalTextGrid")
+						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
+						.Url(Url.Action("OriginalTextGridGetItems"))
+						.Groupable(false)
+						.Columns())
+			<br /><br />
+			@Html.InitCrudPopupsForGrid("Languages", "Languages", 470, 1000, " Language")
+			<div class="bar">
+				<button type="button" onclick="awe.open('createLanguages')" class="awe-btn mbtn">Add Language</button>
+			</div>
+			@(Html.Awe().Grid("Languages")
+						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
+						.Url(Url.Action("LanguageItems", "Languages"))
+						.Groupable(false)
+						.Columns(
+						new Column { Bind = "LanguageCode" },
+						new Column { Bind = "LanguageName" },
+						new Column { ClientFormat = GridUtils.EditFormatForGrid("Languages", "Id"), Width = 50 },
+						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Languages", "Id"), Width = 50 }))
+			<br /><br />
+			@Html.InitCrudPopupsForGrid("Admin", "AdminUsers", 470, 1000, " User")
+			<div class="bar">
+				<button type="button" onclick="awe.open('createAdmin')" class="awe-btn mbtn">Add user</button>
+			</div>
+
+			@(Html.Awe().Grid("Admin")
+						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
+						.Url(Url.Action("UserDataItems", "AdminUsers"))
+						.Groupable(false)
+						.Columns(
+						new Column { Bind = "EmailId" },
+						new Column { Bind = "Password" },
+						new Column { ClientFormat = GridUtils.EditFormatForGrid("Admin", "Id"), Width = 50 },
+						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Admin", "Id"), Width = 50 }))
+			<br /><br />
+
+		</div>
+	</div>
+</div>
 <script>
-    $(function () {
-		
+	$(document).ready(function () {
+		debugger;
+		if (getCookie("MissingTrans") == "true")
+			$('#chkMissingTrans').attr('checked', 'checked')
+	});
+
+	
+		function logout() {
+			var url = '@Url.Action("Index", "User")';
+			window.location = url;
+		}
+		function UpdateGrid(result, popup) {
+			$('#OriginalTextGrid').data('api').load({});
+		}
+
+		function getVal(i, columnname) {
+			return function (model) {
+				debugger;
+				var div = "";
+				var a = model.Values[i];
+				if (a != "")
+					div = '<span style="width:90% ; overflow: hidden;float: left; text-overflow: ellipsis;">' + a + '</span><span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
+				else
+					div = '<span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
+				return div;
+			};
+		}
+		$('#chkMissingTrans').change(function () {
+			if ($(this).is(":checked")) {
+				$(this).attr("checked", true);
+			}
+			setCookie("MissingTrans", $(this).is(':checked'), 1);
+			$('#chkColumns').change();
+		});
+
 		$(function () {
 			$('#chkColumns').change(function () {
 				var val = $('#chkColumns').val();
@@ -27,80 +119,22 @@
 				$('#OriginalTextGrid').data('api').load({ oparams: { selectedColumns: JSON.parse(val), choosingColumns: true, clearsession: clearSession } });
 			});
 		});
-	});
-</script>
- @(Html.Awe().InitPopupForm()
-				.Name("EditTranslation")
-				.Url(Url.Action("Edit", "Admin"))
-				.Title("Edit Translation")
-				.Success("UpdateGrid"))
-
-
-<div class="bar">
-	<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Add String</button>
-	@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems")).Load(true)
-</div>
-
-@(Html.Awe().Grid("OriginalTextGrid")
-		.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-			.Url(Url.Action("OriginalTextGridGetItems"))
-			.Groupable(false)
-			.Columns())
-
-<br /><br />
-<script>
-	function logout() {
-		var url = '@Url.Action("Index", "User")';
-		window.location = url;
-	}
-	function UpdateGrid(result, popup) {
-		$('#OriginalTextGrid').data('api').load({});
-	}
-
-	function getVal(i, columnname) {
-		return function (model) {
-			var div = "";
-			var a = model.Values[i];
-			if (a != "")
-				div = '<span style="width:90% ; overflow: hidden;float: left; text-overflow: ellipsis;">' + a + '</span><span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
-			else
-				div = '<span style="cursor: pointer; display: inline-flex; float: right;" class="ico-edit" onclick="awe.open(\'EditTranslation\', { params: { TextId: \'' + model.TextId + '\', code : \'' + columnname + '\' } })" ></span>';
-			return div;
-		};
-	}
+		function setCookie(name, value, days) {
+			var d = new Date;
+			d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+			document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+		}
+		function getCookie(c_name) {
+			debugger;
+			var i, x, y, ARRcookies = document.cookie.split(";");
+			for (i = 0; i < ARRcookies.length; i++) {
+				x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+				y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+				x = x.replace(/^\s+|\s+$/g, "");
+				if (x == c_name) {
+					return unescape(y);
+				}
+			}
+		}
 
 </script>
-
-@Html.InitCrudPopupsForGrid("Languages", "Languages", 470, 1000, " Language")
-
-<div class="bar">
-	<button type="button" onclick="awe.open('createLanguages')" class="awe-btn mbtn">Add Language</button>
-</div>
-
-@(Html.Awe().Grid("Languages")
-			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-			.Url(Url.Action("LanguageItems", "Languages"))
-			.Groupable(false)
-			.Columns(
-			new Column { Bind = "LanguageCode" },
-			new Column { Bind = "LanguageName" },
-			new Column { ClientFormat = GridUtils.EditFormatForGrid("Languages", "Id"), Width = 50 },
-			new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Languages", "Id"), Width = 50 }))
-
-<br /><br />
-@Html.InitCrudPopupsForGrid("Admin", "AdminUsers", 470, 1000, " User")
-<div class="bar">
-	<button type="button" onclick="awe.open('createAdmin')" class="awe-btn mbtn">Add user</button>
-</div>
-
-@(Html.Awe().Grid("Admin")
-			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-			.Url(Url.Action("UserDataItems", "AdminUsers"))
-			.Groupable(false)
-			.Columns(
-			new Column { Bind = "EmailId" },
-			new Column { Bind = "Password" },
-			new Column { ClientFormat = GridUtils.EditFormatForGrid("Admin", "Id"), Width = 50 },
-			new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Admin", "Id"), Width = 50 }))
-
-

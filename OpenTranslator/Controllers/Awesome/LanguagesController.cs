@@ -15,9 +15,11 @@ namespace OpenTranslator.Controllers.Awesome
 	public class LanguagesController : Controller
 	{
 		private ILanguages Ilanguages;
+		private ITranslation ITranslation;
 		public LanguagesController()
 		{
 			this.Ilanguages = new LanguageRepository(new StringTranslationEntities());
+			this.ITranslation= new TranslationRepository(new StringTranslationEntities());
 		}
 
 		public ActionResult GetAllLanguages()
@@ -74,6 +76,10 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 
 			var language = Ilanguages.GetLanguageID(id);
+            var languageExist = ITranslation.GetTranslation().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
+            if(languageExist!=null)
+                ViewBag.languageExist = true;
+
 			return PartialView(
 				"Create",
 				new LanguageInput
