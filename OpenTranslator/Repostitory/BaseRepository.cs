@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 
 using OpenTranslator.Data;
 
@@ -32,6 +33,45 @@ namespace OpenTranslator.Repostitory
         #endregion
 
         #region interface implementations
+
+        /// <summary>
+        /// Delete a range of objects that belongs to a particulary Text objects, then removes the Text object itself
+        /// </summary>
+        /// <param name="textId"></param>
+        public void DeleteRange(string textId)
+        {
+            using (var transaction = DBcontext.Database.BeginTransaction())
+            {
+                DbSet listOfEntities = GetStringTranslationEntities().Set(typeof(T));
+
+                try
+                {
+                    //TODO: improve this!
+                    if (typeof(Translation).IsAssignableFrom(typeof(T)))
+                    {
+                        listOfEntities.RemoveRange(GetStringTranslationEntities().Translations.Where(x => x.TextId == textId.ToString()));
+                    }
+
+                    if (typeof(TranslationLog).IsAssignableFrom(typeof(T)))
+                    {
+                        listOfEntities.RemoveRange(GetStringTranslationEntities().TranslationLogs.Where(x => x.TextId == textId.ToString()));
+                    }
+
+                    GetStringTranslationEntities().SaveChanges();
+
+                    Text text = GetStringTranslationEntities().Texts.Where(x => x.TextId == textId.ToString()).FirstOrDefault();
+                    GetStringTranslationEntities().Texts.Remove(text);
+                    GetStringTranslationEntities().SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("There is an error", e);
+                }
+            }
+        }
 
         /// <summary>
         /// Delete an object from the StringTranslationEntities and save the changes to DB
@@ -67,14 +107,20 @@ namespace OpenTranslator.Repostitory
         /// <param name="objToSave"></param>
         public void Save(T objToSave)
         {
-            try
+            using (var transaction = DBcontext.Database.BeginTransaction())
             {
-                GetStringTranslationEntities().Set(typeof(T)).Add(objToSave);
-                GetStringTranslationEntities().SaveChanges();
+                try
+                {
+                    GetStringTranslationEntities().Set(typeof(T)).Add(objToSave);
+                    GetStringTranslationEntities().SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("There was an error trying to save the object. ", e);
+                }
 
-            }catch (Exception e)
-            {
-                Console.WriteLine("There was an error trying to save the object. ", e);
             }
 
         }

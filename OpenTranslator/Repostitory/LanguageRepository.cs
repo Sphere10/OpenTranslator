@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 
 using OpenTranslator.Data;
 
@@ -9,9 +8,9 @@ namespace OpenTranslator.Repostitory
 	public class LanguageRepository : BaseRepository<Language>, ILanguages
 	{
         #region constructor
-        public LanguageRepository() : base()
-		{
-		}
+
+        public LanguageRepository() : base() { }
+        
         #endregion
 
         #region ILanguage interface implementation
