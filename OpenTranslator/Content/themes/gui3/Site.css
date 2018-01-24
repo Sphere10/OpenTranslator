@@ -22,3 +22,19 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.contactus-logo {
+	margin: 0 auto;
+}
+
+.contactus_text {
+	font-family: "Lato", sans-serif;
+	font-size: 2em;
+	line-height: 150%;
+	margin-bottom: 50px;
+	font-weight: 300;
+}
+
+	.contactus_text > span {
+		color: #0099da;
+	}

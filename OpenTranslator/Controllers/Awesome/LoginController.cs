@@ -43,7 +43,27 @@ namespace OpenTranslator.Controllers.Awesome
 			else
 			{
 				ViewBag.Message = "Email or Password is incorrect.";
-					return PartialView("Create", new LoginInput { Email = input.Email, Password=input.Password});
+					return PartialView(new LoginInput { Email = input.Email, Password=input.Password});
+			}
+           
+        }
+		[HttpPost]
+		 public ActionResult LoginNew(string uname , string password)
+        {
+			var Users= IUsers.GetUser(uname,password);
+			if(Users !=null)
+			{
+				if (Request.Cookies["UserId"] == null)
+				{
+					Response.Cookies["UserId"].Value = Users.Id.ToString();
+					Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
+				}		
+				return Json(new { value = "s"});; //RedirectToAction("Index", "Admin");
+			}
+			else
+			{
+				ViewBag.Message = "Email or Password is incorrect.";
+				return Json(new { value = "Email or Password is incorrect."});;
 			}
            
         }
