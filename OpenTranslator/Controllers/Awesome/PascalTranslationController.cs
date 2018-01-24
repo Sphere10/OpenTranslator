@@ -25,7 +25,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public PascalTranslationController()
 		{
-			this.ITranslation = new TranslationRepository(new StringTranslationEntities());
+			this.ITranslation = new TranslationRepository();
 			this.ILanguages = new LanguageRepository();
 			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
 		}

@@ -17,7 +17,7 @@ namespace OpenTranslator.Controllers.Awesome
 		public LanguagesController()
 		{
 			this.Ilanguages = new LanguageRepository();
-			this.ITranslation= new TranslationRepository(new StringTranslationEntities());
+			this.ITranslation= new TranslationRepository();
 		}
 
 		public ActionResult GetAllLanguages()

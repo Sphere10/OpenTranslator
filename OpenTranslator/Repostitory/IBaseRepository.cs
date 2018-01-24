@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-
+﻿
 namespace OpenTranslator.Repostitory
 {
     /// <summary>
@@ -10,6 +9,7 @@ namespace OpenTranslator.Repostitory
     {
         void Save(T objToSave);
         void Delete(int id);
+        void DeleteRange(string textId);
         void Update(T objToUpdate);
     }
 }

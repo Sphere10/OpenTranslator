@@ -1,107 +1,56 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public class TranslationRepository : ITranslation
+    public class TranslationRepository : BaseRepository<Translation>, ITranslation
 	{
-		private StringTranslationEntities DBcontext;
+        #region private properties
 
+        private BaseRepository<Text> _baseRepositoryText = new BaseRepository<Text>();
+        private BaseRepository<TranslationLog> _baseRepositoryTranslationLog = new BaseRepository<TranslationLog>();
+        
+        #endregion
+        
+        #region
 
-		public TranslationRepository(StringTranslationEntities objempcontext)
+        public TranslationRepository() : base(){}
+        
+        #endregion
+
+        #region ITranslation interface implementation
+
+        public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
 		{
-			this.DBcontext = objempcontext;
+            _baseRepositoryText.Save(text);
+            Save(translation);
+            _baseRepositoryTranslationLog.Save(translation_log);
 		}
-
-		public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-					DBcontext.Texts.Add(text);
-					DBcontext.SaveChanges();
-					DBcontext.Translations.Add(translation);
-					DBcontext.SaveChanges();
-					DBcontext.TranslationLogs.Add(translation_log);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-
-		}
-		public void InsertTranslation(Translation translation)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-					DBcontext.Translations.Add(translation);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-
-		}
+		
 		public IEnumerable<Text> GetText()
 		{
-			return DBcontext.Texts.ToList();
+			return GetStringTranslationEntities().Texts.ToList();
 		}
 		public IEnumerable<Translation> GetTranslation()
 		{
-			return DBcontext.Translations.ToList();
+			return GetStringTranslationEntities().Translations.ToList();
 		}
 		public Translation GetTranslationID(string Id)
 		{
-			return DBcontext.Translations.Where(x => x.TextId == Id).FirstOrDefault();
+			return GetStringTranslationEntities().Translations.Where(x => x.TextId == Id).FirstOrDefault();
 		}
 		public List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode)
 		{
-			return DBcontext.Translations.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).ToList();
+			return GetStringTranslationEntities().Translations.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).ToList();
 		}
-		public void UpdateTranslation(Translation translation)
-		{
-			DBcontext.SaveChanges();
-			DBcontext.Entry(translation).State = EntityState.Modified;
-		}
-		public void DeleteTranslation(string TextId)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-
-					DBcontext.Translations.RemoveRange(DBcontext.Translations.Where(x => x.TextId == TextId));
-					DBcontext.SaveChanges();
-					Text text = DBcontext.Texts.Where(x => x.TextId == TextId).FirstOrDefault();
-					DBcontext.Texts.Remove(text);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-		}
+        
 		public	List<Translation> GetTranslationByTextID(string TextId)
 		{
-			return DBcontext.Translations.Where(x=>x.TextId==TextId).ToList();
+			return GetStringTranslationEntities().Translations.Where(x=>x.TextId==TextId).ToList();
 		}
 
-		public void Save()
-		{
-		}
+        #endregion
 	}
 }
