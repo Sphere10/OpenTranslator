@@ -1,13 +1,14 @@
 ﻿@{
-	//Layout = "~/Views/Shared/_AdminLayout.cshtml";
-	//var pageName = ((RazorView)ViewContext.View).ViewPath;
-
 	ViewBag.Title = "Open Translation";
 }
 @Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 <style>
 	.awe-ajaxcheckboxlist-field li {
 		display: inline-block;
+		padding: 5px;
+	}
+	.awe-missingcheckbox {
+		padding: 6px;
 	}
 </style>
 
@@ -15,15 +16,8 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div><br/>
-			<input type="checkbox" id="chkMissingTrans">
-			<label for="chkMissingTrans">
-				Missing Translations
-			</label>
-			<br />
-			<div class="bar">
-				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
-			</div>
+			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div><br />
+
 			<div id="divButtons">
 				<button type="button" class="awe-btn mbtn" onclick='$("#exportForm").hide();$("#importForm").toggle();'>Import</button>
 				<button type="button" class="awe-btn mbtn" onclick='$("#importForm").hide();$("#exportForm").toggle();'>Export</button>
@@ -43,14 +37,14 @@
 								<label>Select file for Import</label>
 								<input type="file" name="postedFile" id="postedFile" required />
 							</div>
-							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName"/>
+							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName" />
 							<div class="col-md-6">
 								<input type="submit" class="awe-btn mbtn" value="Ok" />
 								<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action(ViewBag.pageName, "PascalTranslation")'">Cancel</button>
 							</div>
 						</div>
 					</div>
-					<br /><br /><br />
+					<br /><br />
 				}
 			</div>
 			<div id="exportForm">
@@ -66,21 +60,21 @@
 						<div class="col-md-4">
 							<div class="col-md-6">
 								<label>Select file for Export</label>
-								<input type="file" name="postedFile" id="postedFile" required/>
+								<input type="file" name="postedFile" id="postedFile" required />
 							</div>
-							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName"/>
+							<input type="hidden" id="pagename" name="pagename" value="@ViewBag.pageName" />
 							<div class="col-md-6">
 								<input type="submit" class="awe-btn mbtn" value="Ok" />
 								<button type="button" class="awe-btn mbtn" onclick="location.href='@Url.Action(ViewBag.pageName, "PascalTranslation")'">Cancel</button>
 							</div>
 						</div>
 					</div>
-					<br /><br /><br />
+					<br /><br />
 				}
 			</div>
 
 			<br /><br />
-			
+
 			@(Html.Awe().Grid("OriginalTextGrid")
 						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
 						.Url(Url.Action("OriginalTextGridGetItems", "Admin"))
@@ -94,18 +88,28 @@
 				.Url(Url.Action("Edit", "PascalTranslation"))
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
-
-
+			<fieldset>
+				<legend> Options </legend>
+				<div class="bar">
+					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+				</div>
+				<div class="bar awe-missingcheckbox">
+					<input type="checkbox" id="chkMissingTrans">
+					<label for="chkMissingTrans">
+						Show missing translations for selected languages
+					</label>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
-
+<br /><br />
 <script>
 	$(document).ready(function () {
 		if (getCookie("MissingTrans") == "true")
 			$('#chkMissingTrans').attr('checked', 'checked')
 	});
-	
+
 	function UpdateGrid(result, popup) {
 		$('#OriginalTextGrid').data('api').load({});
 	}
@@ -113,10 +117,10 @@
 		var url = '@Url.Action("Index", "User")';
 		window.location = url;
 	}
-	
+
 	var errormsg = '@ViewBag.errormsg';
 	var errormsgexport = '@ViewBag.errormsgexport';
-
+	
 	if (errormsg!='')
     	$("#importForm").show();
 	else

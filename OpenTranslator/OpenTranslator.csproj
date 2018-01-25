@@ -159,6 +159,7 @@
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\assets\fonts\socialglyphs-webfont.svg" />
+    <Content Include="Content\assets\img\banner-01-Recovered-10 %281%29.jpg" />
     <Content Include="Content\assets\img\bx_loader.gif" />
     <Content Include="Content\assets\img\coloredbg.png" />
     <Content Include="Content\assets\img\colors\blue\logo.png" />
@@ -297,6 +298,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\sysdiagram.cs">
+      <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
@@ -452,6 +456,8 @@
     <Content Include="Views\User\Aboutus.cshtml" />
     <Content Include="Views\Shared\_LayoutEmbedUser.cshtml" />
     <Content Include="Views\Shared\_LayoutEmbedAdmin.cshtml" />
+    <Content Include="Views\AdminUsers\Index.cshtml" />
+    <Content Include="Views\Languages\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

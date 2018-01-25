@@ -16,8 +16,10 @@
 <body>
 	<div class="main">
 		<br />
-		<input type="button" value="Admin Screen" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "Admin")'" />
-		<input type="button" value="Pascal Translation Screen" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "PascalTranslation")'" />
+		<input type="button" value="Admin" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "Admin")'" />
+		<input type="button" value="Languages" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "Languages")'" />
+		<input type="button" value="Add User" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "AdminUsers")'" />
+		<input type="button" value="Pascal Translation" class="awe-btn mbtn" onclick="location.href='@Url.Action("embeded", "PascalTranslation")'" />
 		<input type="button" value="LogOut" onclick="logout()" class="awe-btn mbtn" style="float:right" /><br />
 		@RenderBody()
 	</div>

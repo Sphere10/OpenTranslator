@@ -2585,10 +2585,7 @@
         function render() {
 			var lrs = dto($grid).lrs;
 			var pageSize = lrs.ps;
-			if ($grid[0].id == "OriginalTextGrid")
-			{
-				document.cookie = "PageSize=" + pageSize;
-			}
+			document.cookie = "PageSize=" + pageSize;
 			//document.cookie = "PageSize=" + pageSize;
             var itemsCount = lrs.ic + delta;
 
@@ -2621,16 +2618,8 @@
 
         var $footer = $grid.find('.awe-footer');
         if (!$footer.length) return;
-		
-		if ($grid[0].id =="OriginalTextGrid")
-		{
 			$grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + getCookie("PageSize") + '" /><div class="awe-display"></div></div>');
-		}
-		else
-		{
-			$grid.find('.awe-footer').append('<div class="awe-ajaxradiolist-field gridPageSize" ><input id="' + o.i + 'PageSize" class="awe-val" type="hidden" value="' + o.ps + '" /><div class="awe-display"></div></div>');
-
-		}
+		
 		addIfLacks(o.ps); gridPageSize
 
         var psi = o.i + 'PageSize';
