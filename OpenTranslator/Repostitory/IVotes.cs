@@ -5,13 +5,11 @@ using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public interface IVotes
+    public interface IVotes : IBaseRepository<Vote>
 	{
 		Vote GetVoteByCookieID(Guid CookieID);
 		Vote GetVoteByTranslationID(decimal TranslationId);
+		Vote GetVoteByTranslationID(int translationId,Guid CookieID );
 		List<Vote> GetVoteList(Guid CookieID);
-		void InsertVote(Vote vote); // C
-		void RemoveVote(decimal voteId);
-		Vote GetVoteBytranslationId(int id,Guid CookieID);
 	}
 }

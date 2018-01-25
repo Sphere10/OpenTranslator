@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace OpenTranslator.Repostitory
 {
     /// <summary>
@@ -8,8 +10,10 @@ namespace OpenTranslator.Repostitory
     public interface IBaseRepository<T>
     {
         void Save(T objToSave);
+        void Update(T objToUpdate);
         void Delete(int id);
         void DeleteRange(string textId);
-        void Update(T objToUpdate);
+
+        IEnumerable<T> GetAll();
     }
 }
