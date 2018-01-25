@@ -6,7 +6,6 @@ namespace OpenTranslator.Repostitory
 {
     public interface ILanguages : IBaseRepository<Language>
 	{
-		IEnumerable<Language> GetLanguages(); 
 		Language GetLanguageID(int Id); 
 	}
 }

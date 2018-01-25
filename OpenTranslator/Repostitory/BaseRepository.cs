@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace OpenTranslator.Repostitory
 
         #region public getter methods
 
-        public StringTranslationEntities GetStringTranslationEntities()
+        public StringTranslationEntities GetDbContext()
         {
             return this.DBcontext;
         }
@@ -33,73 +34,6 @@ namespace OpenTranslator.Repostitory
         #endregion
 
         #region interface implementations
-
-        /// <summary>
-        /// Delete a range of objects that belongs to a particulary Text objects, then removes the Text object itself
-        /// </summary>
-        /// <param name="textId"></param>
-        public void DeleteRange(string textId)
-        {
-            using (var transaction = DBcontext.Database.BeginTransaction())
-            {
-                DbSet listOfEntities = GetStringTranslationEntities().Set(typeof(T));
-
-                try
-                {
-                    //TODO: improve this!
-                    if (typeof(Translation).IsAssignableFrom(typeof(T)))
-                    {
-                        listOfEntities.RemoveRange(GetStringTranslationEntities().Translations.Where(x => x.TextId == textId.ToString()));
-                    }
-
-                    if (typeof(TranslationLog).IsAssignableFrom(typeof(T)))
-                    {
-                        listOfEntities.RemoveRange(GetStringTranslationEntities().TranslationLogs.Where(x => x.TextId == textId.ToString()));
-                    }
-
-                    GetStringTranslationEntities().SaveChanges();
-
-                    Text text = GetStringTranslationEntities().Texts.Where(x => x.TextId == textId.ToString()).FirstOrDefault();
-                    GetStringTranslationEntities().Texts.Remove(text);
-                    GetStringTranslationEntities().SaveChanges();
-
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine("There is an error", e);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delete an object from the StringTranslationEntities and save the changes to DB
-        /// </summary>
-        /// <param name="id"></param>
-        public void Delete(int id)
-        {
-            DbSet listOfEntities = GetStringTranslationEntities().Set(typeof(T));
-            var objectToRemove = listOfEntities.Find(id);
-
-            //This is because some models have their id's as string type. TODO: Fix this and use only one type for id's.
-            if (objectToRemove == null)
-            {
-                objectToRemove = GetStringTranslationEntities().Set(typeof(T)).Find(id.ToString());
-            }
-
-            try
-            {
-                listOfEntities.Remove(objectToRemove);
-                GetStringTranslationEntities().SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("There is an error", e);
-            }
-            
-        }
 
         /// <summary>
         /// Add a new object to the StringTranslationEntities and save the changes to DB
@@ -111,8 +45,8 @@ namespace OpenTranslator.Repostitory
             {
                 try
                 {
-                    GetStringTranslationEntities().Set(typeof(T)).Add(objToSave);
-                    GetStringTranslationEntities().SaveChanges();
+                    GetDbContext().Set(typeof(T)).Add(objToSave);
+                    GetDbContext().SaveChanges();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -125,23 +59,102 @@ namespace OpenTranslator.Repostitory
 
         }
 
-
         /// <summary>
         /// Update an existing object from the StringTranslationEntities and save the changes on DB
         /// </summary>
         /// <param name="objToUpdate"></param>
-        public void Update (T objToUpdate)
+        public void Update(T objToUpdate)
         {
             try
             {
-                GetStringTranslationEntities().Entry(objToUpdate).State = EntityState.Modified;
-                GetStringTranslationEntities().SaveChanges();
+                GetDbContext().Entry(objToUpdate).State = EntityState.Modified;
+                GetDbContext().SaveChanges();
             }
             catch (Exception e)
             {
                 Console.WriteLine("There was an error trying to update the object. ", e);
             }
 
+        }
+
+
+        /// <summary>
+        /// Delete an object from the StringTranslationEntities and save the changes to DB
+        /// </summary>
+        /// <param name="id"></param>
+        public void Delete(int id)
+        {
+            DbSet listOfEntities = GetDbContext().Set(typeof(T));
+            var objectToRemove = listOfEntities.Find(id);
+
+            //This is because some models have their id's as string type. TODO: Fix this and use only one type for id's.
+            //if (objectToRemove == null)
+            //{
+            //    objectToRemove = GetDbContext().Set(typeof(T)).Find(id.ToString());
+            //}
+
+            try
+            {
+                listOfEntities.Remove(objectToRemove);
+                GetDbContext().SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There is an error", e);
+            }
+            
+        }
+
+        /// <summary>
+        /// Delete a range of objects that belongs to a particulary Text objects, then removes the Text object itself
+        /// </summary>
+        /// <param name="textId"></param>
+        public void DeleteRange(string textId)
+        {
+            using (var transaction = DBcontext.Database.BeginTransaction())
+            {
+                DbSet listOfEntities = GetDbContext().Set(typeof(T));
+
+                try
+                {
+                    //TODO: improve this!
+                    if (typeof(Translation).IsAssignableFrom(typeof(T)))
+                    {
+                        listOfEntities.RemoveRange(GetDbContext().Translations.Where(x => x.TextId == textId));
+                    }
+
+                    if (typeof(TranslationLog).IsAssignableFrom(typeof(T)))
+                    {
+                        listOfEntities.RemoveRange(GetDbContext().TranslationLogs.Where(x => x.TextId == textId));
+                    }
+
+                    GetDbContext().SaveChanges();
+
+                    // In case there is text associated to T entity, remove them all, otherwise do nothing.
+                    Text text = GetDbContext().Texts.Where(x => x.TextId == textId).FirstOrDefault();
+                    if (text != null)
+                    {
+                        GetDbContext().Texts.Remove(text);
+                        GetDbContext().SaveChanges();
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("There is an error", e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns all the items in db
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll()
+        {
+            return GetDbContext().Set(typeof(T)).OfType<T>().AsEnumerable<T>();
         }
 
         #endregion

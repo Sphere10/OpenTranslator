@@ -4,9 +4,8 @@ using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public interface ITranslationMode
+    public interface ITranslationMode : IBaseRepository<TranslationMode>
 	{
-	
 		void InsertTranslationMode(TranslationMode mode); // C
 		IEnumerable<TranslationMode> GetTranslationMode(); // R
 		TranslationMode GetTranslationModeByID(string TextId, string LanguageCode); // R

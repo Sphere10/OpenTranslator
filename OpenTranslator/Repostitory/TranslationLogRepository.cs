@@ -1,57 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public class TranslationLogRepository : ITranslationLog
+    public class TranslationLogRepository : BaseRepository<TranslationLog>, ITranslationLog
 	{
-		private StringTranslationEntities DBcontext;
-		
-		public TranslationLogRepository(StringTranslationEntities objempcontext)
-		{
-			this.DBcontext = objempcontext;
-		}
-		public void DeleteTranslationLog(string TextId)
-		{
-			DBcontext.TranslationLogs.RemoveRange(DBcontext.TranslationLogs.Where(x => x.TextId == TextId));
-			DBcontext.SaveChanges();
-		
-		}
+        #region Constructor
 
-		public IEnumerable<TranslationLog> GetTranslationLog()
-		{
-			return DBcontext.TranslationLogs.ToList();
-		}
+        public TranslationLogRepository() : base() {}
 
+        #endregion
+
+        #region ITranslationLog implementation
+
+        /// <summary>
+        /// Returns all translations logs that has a particular code and textId
+        /// </summary>
+        /// <param name="TextId"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
 		public List<TranslationLog> GetTranslationLogByCode(string TextId,string code)
 		{
-			return DBcontext.TranslationLogs.Where(x=>x.TextId==TextId && x.LanguageCode==code).ToList();
+			return GetDbContext().TranslationLogs.Where(x=>x.TextId==TextId && x.LanguageCode==code).ToList();
 		}
 
+        /// <summary>
+        /// Returns a singular translation by its Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
 		public TranslationLog GetTranslationLogID(int Id)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void InsertTranslationLog(TranslationLog translation_Log)
-		{
-			DBcontext.TranslationLogs.Add(translation_Log);
-			DBcontext.SaveChanges();
-		}
+        #endregion
 
-		public void Save()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void UpdateTranslationLog(TranslationLog translation_Log)
-		{
-			DBcontext.Entry(translation_Log).State = EntityState.Modified;
-			DBcontext.SaveChanges();
-		}
+        
 	}
 }

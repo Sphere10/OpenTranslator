@@ -27,7 +27,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			this.ITranslation = new TranslationRepository();
 			this.ILanguages = new LanguageRepository();
-			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
+			this.ITranslation_Log = new TranslationLogRepository();
 		}
         // GET: PascalTranslation
         public ActionResult Index()
@@ -217,7 +217,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public void GetTranslationRecord(string TextId, string Text, string LanguageCode)
 		{
-				var Translations = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
+				var Translations = ITranslation.GetAll().Where(x => x.TextId == TextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
 			    if(Translations == null)
 					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + "\"\r\n");
 				else
@@ -281,7 +281,7 @@ namespace OpenTranslator.Controllers.Awesome
 						System.IO.File.Delete(filepath);
 					postedFile.SaveAs(filepath);
 					List<Language> list = new List<Language>();
-					list = ILanguages.GetLanguages().ToList();
+					list = ILanguages.GetAll().ToList();
 					for (int i = 0; i < list.Count; i++)
 					{
 						var Languagecode = list[i].LanguageCode;

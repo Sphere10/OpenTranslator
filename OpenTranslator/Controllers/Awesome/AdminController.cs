@@ -33,10 +33,10 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			this.ITranslation = new TranslationRepository();
 			this.ILanguages = new LanguageRepository();
-			this.ITranslation_Log = new TranslationLogRepository(new StringTranslationEntities());
-			this.ITranslationArchive = new TranslationArchiveReopsitory(new StringTranslationEntities());
-			this.IVotes = new VotesRepository(new StringTranslationEntities());
-			this.ITranslationMode = new TranslationModeRepository(new StringTranslationEntities());
+			this.ITranslation_Log = new TranslationLogRepository();
+			this.ITranslationArchive = new TranslationArchiveRepository();
+			this.IVotes = new VotesRepository();
+			this.ITranslationMode = new TranslationModeRepository();
 		}
 
         #endregion
@@ -54,7 +54,7 @@ namespace OpenTranslator.Controllers.Awesome
 		public ActionResult GetColumnsItems(string[] columns)
 		{
 			List<Language> list = new List<Language>();
-			list = ILanguages.GetLanguages().ToList();
+			list = ILanguages.GetAll().ToList();
 			var column = new List<String>();
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -108,8 +108,8 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public GridFormatData Gridformat()
 		{
-			var languages = ILanguages.GetLanguages().Select(x => x.LanguageCode).Distinct();
-			var query = from r in ITranslation.GetTranslation().Where(x => x.OfficialBoolean == true)
+			var languages = ILanguages.GetAll().Select(x => x.LanguageCode).Distinct();
+			var query = from r in ITranslation.GetAll().Where(x => x.OfficialBoolean == true)
 						group r by r.TextId into nameGroup
 						select new
 						{
@@ -126,7 +126,7 @@ namespace OpenTranslator.Controllers.Awesome
 						};
 
 			DataTable table = new DataTable();
-			var languagesList = ILanguages.GetLanguages().Select(x => x.LanguageName).Distinct();
+			var languagesList = ILanguages.GetAll().Select(x => x.LanguageName).Distinct();
 			table.Columns.Add("TextId");  // first column
 			foreach (var language in languagesList)
 				table.Columns.Add(language); // columns for each language
@@ -379,15 +379,11 @@ namespace OpenTranslator.Controllers.Awesome
 			if (Request.Cookies["BrowserId"] != null)
 			{
 				Guid cookieValue = Guid.Parse(Request.Cookies["BrowserId"].Value);
-				var a = IVotes.GetVoteBytranslationId(Id, cookieValue);
-				if (a != null)
-				{
-					return Json(new { value = true });
-				}
-				else
-				{
-					return Json(new { value = false });
-				}
+				var vote = IVotes.GetVoteByTranslationID(Id, cookieValue);
+                bool isValid = vote != null ? true : false;
+
+                return Json(new { value = isValid });
+				
 			}
 			else
 			{
@@ -433,7 +429,7 @@ namespace OpenTranslator.Controllers.Awesome
 					addVote.CookieID = cookieValue;
 					addVote.Translation_Id = data.Id;
 					addVote.IP = myIP;
-					IVotes.InsertVote(addVote);
+					IVotes.Save(addVote);
 
 				}
 				else
@@ -443,19 +439,19 @@ namespace OpenTranslator.Controllers.Awesome
 					foreach (var item in items)
 					{
 						var id = Convert.ToInt32(item.Id);
-						var updateVote = IVotes.GetVoteBytranslationId(id, cookieValue);
+						var updateVote = IVotes.GetVoteByTranslationID(id, cookieValue);
 						//
 						if (updateVote != null)
 						{
 							item.Votes = item.Votes == 0 ? 0 : item.Votes - 1;
 							data.Votes = data.Votes + 1;
 							ITranslation.Update(item);
-							IVotes.RemoveVote(updateVote.Id);
+							IVotes.Delete(int.Parse(updateVote.Id.ToString()));
 							Vote addVote = new Vote();
 							addVote.CookieID = cookieValue;
 							addVote.Translation_Id = data.Id;
 							addVote.IP = myIP;
-							IVotes.InsertVote(addVote);
+							IVotes.Save(addVote);
 
 
 						}
@@ -468,7 +464,7 @@ namespace OpenTranslator.Controllers.Awesome
 						addVote.CookieID = cookieValue;
 						addVote.Translation_Id = data.Id;
 						addVote.IP = myIP;
-						IVotes.InsertVote(addVote);
+						IVotes.Save(addVote);
 					}
 				}
 				if (getMode.Mode == 1)
@@ -518,8 +514,8 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				viewname = "../User/EditTranslation";
 			}
-			Language languages = ILanguages.GetLanguages().Where(x => x.LanguageName == code).FirstOrDefault();
-			Translation translation = ITranslation.GetTranslation().Where(x => x.TextId == TextId && x.LanguageCode == languages.LanguageCode && x.OfficialBoolean == true).FirstOrDefault();
+			Language languages = ILanguages.GetAll().Where(x => x.LanguageName == code).FirstOrDefault();
+			Translation translation = ITranslation.GetAll().Where(x => x.TextId == TextId && x.LanguageCode == languages.LanguageCode && x.OfficialBoolean == true).FirstOrDefault();
 			var translationMode = ITranslationMode.GetTranslationModeByID(TextId, languages.LanguageCode);
 
 			if (translation == null)
@@ -564,6 +560,9 @@ namespace OpenTranslator.Controllers.Awesome
 				mode.LanguageCode = input.LanguageCode;
 				mode.Mode = input.ModeOfTranslation;
 				ITranslationMode.InsertTranslationMode(mode);
+
+                updateMode = mode;
+
 				if (input.ModeOfTranslation == 2)
 				{
 					var griddata = this.Gridformat();
@@ -588,7 +587,7 @@ namespace OpenTranslator.Controllers.Awesome
 			var newtranslation = new Translation();
 			if (updateMode.Mode == 0 || updateMode.Mode == 1)
 			{
-				var repetTranslated = ITranslation.GetTranslation().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
+				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
 				if (repetTranslated != null)
 				{
 					if (updateMode.Mode == 0)
@@ -609,7 +608,7 @@ namespace OpenTranslator.Controllers.Awesome
 				}
 
                 //Find the las translation that has officialBoolean in true
-				var translatedData = ITranslation.GetTranslation()
+				var translatedData = ITranslation.GetAll()
                     .Where( x => 
                         x.TextId == input.TextId && 
                         x.LanguageCode == input.LanguageCode && 
@@ -636,7 +635,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 				ITranslation.Save(translatedText);
 
-				newtranslation = ITranslation.GetTranslation().Where(x => x.Id == translatedText.Id).FirstOrDefault();
+				newtranslation = ITranslation.GetAll().Where(x => x.Id == translatedText.Id).FirstOrDefault();
 
                 this.VoteCount("Like", newtranslation.TextId, newtranslation.Id, newtranslation.LanguageCode);
 
@@ -646,7 +645,7 @@ namespace OpenTranslator.Controllers.Awesome
 				translation_log.LanguageCode = translatedText.LanguageCode;
 				translation_log.Translated_Text = translatedText.Translated_Text;
 
-				ITranslation_Log.InsertTranslationLog(translation_log);
+				ITranslation_Log.Save(translation_log);
 				
 			}
 
@@ -697,10 +696,10 @@ namespace OpenTranslator.Controllers.Awesome
 				var vote = IVotes.GetVoteByTranslationID(item.Id);
 				if (vote != null)
 				{
-					IVotes.RemoveVote(vote.Id);
+					IVotes.Delete(int.Parse(vote.Id.ToString()));
 				}
 			}
-			ITranslation_Log.DeleteTranslationLog(input.TextId);
+			ITranslation_Log.DeleteRange(input.TextId);
 			return Json(new { Id = input.TextId });
 		}
 

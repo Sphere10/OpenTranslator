@@ -22,13 +22,13 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult GetAllLanguages()
 		{
-			var items = Ilanguages.GetLanguages().ToList();
+			var items = Ilanguages.GetAll().ToList();
 			return Json(items.Select(o => new KeyContent(o.LanguageCode, o.LanguageName)));
 		}
 
 		public ActionResult LanguageItems(GridParams g)
 		{
-			var items = Ilanguages.GetLanguages().AsQueryable();
+			var items = Ilanguages.GetAll().AsQueryable();
 			var key = Convert.ToInt32(g.Key);
 			var model = new GridModelBuilder<Language>(items, g)
 			{
@@ -74,7 +74,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 
 			var language = Ilanguages.GetLanguageID(id);
-            var languageExist = ITranslation.GetTranslation().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
+            var languageExist = ITranslation.GetAll().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
             if(languageExist!=null)
                 ViewBag.languageExist = true;
 

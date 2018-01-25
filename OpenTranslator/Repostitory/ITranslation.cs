@@ -8,7 +8,6 @@ namespace OpenTranslator.Repostitory
     {
 		void InsertTextTranslation(Text text, Translation translation,TranslationLog translationlog); // C
 		IEnumerable<Text> GetText(); // R
-		IEnumerable<Translation> GetTranslation(); // R
 		Translation GetTranslationID(string Id); // R
 		List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode);
 		List<Translation> GetTranslationByTextID(string TextId);
