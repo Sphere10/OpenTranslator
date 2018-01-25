@@ -32,17 +32,6 @@
 						<img src="~/Content/assets/img/logo-3.png" class="img-responsive logo-image">
 					</div>
 					<nav class="top-nav">
-						<ul class="top-nav-social hidden-sm">
-							<li><a href="#" class="animated fadeIn animation-delay-6 rss"><i class="fa fa-rss"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-7 twitter"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-8 facebook"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-9 google-plus"><i class="fa fa-google-plus"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-8 vine"><i class="fa fa-vine"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-7 linkedin"><i class="fa fa-linkedin"></i></a></li>
-							<li><a href="#" class="animated fadeIn animation-delay-6 flickr"><i class="fa fa-flickr"></i></a></li>
-						</ul>
-
 						<div class="dropdown animated fadeInDown animation-delay-11">
 							<a href="" onclick="location.href='@Url.Action("Index", "User")'" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Logout</a>
 						</div> <!-- dropdown -->
@@ -63,21 +52,16 @@
 						<a id="ar-brand" class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html">Artificial <span>Reason</span></a>
 					</div> <!-- navbar-header -->
 
-					<div class="dropdown-search-box pull-right">
-						<form role="form">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Search...">
-								<span class="input-group-btn">
-									<button class="btn btn-ar btn-primary" type="button">Go!</button>
-								</span>
-							</div>
-						</form>
-					</div>
-
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li class="dropdown">
 								<a href="#" onclick="location.href='@Url.Action("Index", "Admin")'">Home</a>
+							</li>
+							<li class="dropdown yamm-fw">
+								<a href="#" onclick="location.href='@Url.Action("Index", "Languages")'">Languages</a>
+							</li>
+							<li class="dropdown yamm-fw">
+								<a href="#" onclick="location.href='@Url.Action("Index", "AdminUsers")'">Users</a>
 							</li>
 							<li class="dropdown yamm-fw">
 								<a href="#" onclick="location.href='@Url.Action("Index", "PascalTranslation")'">Pascal Screen</a>
@@ -86,8 +70,8 @@
 					</div><!-- navbar-collapse -->
 				</div><!-- container -->
 			</nav>
-				@RenderBody()
-			
+			@RenderBody()
+
 			<footer id="footer">
 				<p>&copy; 2018 <a href="#">Open Translator</a>, com. All rights reserved.</p>
 			</footer>

@@ -10,6 +10,10 @@
 			<style>
 				.awe-ajaxcheckboxlist-field li {
 					display: inline-block;
+					padding:5px;
+				}
+				.awe-missingcheckbox {
+					padding: 6px;
 				}
 			</style>
 			@(Html.Awe().InitPopupForm()
@@ -26,14 +30,7 @@
 				.Title("Edit Translation")
 				.Success("UpdateGrid"))
 
-			<input type="checkbox" id="chkMissingTrans">
-			<label for="chkMissingTrans">
-				Missing Translations
-			</label>
-			<br />
-			<div class="bar">
-				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
-			</div>
+			
 
 			@(Html.Awe().Grid("OriginalTextGrid")
 			.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
@@ -43,6 +40,19 @@
 			.ColumnsPersistence(Persistence.Session)
 			.Groupable(false)
 			.Columns())
+			<br /><br />
+			<fieldset>
+				<legend> Options </legend>
+				<div class="bar">
+					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+				</div>
+				<div class="bar awe-missingcheckbox">
+					<input type="checkbox" id="chkMissingTrans">
+					<label for="chkMissingTrans">
+						Show missing translations for selected languages
+					</label>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </div>

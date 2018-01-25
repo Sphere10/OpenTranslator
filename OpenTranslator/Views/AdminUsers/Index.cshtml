@@ -1,0 +1,38 @@
+﻿@{
+	ViewBag.Title = "Open Translation";
+
+}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="bar">
+
+				@Html.InitCrudPopupsForGrid("Admin", "AdminUsers", 470, 1000, " User")
+				<div class="bar">
+					<button type="button" onclick="awe.open('createAdmin')" class="awe-btn mbtn">Add user</button>
+				</div>
+
+				@(Html.Awe().Grid("Admin")
+						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
+						.Url(Url.Action("UserDataItems", "AdminUsers"))
+						.Groupable(false)
+						.Columns(
+						new Column { Bind = "EmailId" },
+						new Column { Bind = "Password" },
+						new Column { ClientFormat = GridUtils.EditFormatForGrid("Admin", "Id"), Width = 50 },
+						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Admin", "Id"), Width = 50 }))
+				<br /><br />
+
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+		function logout() {
+			var url = '@Url.Action("Index", "User")';
+			window.location = url;
+		}
+
+
+</script>
