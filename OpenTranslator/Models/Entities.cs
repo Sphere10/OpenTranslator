@@ -12,6 +12,14 @@ namespace OpenTranslator.Models
 		public bool System { get; set; }
 
 	}	
+	public class languages
+    {
+        public int Id { get; set; }
+        public string LanguageName { get; set; }
+        public string LanguageCode { get; set; }
+		public int MissingTranslationCount { get; set; }
+
+	}	
 
 	public class GridFormatData
 	{

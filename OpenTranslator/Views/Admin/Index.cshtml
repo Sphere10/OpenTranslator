@@ -5,7 +5,14 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<br /><br />
+			<br />
+				<fieldset>
+				<legend>Languages </legend>
+				<div>
+					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+				</div>
+			</fieldset>
+				<br />
 			@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
 			<style>
 				.awe-ajaxcheckboxlist-field li {
@@ -30,11 +37,10 @@
 						.Groupable(false)
 						.Columns())
 			<br /><br />
+			
+
 			<fieldset>
 				<legend> Options </legend>
-				<div class="bar">
-					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
-				</div>
 				<div class="bar awe-missingcheckbox">
 					<input type="checkbox" id="chkMissingTrans">
 					<label for="chkMissingTrans">

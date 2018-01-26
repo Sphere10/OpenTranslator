@@ -105,10 +105,9 @@ namespace OpenTranslator.Controllers.Awesome
 
 				};
 		}
-
-		public GridFormatData Gridformat()
+		public DataTable getTable()
 		{
-			var languages = ILanguages.GetAll().Select(x => x.LanguageCode).Distinct();
+				var languages = ILanguages.GetAll().Select(x => x.LanguageCode).Distinct();
 			var query = from r in ITranslation.GetAll().Where(x => x.OfficialBoolean == true)
 						group r by r.TextId into nameGroup
 						select new
@@ -139,6 +138,13 @@ namespace OpenTranslator.Controllers.Awesome
 				row.ItemArray = items.ToArray();
 				table.Rows.Add(row);
 			}
+			return table;
+		}
+
+		public GridFormatData Gridformat()
+		{
+			var table= getTable();
+		
 			if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
 			{
 				DataTable dtNewtable = new DataTable();
@@ -154,7 +160,7 @@ namespace OpenTranslator.Controllers.Awesome
 							if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
 								table.Rows[i].Delete();
 						}
-
+						var a= table.Rows.Count;
 					}
 				}
 

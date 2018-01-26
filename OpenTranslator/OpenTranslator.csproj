@@ -277,6 +277,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Awesome\AdminController.cs" />
     <Compile Include="Controllers\Awesome\AdminUsersController.cs" />
+    <Compile Include="Controllers\Awesome\MissingTranslationController.cs" />
     <Compile Include="Controllers\Awesome\LanguagesController.cs" />
     <Compile Include="Controllers\Awesome\LoginController.cs" />
     <Compile Include="Controllers\Awesome\PascalTranslationController.cs" />
@@ -298,9 +299,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\sysdiagram.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
@@ -458,6 +456,7 @@
     <Content Include="Views\Shared\_LayoutEmbedAdmin.cshtml" />
     <Content Include="Views\AdminUsers\Index.cshtml" />
     <Content Include="Views\Languages\Index.cshtml" />
+    <Content Include="Views\MissingTranslation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

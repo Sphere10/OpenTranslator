@@ -16,8 +16,8 @@
 						.Url(Url.Action("LanguageItems", "Languages"))
 						.Groupable(false)
 						.Columns(
-						new Column { Bind = "LanguageCode" },
-						new Column { Bind = "LanguageName" },
+						new Column { Bind = "LanguageCode" , Header = "Language Code" },
+						new Column { Bind = "LanguageName", Header = "Language Name" },
 						new Column { ClientFormat = GridUtils.EditFormatForGrid("Languages", "Id"), Width = 50 },
 						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Languages", "Id"), Width = 50 }))
 				<br /><br />
@@ -25,6 +25,7 @@
 
 			</div>
 		</div>
+	</div>
 	</div>
 	<script>
 

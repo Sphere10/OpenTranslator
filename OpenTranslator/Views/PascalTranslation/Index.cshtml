@@ -17,7 +17,13 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div><br />
-
+				<fieldset>
+				<legend>Languages </legend>
+				<div>
+					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+				</div>
+			</fieldset>
+				<br />
 			<div id="divButtons">
 				<button type="button" class="awe-btn mbtn" onclick='$("#exportForm").hide();$("#importForm").toggle();'>Import</button>
 				<button type="button" class="awe-btn mbtn" onclick='$("#importForm").hide();$("#exportForm").toggle();'>Export</button>
@@ -90,9 +96,6 @@
 				.Success("UpdateGrid"))
 			<fieldset>
 				<legend> Options </legend>
-				<div class="bar">
-					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
-				</div>
 				<div class="bar awe-missingcheckbox">
 					<input type="checkbox" id="chkMissingTrans">
 					<label for="chkMissingTrans">
