@@ -9,7 +9,7 @@
 			<fieldset>
 				<legend>Languages </legend>
 				<div>
-					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+					@Html.Awe().AjaxCheckboxList("chkColumns").Multiselect().Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
 				</div>
 			</fieldset>
 			<br />
