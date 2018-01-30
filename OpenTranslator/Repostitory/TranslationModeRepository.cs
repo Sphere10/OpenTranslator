@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using OpenTranslator.Data;
 using System.Data.Entity;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class TranslationModeRepository : ITranslationMode
+    public class TranslationModeRepository : BaseRepository<TranslationMode>, ITranslationMode
 	{
-		private StringTranslationEntities DBcontext;
-		
-		public TranslationModeRepository(StringTranslationEntities objempcontext)
-		{
-			this.DBcontext = objempcontext;
-		}
-		public void DeleteTranslationMode(int Id)
+        #region Constructor
+        public TranslationModeRepository() {}
+        #endregion
+
+        #region ITranslationMode implementation
+        
+        #endregion
+
+        public void DeleteTranslationMode(int Id)
 		{
 			throw new NotImplementedException();
 		}
@@ -27,13 +29,13 @@ namespace OpenTranslator.Repostitory
 
 		public TranslationMode GetTranslationModeByID(string TextId, string LanguageCode)
 		{
-			return DBcontext.TranslationModes.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).FirstOrDefault();
+			return GetDbContext().TranslationModes.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).FirstOrDefault();
 		}
 
 		public void InsertTranslationMode(TranslationMode mode)
 		{
-			DBcontext.TranslationModes.Add(mode);
-			DBcontext.SaveChanges();
+            GetDbContext().TranslationModes.Add(mode);
+            GetDbContext().SaveChanges();
 		}
 
 		public void Save()
@@ -44,8 +46,8 @@ namespace OpenTranslator.Repostitory
 
 		public void UpdateTranslationMode(TranslationMode mode)
 		{
-			DBcontext.Entry(mode).State = EntityState.Modified;
-			DBcontext.SaveChanges();
+            GetDbContext().Entry(mode).State = EntityState.Modified;
+            GetDbContext().SaveChanges();
 		}
 
 		

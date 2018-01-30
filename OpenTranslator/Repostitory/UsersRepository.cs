@@ -1,13 +1,12 @@
-﻿using OpenTranslator.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Data.Entity;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class UsersRepository : IUsers
+    public class UsersRepository : IUsers
 	{
 		private StringTranslationEntities DBcontext;
 		

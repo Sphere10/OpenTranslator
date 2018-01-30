@@ -1,49 +1,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class VotesRepository: IVotes
+	public class VotesRepository: BaseRepository<Vote>, IVotes
 	{
-		private StringTranslationEntities DBcontext;
-		
-		public VotesRepository(StringTranslationEntities objempcontext)
+        #region Constructor
+        public VotesRepository() : base(){}
+        #endregion
+
+        #region IVotes implementation
+
+        /// <summary>
+        /// Returns a particulary Vote instance, find it by its translationId and its CookieID Guid 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="CookieID"></param>
+        /// <returns></returns>
+        public Vote GetVoteByTranslationID(int translationId,Guid CookieID)
 		{
-			this.DBcontext = objempcontext;
+			return GetDbContext().Votes.Where(x => x.Translation_Id == translationId && x.CookieID == CookieID).FirstOrDefault();
 		}
-		public Vote GetVoteBytranslationId(int id,Guid CookieID)
-		{
-			return DBcontext.Votes.Where(x => x.Translation_Id == id && x.CookieID == CookieID).FirstOrDefault();
-		}
+
+        /// <summary>
+        /// Returns a particulary Vote instance, finds it by its translationId
+        /// </summary>
+        /// <param name="translationId"></param>
+        /// <returns></returns>
 		public Vote GetVoteByTranslationID(decimal translationId)
 		{
-			return DBcontext.Votes.Where(x => x.Translation_Id == translationId ).FirstOrDefault();
+			return GetDbContext().Votes.Where(x => x.Translation_Id == translationId ).FirstOrDefault();
 		}
 
+        /// <summary>
+        /// Returns a particulary Vote instance, finds it by its CookieID Guid
+        /// </summary>
+        /// <param name="CookieID"></param>
+        /// <returns></returns>
 		public Vote GetVoteByCookieID(Guid CookieID)
 		{
-			return DBcontext.Votes.Where(x=>x.CookieID==CookieID).FirstOrDefault();
-		}
-		public List<Vote> GetVoteList(Guid CookieID)
-		{
-			return DBcontext.Votes.Where(x=>x.CookieID==CookieID).ToList();
+			return GetDbContext().Votes.Where(x=>x.CookieID==CookieID).FirstOrDefault();
 		}
 
-		public void InsertVote(Vote vote)
+        /// <summary>
+        /// Returns a list of Vote instances, find them by their CookieID Guid
+        /// </summary>
+        /// <param name="CookieID"></param>
+        /// <returns></returns>
+		public List<Vote> GetVoteList(Guid CookieID)
 		{
-			DBcontext.Votes.Add(vote);
-			DBcontext.SaveChanges();
+			return GetDbContext().Votes.Where(x=>x.CookieID==CookieID).ToList();
 		}
-		public void RemoveVote(decimal voteId)
-		{
-			Vote vote = DBcontext.Votes.Find(voteId);
-			DBcontext.Votes.Remove(vote);
-			DBcontext.SaveChanges();
-		}
-		
+
+        #endregion
 
 	}
 }

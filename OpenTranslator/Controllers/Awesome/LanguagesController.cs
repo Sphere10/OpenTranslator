@@ -1,36 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 
-using OpenTranslator.Models;
-
 using Omu.AwesomeMvc;
+
 using OpenTranslator.Data;
 using OpenTranslator.Repostitory;
 using OpenTranslator.Models.Input;
-using System;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-	public class LanguagesController : Controller
+    public class LanguagesController : Controller
 	{
 		private ILanguages Ilanguages;
 		private ITranslation ITranslation;
 		public LanguagesController()
 		{
-			this.Ilanguages = new LanguageRepository(new StringTranslationEntities());
-			this.ITranslation= new TranslationRepository(new StringTranslationEntities());
+			this.Ilanguages = new LanguageRepository();
+			this.ITranslation= new TranslationRepository();
+		}
+			public ActionResult Index()
+		{
+			if (Request.Cookies["UserId"] == null)
+			{
+				return RedirectToAction("Index", "User");
+			}
+			else
+			{
+				return View("Index","_AdminLayout");
+			}
+
+		}
+		public ActionResult embeded()
+		{
+			return View("Index","_LayoutEmbedAdmin");
 		}
 
 		public ActionResult GetAllLanguages()
 		{
-			var items = Ilanguages.GetLanguages().ToList();
+			var items = Ilanguages.GetAll().ToList();
 			return Json(items.Select(o => new KeyContent(o.LanguageCode, o.LanguageName)));
 		}
 
 		public ActionResult LanguageItems(GridParams g)
 		{
-			var items = Ilanguages.GetLanguages().AsQueryable();
+			var items = Ilanguages.GetAll().AsQueryable();
 			var key = Convert.ToInt32(g.Key);
 			var model = new GridModelBuilder<Language>(items, g)
 			{
@@ -59,7 +73,7 @@ namespace OpenTranslator.Controllers.Awesome
 				Language language = new Language();
 				language.LanguageCode = input.LanguageCode;
 				language.LanguageName = input.LanguageName;
-				Ilanguages.InsertLanguage(language);
+				Ilanguages.Save(language);
 				// use MapToGridModel like in Grid Crud Demo when grid uses Map
 				return Json(language);
 			}
@@ -76,7 +90,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 
 			var language = Ilanguages.GetLanguageID(id);
-            var languageExist = ITranslation.GetTranslation().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
+            var languageExist = ITranslation.GetAll().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
             if(languageExist!=null)
                 ViewBag.languageExist = true;
 
@@ -98,11 +112,11 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				return PartialView("Create", input);
 			}
-			var Language = new Language();
-			Language.Id = Convert.ToDecimal(input.Id);
-			Language.LanguageCode = input.LanguageCode;
-			Language.LanguageName = input.LanguageName;
-			Ilanguages.UpdateLanguage(Language);
+			var language = new Language();
+			language.Id = Convert.ToDecimal(input.Id);
+			language.LanguageCode = input.LanguageCode;
+			language.LanguageName = input.LanguageName;
+			Ilanguages.Update(language);
 			return Json(new { input.Id });
 		}
 
@@ -118,7 +132,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Delete(DeleteConfirmInput input)
 		{
-			Ilanguages.DeleteLanguage(input.Id);
+			Ilanguages.Delete(input.Id);
 			return Json(new { input.Id });
 		}
 	}

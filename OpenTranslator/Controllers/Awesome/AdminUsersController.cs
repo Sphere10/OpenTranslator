@@ -19,9 +19,21 @@ namespace OpenTranslator.Controllers.Awesome
 			this.IUsers = new UsersRepository(new StringTranslationEntities());
 		}
 		// GET: User
-		public ActionResult Index()
+	public ActionResult Index()
 		{
-			return View();
+			if (Request.Cookies["UserId"] == null)
+			{
+				return RedirectToAction("Index", "User");
+			}
+			else
+			{
+				return View("Index","_AdminLayout");
+			}
+
+		}
+		public ActionResult embeded()
+		{
+			return View("Index","_LayoutEmbedAdmin");
 		}
 
 		public ActionResult UserDataItems(GridParams g)
