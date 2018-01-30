@@ -16,6 +16,7 @@ using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
 {
+//TODO: delete this comment line when finish!
 	public class AdminController : Controller
 	{
 		public StringTranslationEntities entities = new StringTranslationEntities();
