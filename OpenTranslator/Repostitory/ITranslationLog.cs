@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+
 using OpenTranslator.Data;
 
-namespace OpenTranslator.Repostitory
+namespace OpenTranslator.Repostitory 
 {
-	public interface ITranslationLog
-	{
-		void InsertTranslationLog(TranslationLog translation_Log); // C
-		IEnumerable<TranslationLog> GetTranslationLog(); // R
+    public interface ITranslationLog : IBaseRepository<TranslationLog>
+    {
 		TranslationLog GetTranslationLogID(int Id); // R
 		List<TranslationLog> GetTranslationLogByCode(string TextId,string code); // R
-		void UpdateTranslationLog(TranslationLog translationLog); //U
-		void DeleteTranslationLog(string TextId); //D
-		void Save();
 	}
 }

@@ -1,108 +1,80 @@
-﻿using OpenTranslator.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Data.Entity;
+
+using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-	public class TranslationRepository : ITranslation
+    public class TranslationRepository : BaseRepository<Translation>, ITranslation
 	{
-		private StringTranslationEntities DBcontext;
+        #region private properties
 
+        private BaseRepository<Text> _baseRepositoryText = new BaseRepository<Text>();
+        private BaseRepository<TranslationLog> _baseRepositoryTranslationLog = new BaseRepository<TranslationLog>();
+        
+        #endregion
+        
+        #region
 
-		public TranslationRepository(StringTranslationEntities objempcontext)
+        public TranslationRepository() : base(){}
+        
+        #endregion
+
+        #region ITranslation interface implementation
+
+        /// <summary>
+        /// Insert Text object in db, then save translation and create a translation log for this instances
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="translation"></param>
+        /// <param name="translation_log"></param>
+        public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
 		{
-			this.DBcontext = objempcontext;
+            _baseRepositoryText.Save(text);
+            Save(translation);
+            _baseRepositoryTranslationLog.Save(translation_log);
 		}
-
-		public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-					DBcontext.Texts.Add(text);
-					DBcontext.SaveChanges();
-					DBcontext.Translations.Add(translation);
-					DBcontext.SaveChanges();
-					DBcontext.TranslationLogs.Add(translation_log);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-
-		}
-		public void InsertTranslation(Translation translation)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-					DBcontext.Translations.Add(translation);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-
-		}
+		
+        /// <summary>
+        /// Returns a list of all Text objects in db
+        /// </summary>
+        /// <returns></returns>
 		public IEnumerable<Text> GetText()
 		{
-			return DBcontext.Texts.ToList();
+			return GetDbContext().Texts.ToList();
 		}
-		public IEnumerable<Translation> GetTranslation()
-		{
-			return DBcontext.Translations.ToList();
-		}
+		
+        /// <summary>
+        /// Returns a particular translation by its Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
 		public Translation GetTranslationID(string Id)
 		{
-			return DBcontext.Translations.Where(x => x.TextId == Id).FirstOrDefault();
+			return GetDbContext().Translations.Where(x => x.TextId == Id).FirstOrDefault();
 		}
+
+        /// <summary>
+        /// Returns a particular translation by its language code and its textId
+        /// </summary>
+        /// <param name="TextId"></param>
+        /// <param name="LanguageCode"></param>
+        /// <returns></returns>
 		public List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode)
 		{
-			return DBcontext.Translations.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).ToList();
-		}
-		public void UpdateTranslation(Translation translation)
-		{
-			DBcontext.SaveChanges();
-			DBcontext.Entry(translation).State = EntityState.Modified;
-		}
-		public void DeleteTranslation(string TextId)
-		{
-			using (var transaction = DBcontext.Database.BeginTransaction())
-			{
-				try
-				{
-
-					DBcontext.Translations.RemoveRange(DBcontext.Translations.Where(x => x.TextId == TextId));
-					DBcontext.SaveChanges();
-					Text text = DBcontext.Texts.Where(x => x.TextId == TextId).FirstOrDefault();
-					DBcontext.Texts.Remove(text);
-					DBcontext.SaveChanges();
-					transaction.Commit();
-				}
-				catch
-				{
-					transaction.Rollback();
-				}
-			}
-		}
-		public	List<Translation> GetTranslationByTextID(string TextId)
-		{
-			return DBcontext.Translations.Where(x=>x.TextId==TextId).ToList();
+			return GetDbContext().Translations.Where(x=>x.TextId==TextId && x.LanguageCode==LanguageCode).ToList();
 		}
 
-		public void Save()
+        /// <summary>
+        /// Returns a particular translation by its TextId
+        /// </summary>
+        /// <param name="TextId"></param>
+        /// <returns></returns>
+        public List<Translation> GetTranslationByTextID(string TextId)
 		{
+			return GetDbContext().Translations.Where(x=>x.TextId==TextId).ToList();
 		}
+
+        #endregion
 	}
 }

@@ -3432,15 +3432,15 @@ a.thumbnail.active {
   margin: 0 2px;
 }
 .carousel-section {
-  background-image: url("../img/slide_back.jpg");
-  margin-bottom: 40px;
-  background-size: cover;
-  background-position: top center;
-  overflow: hidden;
+	background-image: url("../img/banner-01-Recovered-10 (1).jpg");
+	margin-bottom: 40px;
+	background-size: cover;
+	background-position: center center;
+	overflow: hidden;
 }
 .carousel-razon {
-  background-color: #0099da;
-  background-color: rgba(0, 135, 193, 0.9);
+  /*background-color: #0099da;
+  background-color: rgba(0, 135, 193, 0.9);*/
 }
 .carousel-razon-dark {
   background-color: #444;
@@ -3522,9 +3522,8 @@ a.thumbnail.active {
 	margin-bottom: 20px;
 	font-weight: 300;
 	font-family: "Lato", sans-serif;
-
 }
-	.carousel-control.right {
+.carousel-control.right {
   right: 0;
   left: auto;
   background-image: none;

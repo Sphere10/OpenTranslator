@@ -2,36 +2,34 @@
 	ViewBag.Title = "Open Translation";
 	
 }
-
-@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
-<style>
-	.awe-ajaxcheckboxlist-field li {
-		display: inline-block;
-	}
-</style>
-
-
-
-@(Html.Awe().InitPopupForm()
-			.Name("EditTranslation")
-			.Url(Url.Action("Edit", "Admin"))
-			.Title("Edit Translation")
-			.Success("UpdateGrid"))
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="bar">
-				<br />
-				<input type="checkbox" id="chkMissingTrans">
-			<label for="chkMissingTrans">
-				Missing Translations
-			</label>
 			<br />
+				<fieldset>
+				<legend>Languages </legend>
+				<div>
+					@Html.Awe().AjaxCheckboxList("chkColumns").Multiselect().Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+				</div>
+			</fieldset>
 				<br />
-				<button type="button" class="awe-btn mbtn" onclick="awe.open('createOriginalTextGrid')">Add String</button>
-				@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems")).Load(true)
-			</div>
+			@Html.InitCrudPopupsForGrid("OriginalTextGrid", "Admin", 470, 1000, "String")
+			<style>
+				.awe-ajaxcheckboxlist-field li {
+					display: inline-block;
+					padding: 5px;
+				}
+				.awe-missingcheckbox {
+					padding: 6px;
+				}
+			</style>
+
+			@(Html.Awe().InitPopupForm()
+					.Name("EditTranslation")
+					.Url(Url.Action("Edit", "Admin"))
+					.Title("Edit Translation")
+					.Success("UpdateGrid"))
+
 
 			@(Html.Awe().Grid("OriginalTextGrid")
 						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
@@ -39,47 +37,28 @@
 						.Groupable(false)
 						.Columns())
 			<br /><br />
-			@Html.InitCrudPopupsForGrid("Languages", "Languages", 470, 1000, " Language")
-			<div class="bar">
-				<button type="button" onclick="awe.open('createLanguages')" class="awe-btn mbtn">Add Language</button>
-			</div>
-			@(Html.Awe().Grid("Languages")
-						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-						.Url(Url.Action("LanguageItems", "Languages"))
-						.Groupable(false)
-						.Columns(
-						new Column { Bind = "LanguageCode" },
-						new Column { Bind = "LanguageName" },
-						new Column { ClientFormat = GridUtils.EditFormatForGrid("Languages", "Id"), Width = 50 },
-						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Languages", "Id"), Width = 50 }))
-			<br /><br />
-			@Html.InitCrudPopupsForGrid("Admin", "AdminUsers", 470, 1000, " User")
-			<div class="bar">
-				<button type="button" onclick="awe.open('createAdmin')" class="awe-btn mbtn">Add user</button>
-			</div>
+			
 
-			@(Html.Awe().Grid("Admin")
-						.Mod(o => o.ColumnsSelector().PageSize().PageInfo().Loading().AutoMiniPager())
-						.Url(Url.Action("UserDataItems", "AdminUsers"))
-						.Groupable(false)
-						.Columns(
-						new Column { Bind = "EmailId" },
-						new Column { Bind = "Password" },
-						new Column { ClientFormat = GridUtils.EditFormatForGrid("Admin", "Id"), Width = 50 },
-						new Column { ClientFormat = GridUtils.DeleteFormatForGrid("Admin", "Id"), Width = 50 }))
-			<br /><br />
-
+			<fieldset>
+				<legend> Options </legend>
+				<div class="bar awe-missingcheckbox">
+					<input type="checkbox" id="chkMissingTrans">
+					<label for="chkMissingTrans">
+						Show missing translations for selected languages
+					</label>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
+<br /><br />
 <script>
 	$(document).ready(function () {
-		debugger;
 		if (getCookie("MissingTrans") == "true")
 			$('#chkMissingTrans').attr('checked', 'checked')
 	});
 
-	
+
 		function logout() {
 			var url = '@Url.Action("Index", "User")';
 			window.location = url;
@@ -90,7 +69,6 @@
 
 		function getVal(i, columnname) {
 			return function (model) {
-				debugger;
 				var div = "";
 				var a = model.Values[i];
 				if (a != "")
@@ -125,7 +103,6 @@
 			document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
 		}
 		function getCookie(c_name) {
-			debugger;
 			var i, x, y, ARRcookies = document.cookie.split(";");
 			for (i = 0; i < ARRcookies.length; i++) {
 				x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
