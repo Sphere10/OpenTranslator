@@ -30,7 +30,7 @@ namespace OpenTranslator.Repostitory
         /// <param name="translation_log"></param>
         public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
 		{
-            _baseRepositoryText.Save(text);
+            _baseRepositoryText.Save(text); 
             Save(translation);
             _baseRepositoryTranslationLog.Save(translation_log);
 		}
