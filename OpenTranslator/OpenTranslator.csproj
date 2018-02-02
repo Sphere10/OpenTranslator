@@ -300,9 +300,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\sysdiagram.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -348,6 +345,7 @@
     <Compile Include="Repostitory\TranslationLogRepository.cs" />
     <Compile Include="Repostitory\UsersRepository.cs" />
     <Compile Include="Repostitory\LanguageRepository.cs" />
+    <Compile Include="Utils\StringExtension.cs" />
     <Content Include="Content\Common.css" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

@@ -16,7 +16,7 @@ using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-//TODO: delete this comment line when finish!
+
 	public class AdminController : Controller
 	{
 		public StringTranslationEntities entities = new StringTranslationEntities();
@@ -84,12 +84,11 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				return RedirectToAction("Index", "User");
 			}
-			else
-			{
-				return View("Index","_AdminLayout");
-			}
+
+			return View("Index","_AdminLayout");
 
 		}
+
 		public ActionResult embeded()
 		{
 			return View("Index","_LayoutEmbedAdmin");
@@ -106,6 +105,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 				};
 		}
+
 		public DataTable getTable()
 		{
 				var languages = ILanguages.GetAll().Select(x => x.LanguageCode).Distinct();
@@ -158,8 +158,8 @@ namespace OpenTranslator.Controllers.Awesome
 						{
 							// whatever your criteria is
 
-							if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
-								table.Rows[i].Delete();
+							//if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
+							//	table.Rows[i].Delete();
 						}
 						var a= table.Rows.Count;
 					}
@@ -167,7 +167,8 @@ namespace OpenTranslator.Controllers.Awesome
 
 
 			}
-				var tableList = table.AsEnumerable().AsQueryable();
+
+            var tableList = table.AsEnumerable().AsQueryable();
 			tableList.ToArray().AsQueryable();
 			List<string[]> gridDataList = new List<string[]>();
 			string[] columnNames = table.Columns.Cast<DataColumn>()
@@ -210,9 +211,8 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				Session["SelectedColumns"] = selectedColumns;
 
-				//Response.Cookies["SelectedColumns"].Value = selectedColumns.ToString() ;
-				//Response.Cookies["SelectedColumns"].Expires = DateTime.Now.AddMonths(1);
 			}
+
 			var GridData = this.Gridformat();
 			var columns = GridData.GridColumn.ToArray();
 			var deletecolomn = columns[columns.Length-1];
@@ -222,7 +222,6 @@ namespace OpenTranslator.Controllers.Awesome
 			if (Session["SelectedColumns"] != null)
 			{
 				selectedColumns = (string[])Session["SelectedColumns"];
-				//selectedColumns = Response.Cookies["SelectedColumns"].Value;
 				choosingColumns = true;
 
 			}
@@ -281,62 +280,49 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Create(AdminInput input)
 		{
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid || this.doesTextIdExist(input) == true)
 			{
 				return PartialView(input);
 			}
-			if (this.doesTextIdExist(input) == true)
-			{
-				return PartialView(input);
+			
+			input.TextId = input.TextId;
+			Text text = new Text();
+			text.TextId = input.TextId;
+			text.System = true;
 
-			}
-			if (this.doesTextExist(input) == true)
-			{
-				return PartialView(input);
+			Translation translation = new Translation();
+			translation.LanguageCode = input.LanguageCode;
+			translation.TextId = text.TextId;
+			translation.Translated_Text = input.Text;
+			translation.OfficialBoolean = true;
+			translation.Votes = 0;
 
+			TranslationLog translation_log = new TranslationLog();
+			translation_log.TextId = input.TextId;
+			translation_log.System_Date = DateTime.Now;
+			translation_log.LanguageCode = input.LanguageCode;
+			translation_log.Translated_Text = input.Text;
+
+			ITranslation.InsertTextTranslation(text, translation, translation_log);
+
+			// returning the key to call grid.api.update
+			var data = this.Gridformat();
+			var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
+
+            if (System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
+			{
+				if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value != "true")
+				{ 
+					return Json(MapToGridModel(rowData));
+				}
+
+                return Json(rowData);
 			}
 			else
 			{
-				input.TextId = input.TextId;
-				Text text = new Text();
-				text.TextId = input.TextId;
-				text.System = true;
-
-				Translation translation = new Translation();
-				translation.LanguageCode = input.LanguageCode;
-				translation.TextId = text.TextId;
-				translation.Translated_Text = input.Text;
-				translation.OfficialBoolean = true;
-				translation.Votes = 0;
-
-				TranslationLog translation_log = new TranslationLog();
-				translation_log.TextId = input.TextId;
-				translation_log.System_Date = DateTime.Now;
-				translation_log.LanguageCode = input.LanguageCode;
-				translation_log.Translated_Text = input.Text;
-
-				ITranslation.InsertTextTranslation(text, translation, translation_log);
-
-				// returning the key to call grid.api.update
-				var data = this.Gridformat();
-			    var rowData = data.GridRows.Where(x => x.TextId == input.TextId).FirstOrDefault();
-
-                if (System.Web.HttpContext.Current.Request.Cookies["MissingTrans"] != null)
-				{
-					if(System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value != "true")
-					{ 
-						return Json(MapToGridModel(rowData));
-					}
-					else
-					{
-						return Json(rowData);
-					}
-				}
-				else
-				{
-					return Json(rowData);
-				}
+				return Json(rowData);
 			}
+			
 		}
 
 		[HttpPost]
@@ -352,10 +338,8 @@ namespace OpenTranslator.Controllers.Awesome
 					ViewBag.errormsg = "TextId already exist.";
 					return true;
 				}
-				else
-				{
-					return false;
-				}
+
+				return false;
 			}
 			else
 			{
@@ -365,45 +349,11 @@ namespace OpenTranslator.Controllers.Awesome
 					ViewBag.errormsg = "TextId already exist.";
 					return true;
 				}
-				else
-				{
-					return false;
-				}
-			}
-		}
-		public bool doesTextExist(AdminInput input)
-		{
 
-			var id = Convert.ToDecimal(input.Id);
-			if (input.Id == 0)
-			{
-				var text = ITranslation.GetTranslation().Where(x=>x.Translated_Text==input.Text).FirstOrDefault();
-				if (text != null)
-				{
-					//ViewBag.errormsg += input.TextId  + " TextId already exist.\n";
-					ViewBag.errormsg = "Text already exist.";
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				var text = ITranslation.GetTranslation().Where(x => x.Translated_Text == input.Text).FirstOrDefault();
-				if (text != null)
-				{
-					//ViewBag.errormsg += input.TextId + "TextId already exist.";
-					ViewBag.errormsg = "Text already exist.";
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 		}
+
 		public ActionResult TranslationItems(GridParams g, string TextId, string LanguageCode)
 		{
 			var items = ITranslation.GetTranslationLogByCode(TextId, LanguageCode).AsQueryable();
@@ -430,10 +380,8 @@ namespace OpenTranslator.Controllers.Awesome
                 return Json(new { value = isValid });
 				
 			}
-			else
-			{
-				return Json(new { value = false });
-			}
+		
+        	return Json(new { value = false });
 
 
 		}

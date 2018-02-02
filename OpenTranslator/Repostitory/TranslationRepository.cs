@@ -30,7 +30,7 @@ namespace OpenTranslator.Repostitory
         /// <param name="translation_log"></param>
         public void InsertTextTranslation(Text text, Translation translation, TranslationLog translation_log)
 		{
-            _baseRepositoryText.Save(text);
+            _baseRepositoryText.Save(text); 
             Save(translation);
             _baseRepositoryTranslationLog.Save(translation_log);
 		}
@@ -42,15 +42,6 @@ namespace OpenTranslator.Repostitory
 		public IEnumerable<Text> GetText()
 		{
 			return GetDbContext().Texts.ToList();
-		}
-
-		/// <summary>
-        /// Returns a list of all Text objects in db
-        /// </summary>
-        /// <returns></returns>
-		public IEnumerable<Translation> GetTranslation()
-		{
-			return GetDbContext().Translations.ToList();
 		}
 		
         /// <summary>

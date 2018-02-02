@@ -20,6 +20,7 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 			return View("Index","_Layout");
 		}
+
 		public ActionResult embeded()
 		{
 			return View("Index","_LayoutEmbedUser");

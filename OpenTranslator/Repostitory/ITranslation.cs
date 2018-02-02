@@ -10,7 +10,6 @@ namespace OpenTranslator.Repostitory
 		IEnumerable<Text> GetText(); // R
 		Translation GetTranslationID(string Id); // R
 		List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode);
-		List<Translation> GetTranslationByTextID(string TextId);
-		IEnumerable<Translation> GetTranslation(); 
+		List<Translation> GetTranslationByTextID(string TextId); 
 	}
 }
