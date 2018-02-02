@@ -14,21 +14,21 @@ namespace OpenTranslator.Controllers.Awesome
 	{
 		private ILanguages Ilanguages;
 		private ITranslation ITranslation;
+
 		public LanguagesController()
 		{
 			this.Ilanguages = new LanguageRepository();
 			this.ITranslation= new TranslationRepository();
 		}
-			public ActionResult Index()
+
+		public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] == null)
 			{
 				return RedirectToAction("Index", "User");
 			}
-			else
-			{
-				return View("Index","_AdminLayout");
-			}
+
+			return View("Index","_AdminLayout");
 
 		}
 		public ActionResult embeded()
