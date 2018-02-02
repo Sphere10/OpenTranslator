@@ -290,6 +290,11 @@ namespace OpenTranslator.Controllers.Awesome
 				return PartialView(input);
 
 			}
+			if (this.doesTextExist(input) == true)
+			{
+				return PartialView(input);
+
+			}
 			else
 			{
 				input.TextId = input.TextId;
@@ -358,6 +363,39 @@ namespace OpenTranslator.Controllers.Awesome
 				if (text != null)
 				{
 					ViewBag.errormsg = "TextId already exist.";
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		public bool doesTextExist(AdminInput input)
+		{
+
+			var id = Convert.ToDecimal(input.Id);
+			if (input.Id == 0)
+			{
+				var text = ITranslation.GetTranslation().Where(x=>x.Translated_Text==input.Text).FirstOrDefault();
+				if (text != null)
+				{
+					//ViewBag.errormsg += input.TextId  + " TextId already exist.\n";
+					ViewBag.errormsg = "Text already exist.";
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				var text = ITranslation.GetTranslation().Where(x => x.Translated_Text == input.Text).FirstOrDefault();
+				if (text != null)
+				{
+					//ViewBag.errormsg += input.TextId + "TextId already exist.";
+					ViewBag.errormsg = "Text already exist.";
 					return true;
 				}
 				else

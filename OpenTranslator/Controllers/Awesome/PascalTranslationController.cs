@@ -191,7 +191,7 @@ namespace OpenTranslator.Controllers.Awesome
 			input.TextId = TextId;
 			input.Text = Text;
 			input.LanguageCode = LanguageCode;
-			if (this.doesTextIdExist(input) == false)
+			if (this.doesTextIdExist(input) == false && this.doesTextExist(input)==false)
 			{
 				input.TextId = input.TextId;
 				Text text = new Text();
@@ -221,8 +221,7 @@ namespace OpenTranslator.Controllers.Awesome
 			    if(Translations == null)
 					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + "\"\r\n");
 				else
-					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");
-				
+					sbPo.Append("\r\n#: " + TextId + "\r\nmsgid \"" + Text + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");		
 		}
 
 		public bool doesTextIdExist(AdminInput input)
@@ -246,6 +245,39 @@ namespace OpenTranslator.Controllers.Awesome
 			else
 			{
 				var text = ITranslation.GetText().Where(x => x.TextId == input.TextId && x.Id != id).FirstOrDefault();
+				if (text != null)
+				{
+					//ViewBag.errormsg += input.TextId + "TextId already exist.";
+					ViewBag.errormsg = "Records already exist.";
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		public bool doesTextExist(AdminInput input)
+		{
+
+			var id = Convert.ToDecimal(input.Id);
+			if (input.Id == 0)
+			{
+				var text = ITranslation.GetTranslation().Where(x=>x.Translated_Text==input.Text).FirstOrDefault();
+				if (text != null)
+				{
+					//ViewBag.errormsg += input.TextId  + " TextId already exist.\n";
+					ViewBag.errormsg = "Records already exist.";
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				var text = ITranslation.GetTranslation().Where(x => x.Translated_Text == input.Text).FirstOrDefault();
 				if (text != null)
 				{
 					//ViewBag.errormsg += input.TextId + "TextId already exist.";

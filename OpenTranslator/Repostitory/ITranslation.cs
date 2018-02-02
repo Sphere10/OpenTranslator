@@ -11,5 +11,6 @@ namespace OpenTranslator.Repostitory
 		Translation GetTranslationID(string Id); // R
 		List<Translation> GetTranslationLogByCode(string TextId,string LanguageCode);
 		List<Translation> GetTranslationByTextID(string TextId);
+		IEnumerable<Translation> GetTranslation(); 
 	}
 }

@@ -19,9 +19,9 @@
 			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div><br />
 				<fieldset>
 				<legend>Languages </legend>
-				<div>
-					@Html.Awe().AjaxCheckboxList("chkColumns").Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
-				</div>
+					<div>
+						@Html.Awe().AjaxCheckboxList("chkColumns").Multiselect().Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+					</div>
 			</fieldset>
 				<br />
 			<div id="divButtons">

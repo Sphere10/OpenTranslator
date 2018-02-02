@@ -43,6 +43,15 @@ namespace OpenTranslator.Repostitory
 		{
 			return GetDbContext().Texts.ToList();
 		}
+
+		/// <summary>
+        /// Returns a list of all Text objects in db
+        /// </summary>
+        /// <returns></returns>
+		public IEnumerable<Translation> GetTranslation()
+		{
+			return GetDbContext().Translations.ToList();
+		}
 		
         /// <summary>
         /// Returns a particular translation by its Id
