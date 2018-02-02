@@ -337,7 +337,7 @@ namespace OpenTranslator.Controllers.Awesome
             Text currentText = new Text();
 
             //In case the translated text doesn't exists, we proceed to save the objects
-            if (!TranslateAlreadyExist(input, translatedText))
+            if (!ITranslation.IsTranslateAlreadyStoraged(input, translatedText))
             {
 
                 translation.LanguageCode = input.LanguageCode;
@@ -353,7 +353,7 @@ namespace OpenTranslator.Controllers.Awesome
 
                 //We should know if this is a translation for a new text (Text entity doesn't exist yet) 
                 // or it is a translation text for an already Text entity in db
-                if (!TextIdExist(input))
+                if (!ITranslation.IsTextIdAlreadyStoraged(input))
                 {
                     currentText.TextId = input.TextId;
                     currentText.OriginalText = originalText;
@@ -362,6 +362,10 @@ namespace OpenTranslator.Controllers.Awesome
                     //Save all the entities
                     ITranslation.InsertTextTranslation(currentText, translation, translation_log);
                     return;
+                }
+                else
+                {
+                    errorMessage = "Some records already exist.";
                 }
 
                 //or only save the new translation and new translation log
@@ -372,46 +376,7 @@ namespace OpenTranslator.Controllers.Awesome
 
         }
 
-        /// <summary>
-        /// Check if Text entity is already storaged in DB
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        bool TextIdExist(AdminInput input)
-        {
-            errorMessage = string.Empty;
-            var textQuery = ITranslation.GetText().Where(x => x.TextId == input.TextId);
-
-            if (input.Id != 0)
-            {
-                textQuery = textQuery.Where(y => y.Id != Convert.ToDecimal(input.Id));
-            }
-
-            var text = textQuery.FirstOrDefault();
-
-            if (text != null )
-            {
-                errorMessage = "Some records already exist.";
-            }
-
-            return text != null;
-        }
-
-        /// <summary>
-        /// Check if Translation entity already exists in storage DB
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="translatedText"></param>
-        /// <returns></returns>
-        bool TranslateAlreadyExist(AdminInput input, string translatedText)
-        {
-            var textQuery = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.Equals(translatedText));
-
-            return textQuery.FirstOrDefault() != null;
-
-        }
-
-
+       
         void GetTranslationRecord(string pTextId, string pOriginalText, string pTranslatedText, string LanguageCode)
         {
             var Translations = ITranslation.GetAll().Where(x => x.TextId == pTextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
