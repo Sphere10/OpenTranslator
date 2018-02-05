@@ -27,7 +27,8 @@ namespace OpenTranslator.Controllers.Awesome
 		private ITranslation ITranslation;
 		private ILanguages ILanguages;
 		private ITranslationLog ITranslation_Log;
-
+        private static string _defaultlanguage = "en";
+        
         #endregion
 
         #region Constructor
@@ -229,7 +230,7 @@ namespace OpenTranslator.Controllers.Awesome
         {
             //clean error message 
             errorMessage = string.Empty;
-            var currentLanguage = "en"; //English by default
+            var currentLanguage = _defaultlanguage; //English by default
 
             var regex = new Regex(@"""(.*)""", RegexOptions.Compiled | RegexOptions.Singleline);
             var regex2 = new Regex(@"^msgstr\[([0-9]+)\]", RegexOptions.Compiled);
@@ -262,16 +263,7 @@ namespace OpenTranslator.Controllers.Awesome
                 if (string.IsNullOrEmpty(line))
                     continue;
 
-                if (line.StartsWith("msgctxt"))
-                    type = BlockType.Context;
-                else if (line.StartsWith("msgid_plural"))
-                    type = BlockType.IdPlural;
-                else if (line.StartsWith("msgid"))
-                    type = BlockType.Id;
-                else if (line.StartsWith("msgstr"))
-                    type = BlockType.Str;
-                else if (!line.StartsWith("\""))
-                    type = BlockType.None;
+                type = GetBlockType(line);
 
                 var match = regex.Match(line);
                 if (match.Success)
@@ -282,6 +274,15 @@ namespace OpenTranslator.Controllers.Awesome
                         case BlockType.Id:
                             originalText = val;
                             textId = val.RemoveNonAlphanumerics().ConvertCaseString(StringExtension.Case.CamelCase).Replace(" ", String.Empty);
+                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            {
+                                continue;
+                            }
+                            if (input.Equals("Import"))
+                            {
+                                InsterRecord(textId, originalText, originalText, _defaultlanguage);
+                            }
+                            GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
                             break;
 
                         case BlockType.Str:
@@ -294,6 +295,7 @@ namespace OpenTranslator.Controllers.Awesome
                             if (input.Equals("Import"))
                             {
                                 InsterRecord(textId, originalText, translatedText, currentLanguage);
+                                continue;
                             }
 
                             GetTranslationRecord(textId, originalText, translatedText, currentLanguage);
@@ -356,7 +358,6 @@ namespace OpenTranslator.Controllers.Awesome
                 if (!ITranslation.IsTextIdAlreadyStoraged(input))
                 {
                     currentText.TextId = input.TextId;
-                    currentText.OriginalText = originalText;
                     currentText.System = true;
 
                     //Save all the entities
@@ -376,7 +377,25 @@ namespace OpenTranslator.Controllers.Awesome
 
         }
 
-       
+        BlockType GetBlockType(string line)
+        {
+            if (line.StartsWith("msgctxt"))
+                return BlockType.Context;
+
+            if (line.StartsWith("msgid_plural"))
+                return BlockType.IdPlural;
+
+            if (line.StartsWith("msgid"))
+                return BlockType.Id;
+
+            if (line.StartsWith("msgstr"))
+                return BlockType.Str;
+
+            return BlockType.None;
+        }
+
+               
+
         void GetTranslationRecord(string pTextId, string pOriginalText, string pTranslatedText, string LanguageCode)
         {
             var Translations = ITranslation.GetAll().Where(x => x.TextId == pTextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
