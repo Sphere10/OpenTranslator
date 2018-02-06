@@ -158,8 +158,8 @@ namespace OpenTranslator.Controllers.Awesome
 						{
 							// whatever your criteria is
 
-							//if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
-							//	table.Rows[i].Delete();
+							if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
+								table.Rows[i].Delete();
 						}
 						var a= table.Rows.Count;
 					}
@@ -280,7 +280,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Create(AdminInput input)
 		{
-			if (!ModelState.IsValid || this.doesTextIdExist(input) == true)
+			if (!ModelState.IsValid || this.doesTextIdExist(input) == true ||this.doesTextExist(input) == true)
 			{
 				return PartialView(input);
 			}
@@ -353,7 +353,34 @@ namespace OpenTranslator.Controllers.Awesome
 				return false;
 			}
 		}
+		[HttpPost]
+		public bool doesTextExist(AdminInput input)
+		{
 
+			var id = Convert.ToDecimal(input.Id);
+			if (input.Id == 0)
+			{
+				var text = ITranslation.GetAll().Where(x => x.Translated_Text == input.Text).FirstOrDefault();
+				if (text != null)
+				{
+					ViewBag.errormsg = "Text already exist.";
+					return true;
+				}
+
+				return false;
+			}
+			else
+			{
+				var text = ITranslation.GetAll().Where(x => x.Translated_Text == input.Text && x.Id != id).FirstOrDefault();
+				if (text != null)
+				{
+					ViewBag.errormsg = "Text already exist.";
+					return true;
+				}
+
+				return false;
+			}
+		}
 		public ActionResult TranslationItems(GridParams g, string TextId, string LanguageCode)
 		{
 			var items = ITranslation.GetTranslationLogByCode(TextId, LanguageCode).AsQueryable();

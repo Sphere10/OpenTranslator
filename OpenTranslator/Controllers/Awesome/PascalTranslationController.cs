@@ -27,7 +27,8 @@ namespace OpenTranslator.Controllers.Awesome
 		private ITranslation ITranslation;
 		private ILanguages ILanguages;
 		private ITranslationLog ITranslation_Log;
-
+        private static string _defaultlanguage = "en";
+        
         #endregion
 
         #region Constructor
@@ -133,7 +134,7 @@ namespace OpenTranslator.Controllers.Awesome
                         sbPo = new StringBuilder();
 
                         using (var sr = new StreamReader(filepath, Encoding.UTF8))
-							LoadFromReader(sr, "Export", filename);
+							LoadFromReader(sr, "Export", filename,Languagecode);
 					}
 
 					string SourceFolderPath = System.IO.Path.Combine(path, "Initial");
@@ -225,18 +226,20 @@ namespace OpenTranslator.Controllers.Awesome
         /// <param name="input"></param>
         /// <param name="LanguageCode"></param>
         /// <param name="filename"></param>
-        void LoadFromReader(TextReader reader, string input, string filename = "")
+        void LoadFromReader(TextReader reader, string input, string filename = "",string Languagecode="")
         {
             //clean error message 
             errorMessage = string.Empty;
-            var currentLanguage = "en"; //English by default
+            var currentLanguage = _defaultlanguage; //English by default
+
+			sbPo.Append("msgid \"\"\r\nmsgstr \"Content-Type: text/plain; charset=UTF-8\"\r\n");
 
             var regex = new Regex(@"""(.*)""", RegexOptions.Compiled | RegexOptions.Singleline);
             var regex2 = new Regex(@"^msgstr\[([0-9]+)\]", RegexOptions.Compiled);
             var type = BlockType.None;
 
             var textId = string.Empty;
-            var originalText = string.Empty;
+          //  var originalText = string.Empty;
             var translatedText = string.Empty;
 
             string line = String.Empty;
@@ -262,16 +265,7 @@ namespace OpenTranslator.Controllers.Awesome
                 if (string.IsNullOrEmpty(line))
                     continue;
 
-                if (line.StartsWith("msgctxt"))
-                    type = BlockType.Context;
-                else if (line.StartsWith("msgid_plural"))
-                    type = BlockType.IdPlural;
-                else if (line.StartsWith("msgid"))
-                    type = BlockType.Id;
-                else if (line.StartsWith("msgstr"))
-                    type = BlockType.Str;
-                else if (!line.StartsWith("\""))
-                    type = BlockType.None;
+                type = GetBlockType(line);
 
                 var match = regex.Match(line);
                 if (match.Success)
@@ -280,23 +274,33 @@ namespace OpenTranslator.Controllers.Awesome
                     switch (type)
                     {   
                         case BlockType.Id:
-                            originalText = val;
+                            translatedText = val;
                             textId = val.RemoveNonAlphanumerics().ConvertCaseString(StringExtension.Case.CamelCase).Replace(" ", String.Empty);
+                            //if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            //{
+                            //    continue;
+                            //}
+                            //if (input.Equals("Import"))
+                            //{
+                            //    InsterRecord(textId, originalText, originalText, _defaultlanguage);
+                            //}
+                            //GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
                             break;
 
                         case BlockType.Str:
 
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(translatedText))
                             {
                                 continue;
                             }
-                            translatedText = val;
+                            //translatedText = val;
                             if (input.Equals("Import"))
                             {
-                                InsterRecord(textId, originalText, translatedText, currentLanguage);
+                                InsterRecord(textId,  translatedText, currentLanguage);
+                                continue;
                             }
 
-                            GetTranslationRecord(textId, originalText, translatedText, currentLanguage);
+                            GetTranslationRecord(textId,  translatedText, Languagecode);
                             break;
 
                         default: continue;
@@ -309,8 +313,7 @@ namespace OpenTranslator.Controllers.Awesome
             errorMessage = "File imported successfully";
             if (input.Equals("Export"))
             {
-                sbPo.Append("msgid \"\"\r\nmsgstr \"Content-Type: text/plain; charset=UTF-8\"\r\n");
-                System.IO.File.WriteAllText(path + "\\" + filename + "." + currentLanguage + ".po", sbPo.ToString());
+                System.IO.File.WriteAllText(path + "\\" + filename + "." + Languagecode + ".po", sbPo.ToString());
             }
         }
 
@@ -323,12 +326,12 @@ namespace OpenTranslator.Controllers.Awesome
         /// <param name="originalText"></param>
         /// <param name="translatedText"></param>
         /// <param name="languageCode"></param>
-        void InsterRecord(string textId, string originalText, string translatedText, string languageCode)
+        void InsterRecord(string textId, string translatedText, string languageCode)
         {
             AdminInput input = new AdminInput
             {
                 TextId = textId,
-                Text = originalText,
+                Text = translatedText,
                 LanguageCode = languageCode
             };
 
@@ -356,7 +359,6 @@ namespace OpenTranslator.Controllers.Awesome
                 if (!ITranslation.IsTextIdAlreadyStoraged(input))
                 {
                     currentText.TextId = input.TextId;
-                    currentText.OriginalText = originalText;
                     currentText.System = true;
 
                     //Save all the entities
@@ -369,22 +371,40 @@ namespace OpenTranslator.Controllers.Awesome
                 }
 
                 //or only save the new translation and new translation log
-                ITranslation.Save(translation);
-                ITranslation_Log.Save(translation_log);
+                //ITranslation.Save(translation);
+                //ITranslation_Log.Save(translation_log);
 
             }
 
         }
 
-       
-        void GetTranslationRecord(string pTextId, string pOriginalText, string pTranslatedText, string LanguageCode)
+        BlockType GetBlockType(string line)
+        {
+            if (line.StartsWith("msgctxt"))
+                return BlockType.Context;
+
+            if (line.StartsWith("msgid_plural"))
+                return BlockType.IdPlural;
+
+            if (line.StartsWith("msgid"))
+                return BlockType.Id;
+
+            if (line.StartsWith("msgstr"))
+                return BlockType.Str;
+
+            return BlockType.None;
+        }
+
+               
+
+        void GetTranslationRecord(string pTextId,  string pTranslatedText, string LanguageCode)
         {
             var Translations = ITranslation.GetAll().Where(x => x.TextId == pTextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();
             
             if (Translations == null)
-                sbPo.Append("\r\n#: " + pTextId + "\r\nmsgid \"" + pOriginalText + "\"\r\nmsgstr \"" + "\"\r\n");
+                sbPo.Append("\r\n#: " + pTextId + "\r\nmsgid \"" + pTranslatedText + "\"\r\nmsgstr \"" + "\"\r\n");
             else
-                sbPo.Append("\r\n#: " + pTextId + "\r\nmsgid \"" + pOriginalText + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");
+                sbPo.Append("\r\n#: " + pTextId + "\r\nmsgid \"" + pTranslatedText + "\"\r\nmsgstr \"" + Translations.Translated_Text + "\"\r\n");
 
         }
 
