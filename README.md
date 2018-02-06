@@ -1,6 +1,6 @@
 # Open Language Translator
 
-Web-application allow open-source communities to translate text to different languages also vote for translation.
+OpenTranslator was designed to allow users to translate PascalCoin GUI to all languages.
 
 ## Getting Started
 
@@ -8,8 +8,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-1. Microsoft Visual Studio(.Net Framework)
-2. MS-SQL Server
+1. Microsoft Visual Studio(.Net Framework (Visual Studio 2017))
+2. MS-SQL Server(SQL Server 2016)
 
 
 ### Installing
@@ -20,7 +20,7 @@ Clone the repository at your local directory -
 git clone <repository URL>
 ```
 
-Open the solution file using the Visual Studio and update the Entity.
+Open the solution file using the Visual Studio and run database script from script folder and update the Entity.
 
 
 ## Deployment
@@ -40,5 +40,6 @@ See also the list of [contributors](https://github.com/Sphere10/OpenTranslator/g
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Copyright (c) Sphere 10 Software. All rights reserved. (http://www.sphere10.com)
+Distributed under the MIT software license, see the accompanying file [LICENSE.md](LICENSE.md)
 
