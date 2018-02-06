@@ -1,17 +1,10 @@
-﻿using System.Collections.Generic;
-
-using OpenTranslator.Data;
+﻿using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public interface IUsers
+    public interface IUsers : IBaseRepository<UserMaster>
 	{
-		void InsertUser(UserMaster User); // C
-		IEnumerable<UserMaster> GetUsers(); // R
 		UserMaster GetUserID(int Id); // R
-		UserMaster GetUser(string Email,string password); // R
-		void UpdateUser(UserMaster User); //U
-		void DeleteUser(int Id); //D
-		void Save();
+		UserMaster GetUserByMailAndPwd(string Email,string password); // R
 	}
 }
