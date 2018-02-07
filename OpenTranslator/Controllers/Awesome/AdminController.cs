@@ -580,7 +580,7 @@ namespace OpenTranslator.Controllers.Awesome
 			var newtranslation = new Translation();
 			if (updateMode.Mode == 0 || updateMode.Mode == 1)
 			{
-				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
+				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.ToLower() == input.TranslationText.ToLower()).FirstOrDefault();
 				if (repetTranslated != null)
 				{
 					if (updateMode.Mode == 0)

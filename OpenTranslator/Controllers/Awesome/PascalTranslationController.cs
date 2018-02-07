@@ -274,7 +274,7 @@ namespace OpenTranslator.Controllers.Awesome
                         case BlockType.Id:
                             originalText = val;
                             textId = val.RemoveNonAlphanumerics().ConvertCaseString(StringExtension.Case.CamelCase).Replace(" ", String.Empty);
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            if (String.IsNullOrEmpty(textId) || String.IsNullOrEmpty(originalText))
                             {
                                 continue;
                             }
@@ -287,11 +287,11 @@ namespace OpenTranslator.Controllers.Awesome
 
                         case BlockType.Str:
 
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            translatedText = val;
+                            if (String.IsNullOrEmpty(translatedText) || String.IsNullOrEmpty(textId))
                             {
                                 continue;
                             }
-                            translatedText = val;
                             if (input.Equals("Import"))
                             {
                                 InsterRecord(textId, originalText, translatedText, currentLanguage);
