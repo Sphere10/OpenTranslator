@@ -134,7 +134,7 @@ namespace OpenTranslator.Controllers.Awesome
                         sbPo = new StringBuilder();
 
                         using (var sr = new StreamReader(filepath, Encoding.UTF8))
-							LoadFromReader(sr, "Export", filename);
+							LoadFromReader(sr, "Export", filename, Languagecode );
 					}
 
 					string SourceFolderPath = System.IO.Path.Combine(path, "Initial");
@@ -226,7 +226,7 @@ namespace OpenTranslator.Controllers.Awesome
         /// <param name="input"></param>
         /// <param name="LanguageCode"></param>
         /// <param name="filename"></param>
-        void LoadFromReader(TextReader reader, string input, string filename = "")
+        void LoadFromReader(TextReader reader, string input, string filename = "", string languageCode="")
         {
             //clean error message 
             errorMessage = string.Empty;
@@ -235,6 +235,8 @@ namespace OpenTranslator.Controllers.Awesome
             var regex = new Regex(@"""(.*)""", RegexOptions.Compiled | RegexOptions.Singleline);
             var regex2 = new Regex(@"^msgstr\[([0-9]+)\]", RegexOptions.Compiled);
             var type = BlockType.None;
+
+			sbPo.Append("msgid \"\"\r\nmsgstr \"Content-Type: text/plain; charset=UTF-8\"\r\n");
 
             var textId = string.Empty;
             var originalText = string.Empty;
@@ -282,7 +284,7 @@ namespace OpenTranslator.Controllers.Awesome
                             {
                                 InsterRecord(textId, originalText, originalText, _defaultlanguage);
                             }
-                            GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
+                           // GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
                             break;
 
                         case BlockType.Str:
@@ -298,7 +300,7 @@ namespace OpenTranslator.Controllers.Awesome
                                 continue;
                             }
 
-                            GetTranslationRecord(textId, originalText, translatedText, currentLanguage);
+                            GetTranslationRecord(textId, originalText, translatedText, languageCode);
                             break;
 
                         default: continue;
@@ -311,8 +313,7 @@ namespace OpenTranslator.Controllers.Awesome
             errorMessage = "File imported successfully";
             if (input.Equals("Export"))
             {
-                sbPo.Append("msgid \"\"\r\nmsgstr \"Content-Type: text/plain; charset=UTF-8\"\r\n");
-                System.IO.File.WriteAllText(path + "\\" + filename + "." + currentLanguage + ".po", sbPo.ToString());
+                System.IO.File.WriteAllText(path + "\\" + filename + "." + languageCode + ".po", sbPo.ToString());
             }
         }
 
@@ -369,11 +370,11 @@ namespace OpenTranslator.Controllers.Awesome
                     errorMessage = "Some records already exist.";
                 }
 
-                //or only save the new translation and new translation log
-                ITranslation.Save(translation);
-                ITranslation_Log.Save(translation_log);
+				//or only save the new translation and new translation log
+				//ITranslation.Save(translation);
+				//ITranslation_Log.Save(translation_log);
 
-            }
+			}
 
         }
 
