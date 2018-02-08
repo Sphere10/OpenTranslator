@@ -77,6 +77,19 @@ namespace OpenTranslator.Repostitory
 			return GetDbContext().Translations.Where(x=>x.TextId==TextId).ToList();
 		}
 
+		/// <summary>
+        /// Check if Text already exists in storage DB
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="translatedText"></param>
+        /// <returns></returns>
+        public bool IsTextAlreadyStoraged(AdminInput input, string translatedText)
+        {
+            var textQuery = GetAll().Where(x => x.LanguageCode == input.LanguageCode && x.Translated_Text.Equals(translatedText));
+
+            return textQuery.FirstOrDefault() != null;
+        }
+
         /// <summary>
         /// Check if Translation entity already exists in storage DB
         /// </summary>

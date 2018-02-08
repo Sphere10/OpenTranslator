@@ -13,6 +13,7 @@ namespace OpenTranslator.Repostitory
         List<Translation> GetTranslationLogByCode(string TextId, string LanguageCode);
         List<Translation> GetTranslationByTextID(string TextId); 
         bool IsTranslateAlreadyStoraged(AdminInput input, string translatedText);
+		bool IsTextAlreadyStoraged(AdminInput input, string translatedText);
         bool IsTextIdAlreadyStoraged(AdminInput input);
     }
 }
