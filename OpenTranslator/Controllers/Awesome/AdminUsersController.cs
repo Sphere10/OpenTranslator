@@ -16,7 +16,7 @@ namespace OpenTranslator.Controllers.Awesome
 
         public AdminUsersController()
 		{
-			this.IUsers = new UsersRepository(new StringTranslationEntities());
+			IUsers = new UsersRepository();
 		}
 		
         // GET: User
@@ -37,7 +37,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult UserDataItems(GridParams g)
 		{
-			var items = IUsers.GetUsers().AsQueryable();
+			var items = IUsers.GetAll().AsQueryable();
 			var key = Convert.ToInt32(g.Key);
 
             var model = new GridModelBuilder<UserMaster>(items, g)
@@ -70,7 +70,7 @@ namespace OpenTranslator.Controllers.Awesome
                     Password = input.Password,
                 };
 
-				IUsers.InsertUser(user);
+				IUsers.Save(user);
 				return Json(user);
 			}
 			catch (Exception ex)
@@ -84,7 +84,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public bool DoesUserEmailExist(UserInput input)
 		{
-            var userQuery = IUsers.GetUsers().Where(x => x.EmailId == input.EmailId);
+            var userQuery = IUsers.GetAll().Where(x => x.EmailId == input.EmailId);
 
             // This means it's an update of existing user
             if (input.Id != null)
@@ -132,7 +132,7 @@ namespace OpenTranslator.Controllers.Awesome
             user.EmailId = input.EmailId;
 			user.Password = input.Password;
 
-			IUsers.UpdateUser(user);
+			IUsers.Update(user);
 
             return Json(new { input.Id });
 
@@ -151,7 +151,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			try
 			{
-				IUsers.DeleteUser(input.Id);
+				IUsers.Delete(input.Id);
 			}
 			catch (Exception ex)
 			{

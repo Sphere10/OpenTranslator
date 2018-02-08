@@ -270,13 +270,13 @@ namespace OpenTranslator.Controllers.Awesome
                 var match = regex.Match(line);
                 if (match.Success)
                 {
-                    var val = StringExtension.Unescape(match.Groups[1].Value);
+                    var val = StringExtension.Unescape(match.Groups[1].Value).Trim();
                     switch (type)
                     {   
                         case BlockType.Id:
                             originalText = val;
                             textId = val.RemoveNonAlphanumerics().ConvertCaseString(StringExtension.Case.CamelCase).Replace(" ", String.Empty);
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            if (String.IsNullOrEmpty(textId) || String.IsNullOrEmpty(originalText))
                             {
                                 continue;
                             }
@@ -284,16 +284,16 @@ namespace OpenTranslator.Controllers.Awesome
                             {
                                 InsterRecord(textId, originalText, originalText, _defaultlanguage);
                             }
-                           // GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
+                            GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
                             break;
 
                         case BlockType.Str:
 
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            translatedText = val;
+                            if (String.IsNullOrEmpty(translatedText) || String.IsNullOrEmpty(textId))
                             {
                                 continue;
                             }
-                            translatedText = val;
                             if (input.Equals("Import"))
                             {
                                 InsterRecord(textId, originalText, translatedText, currentLanguage);
@@ -371,8 +371,8 @@ namespace OpenTranslator.Controllers.Awesome
                 }
 
 				//or only save the new translation and new translation log
-				//ITranslation.Save(translation);
-				//ITranslation_Log.Save(translation_log);
+				ITranslation.Save(translation);
+				ITranslation_Log.Save(translation_log);
 
 			}
 
