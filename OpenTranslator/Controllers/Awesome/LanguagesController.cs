@@ -132,6 +132,10 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Delete(DeleteConfirmInput input)
 		{
+			var language = Ilanguages.GetLanguageID(input.Id);
+			string[] selectedColumns = (string[])System.Web.HttpContext.Current.Session["SelectedColumns"];
+			selectedColumns = selectedColumns.Where(s => s != language.LanguageName).ToArray();
+			System.Web.HttpContext.Current.Session["SelectedColumns"] = selectedColumns;
 			Ilanguages.Delete(input.Id);
 			return Json(new { input.Id });
 		}
