@@ -98,7 +98,7 @@ namespace OpenTranslator.Repostitory
         /// <returns></returns>
         public bool IsTranslateAlreadyStoraged(AdminInput input, string translatedText)
         {
-            var textQuery = GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.Equals(translatedText));
+            var textQuery = GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.ToLower().Equals(translatedText.ToLower()));
 
             return textQuery.FirstOrDefault() != null;
         }
@@ -110,7 +110,7 @@ namespace OpenTranslator.Repostitory
         /// <returns></returns>
         public bool IsTextIdAlreadyStoraged(AdminInput input)
         {
-            var textQuery = GetText().Where(x => x.TextId == input.TextId);
+            var textQuery = GetText().Where(x => x.TextId.ToLower() == input.TextId.ToLower());
 
             if (input.Id != 0)
             {

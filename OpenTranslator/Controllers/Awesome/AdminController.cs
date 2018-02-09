@@ -6,12 +6,12 @@ using System.Web.Mvc;
 using System.Net;
 using System.Web.UI.WebControls;
 
+using Omu.AwesomeMvc;
+
 using OpenTranslator.Data;
 using OpenTranslator.Utils;
 using OpenTranslator.Models.Input;
 using OpenTranslator.Repostitory;
-
-using Omu.AwesomeMvc;
 using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
@@ -32,12 +32,12 @@ namespace OpenTranslator.Controllers.Awesome
         
         public AdminController()
 		{
-			this.ITranslation = new TranslationRepository();
-			this.ILanguages = new LanguageRepository();
-			this.ITranslation_Log = new TranslationLogRepository();
-			this.ITranslationArchive = new TranslationArchiveRepository();
-			this.IVotes = new VotesRepository();
-			this.ITranslationMode = new TranslationModeRepository();
+			ITranslation = new TranslationRepository();
+			ILanguages = new LanguageRepository();
+			ITranslation_Log = new TranslationLogRepository();
+			ITranslationArchive = new TranslationArchiveRepository();
+			IVotes = new VotesRepository();
+			ITranslationMode = new TranslationModeRepository();
 		}
 
         #endregion
