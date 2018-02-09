@@ -447,6 +447,7 @@ namespace OpenTranslator.Controllers.Awesome
 					var mapdata = list.Where(x => x.Votes == maxVote).ToList();
 					if (mapdata.Count > 1)
 					{
+						
 						data.OfficialBoolean = true;
 					}
 					else
@@ -556,19 +557,9 @@ namespace OpenTranslator.Controllers.Awesome
 				{
 					if (updateMode.Mode == 0)
 					{
-						var items = ITranslation.GetTranslationLogByCode(repetTranslated.TextId, repetTranslated.LanguageCode).ToList();
-						foreach (var item in items)
-						{
-							item.OfficialBoolean = false;
-						}
-						var maxVote = items.Max(s => s.Votes);
-						var setdata = items.Where(x => x.Votes == maxVote).FirstOrDefault();
-						setdata.OfficialBoolean = true;
-						setdata.Votes = maxVote;
-
-						ITranslation.Update(setdata);
+						return Json(repetTranslated);
 					}
-					return Json(repetTranslated);
+					
 				}
 
                 //Find the las translation that has officialBoolean in true
@@ -582,7 +573,7 @@ namespace OpenTranslator.Controllers.Awesome
                 if (translatedData != null)
                 {
                     translatedData.OfficialBoolean = false;
-                    translatedData.Votes = translatedData.Votes > 0 ? 0 : translatedData.Votes;
+                    translatedData.Votes = translatedData.Votes;
 
                     //Update the last saved translation with the new values in order to put the new translation as the one to be shown in the grid.
                     // translateData is NOT the new input to be saved, is the last saved in a previous instance
