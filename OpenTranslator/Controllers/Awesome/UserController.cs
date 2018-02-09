@@ -1,6 +1,7 @@
-﻿using OpenTranslator.Models.Input;
-using System;
+﻿using System;
 using System.Web.Mvc;
+
+using OpenTranslator.Models.Input;
 
 namespace OpenTranslator.Controllers.Awesome
 {
