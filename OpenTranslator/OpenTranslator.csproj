@@ -300,9 +300,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\sysdiagram.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -470,8 +467,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Awesome\Lookup\" />
-    <Folder Include="Controllers\Awesome\MultiLookup\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

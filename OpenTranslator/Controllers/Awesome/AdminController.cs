@@ -6,12 +6,12 @@ using System.Web.Mvc;
 using System.Net;
 using System.Web.UI.WebControls;
 
+using Omu.AwesomeMvc;
+
 using OpenTranslator.Data;
 using OpenTranslator.Utils;
 using OpenTranslator.Models.Input;
 using OpenTranslator.Repostitory;
-
-using Omu.AwesomeMvc;
 using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
@@ -32,12 +32,12 @@ namespace OpenTranslator.Controllers.Awesome
         
         public AdminController()
 		{
-			this.ITranslation = new TranslationRepository();
-			this.ILanguages = new LanguageRepository();
-			this.ITranslation_Log = new TranslationLogRepository();
-			this.ITranslationArchive = new TranslationArchiveRepository();
-			this.IVotes = new VotesRepository();
-			this.ITranslationMode = new TranslationModeRepository();
+			ITranslation = new TranslationRepository();
+			ILanguages = new LanguageRepository();
+			ITranslation_Log = new TranslationLogRepository();
+			ITranslationArchive = new TranslationArchiveRepository();
+			IVotes = new VotesRepository();
+			ITranslationMode = new TranslationModeRepository();
 		}
 
         #endregion
@@ -447,6 +447,7 @@ namespace OpenTranslator.Controllers.Awesome
 					var mapdata = list.Where(x => x.Votes == maxVote).ToList();
 					if (mapdata.Count > 1)
 					{
+						
 						data.OfficialBoolean = true;
 					}
 					else
@@ -551,24 +552,14 @@ namespace OpenTranslator.Controllers.Awesome
 			var newtranslation = new Translation();
 			if (updateMode.Mode == 0 || updateMode.Mode == 1)
 			{
-				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text == input.TranslationText).FirstOrDefault();
+				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.ToLower() == input.TranslationText.ToLower()).FirstOrDefault();
 				if (repetTranslated != null)
 				{
 					if (updateMode.Mode == 0)
 					{
-						var items = ITranslation.GetTranslationLogByCode(repetTranslated.TextId, repetTranslated.LanguageCode).ToList();
-						foreach (var item in items)
-						{
-							item.OfficialBoolean = false;
-						}
-						var maxVote = items.Max(s => s.Votes);
-						var setdata = items.Where(x => x.Votes == maxVote).FirstOrDefault();
-						setdata.OfficialBoolean = true;
-						setdata.Votes = maxVote;
-
-						ITranslation.Update(setdata);
+						return Json(repetTranslated);
 					}
-					return Json(repetTranslated);
+					
 				}
 
                 //Find the las translation that has officialBoolean in true
@@ -582,7 +573,7 @@ namespace OpenTranslator.Controllers.Awesome
                 if (translatedData != null)
                 {
                     translatedData.OfficialBoolean = false;
-                    translatedData.Votes = translatedData.Votes > 0 ? 0 : translatedData.Votes;
+                    translatedData.Votes = translatedData.Votes;
 
                     //Update the last saved translation with the new values in order to put the new translation as the one to be shown in the grid.
                     // translateData is NOT the new input to be saved, is the last saved in a previous instance

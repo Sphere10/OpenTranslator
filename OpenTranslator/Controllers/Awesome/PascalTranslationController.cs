@@ -134,7 +134,7 @@ namespace OpenTranslator.Controllers.Awesome
                         sbPo = new StringBuilder();
 
                         using (var sr = new StreamReader(filepath, Encoding.UTF8))
-							LoadFromReader(sr, "Export", filename, Languagecode );
+                            LoadFromReader(sr, "Export", filename, Languagecode );
 					}
 
 					string SourceFolderPath = System.IO.Path.Combine(path, "Initial");
@@ -220,7 +220,8 @@ namespace OpenTranslator.Controllers.Awesome
 
 
         /// <summary>
-        /// This method reads each line from current file in order to save its content
+        /// This method reads each line from current file in order to save its content (import)
+        /// or create a line for the file that will be downloaded (export)
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="input"></param>
@@ -270,13 +271,13 @@ namespace OpenTranslator.Controllers.Awesome
                 var match = regex.Match(line);
                 if (match.Success)
                 {
-                    var val = StringExtension.Unescape(match.Groups[1].Value);
+                    var val = StringExtension.Unescape(match.Groups[1].Value).Trim();
                     switch (type)
                     {   
                         case BlockType.Id:
                             originalText = val;
                             textId = val.RemoveNonAlphanumerics().ConvertCaseString(StringExtension.Case.CamelCase).Replace(" ", String.Empty);
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
+                            if (String.IsNullOrEmpty(textId) || String.IsNullOrEmpty(originalText))
                             {
                                 continue;
                             }
@@ -284,23 +285,18 @@ namespace OpenTranslator.Controllers.Awesome
                             {
                                 InsterRecord(textId, originalText, originalText, _defaultlanguage);
                             }
-                           // GetTranslationRecord(textId, originalText, originalText, _defaultlanguage);
                             break;
 
                         case BlockType.Str:
 
-                            if (String.IsNullOrEmpty(textId) && String.IsNullOrEmpty(originalText))
-                            {
-                                continue;
-                            }
-                            translatedText = val;
                             if (input.Equals("Import"))
                             {
-                                InsterRecord(textId, originalText, translatedText, currentLanguage);
-                                continue;
+                                ImportStrHandler(textId, originalText, val, currentLanguage);
                             }
-
-                            GetTranslationRecord(textId, originalText, translatedText, languageCode);
+                            else
+                            {
+                                ExportStrHandler(textId, originalText, val, languageCode);
+                            }
                             break;
 
                         default: continue;
@@ -317,7 +313,40 @@ namespace OpenTranslator.Controllers.Awesome
             }
         }
 
-       
+        /// <summary>
+        /// get translation line to be write on the file that will be export
+        /// EXPORT functionality
+        /// </summary>
+        /// <param name="textId"></param>
+        /// <param name="originalText"></param>
+        /// <param name="translatedText"></param>
+        /// <param name="languageCode"></param>
+        void ExportStrHandler(string textId, string originalText, string translatedText, string languageCode)
+        {
+            if (String.IsNullOrEmpty(textId))
+            {
+                return;
+            }
+
+            GetTranslationRecord(textId, originalText, translatedText, languageCode);
+        }
+
+        /// <summary>
+        /// Insert on db current translated text. 
+        /// IMPORT functionality
+        /// </summary>
+        /// <param name="textId"></param>
+        /// <param name="originalText"></param>
+        /// <param name="translatedText"></param>
+        /// <param name="languageCode"></param>
+        void ImportStrHandler(string textId, string originalText, string translatedText, string languageCode)
+        {
+            if (String.IsNullOrEmpty(translatedText) || String.IsNullOrEmpty(textId))
+            {
+                return;
+            }
+            InsterRecord(textId, originalText, translatedText, languageCode);
+        }
 
         /// <summary>
         /// Insert new entities in DB
@@ -371,13 +400,18 @@ namespace OpenTranslator.Controllers.Awesome
                 }
 
 				//or only save the new translation and new translation log
-				//ITranslation.Save(translation);
-				//ITranslation_Log.Save(translation_log);
+				ITranslation.Save(translation);
+				ITranslation_Log.Save(translation_log);
 
 			}
 
         }
 
+        /// <summary>
+        /// Get the blockType accordint to the first word of a file line read
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         BlockType GetBlockType(string line)
         {
             if (line.StartsWith("msgctxt"))
@@ -396,7 +430,14 @@ namespace OpenTranslator.Controllers.Awesome
         }
 
                
-
+        /// <summary>
+        /// Get a translation from db for a current language param and textId param, 
+        /// and set it to the global String Builder
+        /// </summary>
+        /// <param name="pTextId"></param>
+        /// <param name="pOriginalText"></param>
+        /// <param name="pTranslatedText"></param>
+        /// <param name="LanguageCode"></param>
         void GetTranslationRecord(string pTextId, string pOriginalText, string pTranslatedText, string LanguageCode)
         {
             var Translations = ITranslation.GetAll().Where(x => x.TextId == pTextId && x.OfficialBoolean == true && x.LanguageCode == LanguageCode).FirstOrDefault();

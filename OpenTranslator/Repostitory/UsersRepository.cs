@@ -1,54 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
+﻿using System.Linq;
 
 using OpenTranslator.Data;
 
 namespace OpenTranslator.Repostitory
 {
-    public class UsersRepository : IUsers
+    public class UsersRepository : BaseRepository<UserMaster>, IUsers
 	{
-		private StringTranslationEntities DBcontext;
-		
+        #region Constructor
 
-		public UsersRepository(StringTranslationEntities objempcontext)
-		{
-			this.DBcontext = objempcontext;
-		}
+        public UsersRepository() : base() { }
 
-		public void InsertUser(UserMaster User)
-		{
-			DBcontext.UserMasters.Add(User);
-			DBcontext.SaveChanges();
-		}
-		public IEnumerable<UserMaster> GetUsers()
-		{
-			return DBcontext.UserMasters.ToList();
-		}
+        #endregion
+
+        #region IUser Implementations
+
 		public UserMaster GetUserID(int Id)
 		{
-			return DBcontext.UserMasters.Find(Id);
-		}
-		public void UpdateUser(UserMaster User)
-		{
-			DBcontext.Entry(User).State = EntityState.Modified;
-			DBcontext.SaveChanges();
-		}
-		public void DeleteUser(int Id)
-		{
-			UserMaster User = DBcontext.UserMasters.Find(Id);
-			DBcontext.UserMasters.Remove(User);
-			DBcontext.SaveChanges();
-		}
-		public UserMaster GetUser(string Email,string password)
-		{
-
-			return DBcontext.UserMasters.Where(x=>x.EmailId==Email&&x.Password==password).FirstOrDefault();
-			
+			return GetDbContext().UserMasters.Find(Id);
 		}
 
-		public void Save()
+		public UserMaster GetUserByMailAndPwd(string Email,string password)
 		{
+			return GetDbContext().UserMasters.Where(x=>x.EmailId==Email&&x.Password==password).FirstOrDefault();
 		}
+
+        #endregion
+
+        
+
 	}
 }

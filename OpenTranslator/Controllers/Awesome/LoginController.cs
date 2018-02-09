@@ -3,7 +3,6 @@ using System.Web.Mvc;
 
 using OpenTranslator.Models.Input;
 using OpenTranslator.Repostitory;
-using OpenTranslator.Data;
 
 namespace OpenTranslator.Controllers.Awesome
 {
@@ -13,7 +12,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public LoginController()
 		{
-			this.IUsers = new UsersRepository(new StringTranslationEntities());
+			IUsers = new UsersRepository();
 		}
 
         // GET: Login
@@ -30,7 +29,7 @@ namespace OpenTranslator.Controllers.Awesome
 				return PartialView(input);
 			}
 
-			var a= IUsers.GetUser(input.Email,input.Password);
+			var a= IUsers.GetUserByMailAndPwd(input.Email,input.Password);
 			if(a!=null)
 			{
 				if (Request.Cookies["UserId"] == null)
@@ -50,7 +49,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		 public ActionResult LoginNew(string uname , string password)
         {
-			var Users= IUsers.GetUser(uname,password);
+			var Users= IUsers.GetUserByMailAndPwd(uname,password);
 			if(Users !=null)
 			{
 				if (Request.Cookies["UserId"] == null)
