@@ -555,7 +555,7 @@ namespace OpenTranslator.Controllers.Awesome
 				var repetTranslated = ITranslation.GetAll().Where(x => x.TextId == input.TextId && x.LanguageCode == input.LanguageCode && x.Translated_Text.ToLower() == input.TranslationText.ToLower()).FirstOrDefault();
 				if (repetTranslated != null)
 				{
-					if (updateMode.Mode == 0)
+					if (updateMode.Mode == 0||updateMode.Mode == 1)
 					{
 						return Json(repetTranslated);
 					}
@@ -572,13 +572,16 @@ namespace OpenTranslator.Controllers.Awesome
 
                 if (translatedData != null)
                 {
-                    translatedData.OfficialBoolean = false;
-                    translatedData.Votes = translatedData.Votes;
+					if (updateMode.Mode != 1)
+					{
+						translatedData.OfficialBoolean = false;
+						translatedData.Votes = translatedData.Votes;
 
-                    //Update the last saved translation with the new values in order to put the new translation as the one to be shown in the grid.
-                    // translateData is NOT the new input to be saved, is the last saved in a previous instance
-                    ITranslation.Update(translatedData);
-                }
+						//Update the last saved translation with the new values in order to put the new translation as the one to be shown in the grid.
+						// translateData is NOT the new input to be saved, is the last saved in a previous instance
+						ITranslation.Update(translatedData);
+					}
+				}
 
                 // the new translation to be saved in db
                 var translatedText = new Translation();
