@@ -5,11 +5,13 @@ using OpenTranslator.Models.Input;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-	public class UserController : Controller
+	public class UserController : BaseController
 	{
 
-		// GET: User
-		public ActionResult Index()
+        #region Public Methods
+        
+        // GET: User
+        public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] != null)
 			{
@@ -33,9 +35,9 @@ namespace OpenTranslator.Controllers.Awesome
 			var selectedColumns = (string[])Session["SelectedColumns"];
 			return Json(new { selectedColumns });
 		}
+
 		public ActionResult Edit(string TextId, string code)
 		{
-
 			AdminController adminController = new AdminController();
 			return adminController.Edit(TextId, code, "User");
 		}
@@ -48,6 +50,7 @@ namespace OpenTranslator.Controllers.Awesome
 				return PartialView("EditTranslation", input);
 			}
 			AdminController adminController = new AdminController();
+
 			return adminController.Edit(input);
 		}
 
@@ -56,5 +59,6 @@ namespace OpenTranslator.Controllers.Awesome
 			return View();
 		}
 
-	}
+        #endregion
+    }
 }

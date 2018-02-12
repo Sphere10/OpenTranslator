@@ -4,24 +4,22 @@ using System.Web.Mvc;
 
 using Omu.AwesomeMvc;
 
-using OpenTranslator.Data;
-using OpenTranslator.Repostitory;
-using OpenTranslator.Models.Input;
-using OpenTranslator.Models;
 using System.Collections.Generic;
+
+using OpenTranslator.Models;
+
 
 namespace OpenTranslator.Controllers.Awesome
 {
-    public class MissingTranslationController : Controller
+    public class MissingTranslationController : BaseController
 	{
-		private ILanguages Ilanguages;
-		private ITranslation ITranslation;
-		public MissingTranslationController()
-		{
-			this.Ilanguages = new LanguageRepository();
-			this.ITranslation= new TranslationRepository();
-		}
-			public ActionResult Index()
+        #region Constructor
+        public MissingTranslationController(){}
+        #endregion
+
+        #region Public Methods
+        
+        public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] == null)
 			{
@@ -33,6 +31,7 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 
 		}
+
 		public ActionResult embeded()
 		{
 			return View("Index","_LayoutEmbedAdmin");
@@ -40,26 +39,31 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult GetAllMissingTranslations(GridParams g)
 		{
-			var items =Ilanguages.GetAll().AsQueryable();
-			List<languages> data = new List<languages>();
-			AdminController admin= new AdminController();			
-			foreach (var column in items)
-					{
-						System.Data.DataTable table = admin.getTable();
-						for (int i = table.Rows.Count - 1; i >= 0; i--)
-						{
-							// whatever your criteria is
+			var items = ILanguages.GetAll().AsQueryable();
 
-							if (table.Rows[i][column.LanguageName].ToString() != "")
-								table.Rows[i].Delete();
-						}
-						languages a= new languages();
-						a.Id= Convert.ToInt32(column.Id); 
-						a.LanguageCode=column.LanguageCode;
-						a.LanguageName=column.LanguageName;
-						a.MissingTranslationCount=table.Rows.Count;
-						data.Add(a);
-					}
+			List<languages> data = new List<languages>();
+			AdminController admin= new AdminController();		
+            
+			foreach (var column in items)
+			{
+				System.Data.DataTable table = admin.getTable();
+                
+				for (int i = table.Rows.Count - 1; i >= 0; i--)
+				{
+					if (table.Rows[i][column.LanguageName].ToString() != "")
+						table.Rows[i].Delete();
+				}
+
+				languages language= new languages
+                {
+				    Id= Convert.ToInt32(column.Id), 
+				    LanguageCode=column.LanguageCode,
+				    LanguageName=column.LanguageName,
+				    MissingTranslationCount=table.Rows.Count
+                };
+
+				data.Add(language);
+			}
 
 			var key = Convert.ToInt32(g.Key);
 			var model = new GridModelBuilder<languages>(data.AsQueryable(), g)
@@ -67,11 +71,14 @@ namespace OpenTranslator.Controllers.Awesome
 				Key = "Id",
 				GetItem = () => data.Single(x => x.Id == key)
 			}.Build();
+
 			return Json(model);
 
 		}
 
-		}
-	}
+        #endregion
+
+    }
+}
 
 

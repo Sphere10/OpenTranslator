@@ -2,19 +2,17 @@
 using System.Web.Mvc;
 
 using OpenTranslator.Models.Input;
-using OpenTranslator.Repostitory;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
-		private IUsers IUsers;
+        #region Constructor
+        public LoginController(){}
+        #endregion
 
-		public LoginController()
-		{
-			IUsers = new UsersRepository();
-		}
-
+        #region Public Methods
+        
         // GET: Login
         public ActionResult Index()
         {
@@ -29,12 +27,12 @@ namespace OpenTranslator.Controllers.Awesome
 				return PartialView(input);
 			}
 
-			var a= IUsers.GetUserByMailAndPwd(input.Email,input.Password);
-			if(a!=null)
+			var users = IUser.GetUserByMailAndPwd(input.Email,input.Password);
+			if(users != null)
 			{
 				if (Request.Cookies["UserId"] == null)
 				{
-					Response.Cookies["UserId"].Value = a.Id.ToString();
+					Response.Cookies["UserId"].Value = users.Id.ToString();
 					Response.Cookies["UserId"].Expires = DateTime.Now.AddMonths(1);
 				}		
 				return Json(new { url = "Test"});
@@ -42,14 +40,15 @@ namespace OpenTranslator.Controllers.Awesome
 			else
 			{
 				ViewBag.Message = "Email or Password is incorrect.";
-					return PartialView(new LoginInput { Email = input.Email, Password=input.Password});
+				return PartialView(new LoginInput { Email = input.Email, Password=input.Password});
 			}
            
         }
+
 		[HttpPost]
 		 public ActionResult LoginNew(string uname , string password)
         {
-			var Users= IUsers.GetUserByMailAndPwd(uname,password);
+			var Users= IUser.GetUserByMailAndPwd(uname,password);
 			if(Users !=null)
 			{
 				if (Request.Cookies["UserId"] == null)
@@ -80,8 +79,6 @@ namespace OpenTranslator.Controllers.Awesome
         {
             try
             {
-                // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -89,6 +86,8 @@ namespace OpenTranslator.Controllers.Awesome
                 return View();
             }
         }
+
+        #endregion
 
     }
 }
