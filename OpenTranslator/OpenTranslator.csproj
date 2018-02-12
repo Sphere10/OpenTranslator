@@ -282,6 +282,7 @@
     <Compile Include="Controllers\Awesome\LoginController.cs" />
     <Compile Include="Controllers\Awesome\PascalTranslationController.cs" />
     <Compile Include="Controllers\Awesome\UserController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Data\Language.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
