@@ -3637,11 +3637,15 @@ a.thumbnail.active {
   color: #0eb7ff;
 }
 #footer {
-  background-color: #333;
-  color: #ccc;
-  padding: 17px 0;
-  text-align: center;
-  border-top: solid 1px #555;
+	background-color: #333;
+	color: #ccc;
+	padding: 17px 0;
+	text-align: center;
+	border-top: solid 1px #555;
+	bottom: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
 }
 #footer a {
   color: #0099da;

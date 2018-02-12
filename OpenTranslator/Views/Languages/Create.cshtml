@@ -3,7 +3,8 @@
 {
 	using (Html.BeginForm())
 	{
-		<span style="color:red" id="err"></span>
+		<span style="color:red; margin-left:120px" id="err">@ViewBag.errormsg</span>
+		@*<span style="color:red" id="err"></span>*@
     @Html.EditorFor(o => o.LanguageCode)
 	@Html.EditorFor(o => o.LanguageName)
 	}
