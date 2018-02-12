@@ -63,8 +63,9 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Create(LanguageInput input)
 		{
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid||Ilanguages.IsLanguageAlreadyStoraged(input, input.LanguageName)==true)
 			{
+				ViewBag.errormsg = "LanguageCode or Language already exist.";
 				return PartialView(input);
 			}
 
@@ -108,12 +109,19 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Edit(LanguageInput input)
 		{
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid||Ilanguages.IsLanguageNameAlreadyStoraged(input, input.LanguageName)==true)
 			{
+				ViewBag.errormsg = "LanguageCode or Language already exist.";
 				return PartialView("Create", input);
 			}
-			var language = new Language();
-			language.Id = Convert.ToDecimal(input.Id);
+			//var language = new Language();
+			var language= Ilanguages.GetAll().Where(x=>x.Id==Convert.ToDecimal(input.Id)).FirstOrDefault();
+			string[] selectedColumns = (string[])System.Web.HttpContext.Current.Session["SelectedColumns"];
+			if (selectedColumns != null)
+			{
+				selectedColumns = selectedColumns.Select<string,string>(s => s == language.LanguageName ? input.LanguageName : s).ToArray();
+				System.Web.HttpContext.Current.Session["SelectedColumns"] = selectedColumns;
+			}
 			language.LanguageCode = input.LanguageCode;
 			language.LanguageName = input.LanguageName;
 			Ilanguages.Update(language);

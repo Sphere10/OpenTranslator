@@ -37,8 +37,12 @@
 	
 	if (@Model.ModeOfTranslation == 2)
 	{
-		//$('.awe-okbtn').prop('disabled', true);
-		$('#TranslationText').prop('readonly', true);
+		if ($.trim($('#TranslationText').val()) == '') {
+			$('#TranslationText').prop('readonly', false);
+		}
+		else {
+			$('#TranslationText').prop('readonly', true);
+		}
 	}
 
 	$("#TranslationText").width("400px");
