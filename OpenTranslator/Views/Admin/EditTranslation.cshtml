@@ -30,12 +30,19 @@
 
 
 <script>
-	$('#LanguageCode-awed').prop('disabled', true);
-	$('#TextId-awed').prop('disabled', true);
+	$(document).ready(function () {
+		$('#LanguageCode-awed').prop('disabled', true);
+		$('#TextId-awed').prop('disabled', true);
+	});
+	
 	if (@Model.ModeOfTranslation == 2)
 	{
-		//$('.awe-okbtn').prop('disabled', true);
-		$('#TranslationText').prop('readonly', true);
+		if ($.trim($('#TranslationText').val()) == '') {
+			$('#TranslationText').prop('readonly', false);
+		}
+		else {
+			$('#TranslationText').prop('readonly', true);
+		}
 	}
 
 	$("#TranslationText").width("400px");

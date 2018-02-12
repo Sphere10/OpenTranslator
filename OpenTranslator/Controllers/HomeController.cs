@@ -2,8 +2,9 @@
 
 namespace OpenTranslator.Controllers
 {
-//This is a comment to test CR on github
-//This is another comment to merge in OT Fork!
+    /// <summary>
+    /// 
+    /// </summary>
     public class HomeController : Controller
     {
         public ActionResult Index()

@@ -282,6 +282,7 @@
     <Compile Include="Controllers\Awesome\LoginController.cs" />
     <Compile Include="Controllers\Awesome\PascalTranslationController.cs" />
     <Compile Include="Controllers\Awesome\UserController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Data\Language.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
@@ -299,9 +300,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StringTranslation.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\sysdiagram.cs">
-      <DependentUpon>StringTranslation.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Text.cs">
       <DependentUpon>StringTranslation.tt</DependentUpon>
@@ -348,6 +346,7 @@
     <Compile Include="Repostitory\TranslationLogRepository.cs" />
     <Compile Include="Repostitory\UsersRepository.cs" />
     <Compile Include="Repostitory\LanguageRepository.cs" />
+    <Compile Include="Utils\StringExtension.cs" />
     <Content Include="Content\Common.css" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -469,8 +468,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Awesome\Lookup\" />
-    <Folder Include="Controllers\Awesome\MultiLookup\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
