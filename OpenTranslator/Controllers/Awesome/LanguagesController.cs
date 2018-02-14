@@ -5,23 +5,19 @@ using System.Web.Mvc;
 using Omu.AwesomeMvc;
 
 using OpenTranslator.Data;
-using OpenTranslator.Repostitory;
 using OpenTranslator.Models.Input;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-    public class LanguagesController : Controller
+    public class LanguagesController : BaseController
 	{
-		private ILanguages Ilanguages;
-		private ITranslation ITranslation;
+        #region Constructor
+        public LanguagesController(){}
+        #endregion
 
-		public LanguagesController()
-		{
-			this.Ilanguages = new LanguageRepository();
-			this.ITranslation= new TranslationRepository();
-		}
-
-		public ActionResult Index()
+        #region public methods
+        
+        public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] == null)
 			{
@@ -38,19 +34,20 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult GetAllLanguages()
 		{
-			var items = Ilanguages.GetAll().ToList();
+			var items = ILanguages.GetAll().ToList();
 			return Json(items.Select(o => new KeyContent(o.LanguageCode, o.LanguageName)));
 		}
 
 		public ActionResult LanguageItems(GridParams g)
 		{
-			var items = Ilanguages.GetAll().AsQueryable();
+			var items = ILanguages.GetAll().AsQueryable();
 			var key = Convert.ToInt32(g.Key);
 			var model = new GridModelBuilder<Language>(items, g)
 			{
 				Key = "Id",
 				GetItem = () => items.Single(x => x.Id == key)
 			}.Build();
+
 			return Json(model);
 
 		}
@@ -63,7 +60,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Create(LanguageInput input)
 		{
-			if (!ModelState.IsValid||Ilanguages.IsLanguageAlreadyStoraged(input, input.LanguageName)==true)
+			if (!ModelState.IsValid || ILanguages.IsLanguageAlreadyStoraged(input, input.LanguageName) == true)
 			{
 				ViewBag.errormsg = "LanguageCode or Language already exist.";
 				return PartialView(input);
@@ -74,8 +71,10 @@ namespace OpenTranslator.Controllers.Awesome
 				Language language = new Language();
 				language.LanguageCode = input.LanguageCode;
 				language.LanguageName = input.LanguageName;
-				Ilanguages.Save(language);
-				// use MapToGridModel like in Grid Crud Demo when grid uses Map
+
+                ILanguages.Save(language);
+				
+                // use MapToGridModel like in Grid Crud Demo when grid uses Map
 				return Json(language);
 			}
 			catch (Exception ex)
@@ -90,8 +89,9 @@ namespace OpenTranslator.Controllers.Awesome
 		public ActionResult Edit(int id)
 		{
 
-			var language = Ilanguages.GetLanguageID(id);
+			var language = ILanguages.GetLanguageID(id);
             var languageExist = ITranslation.GetAll().Where(x=> x.LanguageCode == language.LanguageCode).FirstOrDefault();
+
             if(languageExist!=null)
                 ViewBag.languageExist = true;
 
@@ -109,22 +109,26 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Edit(LanguageInput input)
 		{
-			if (!ModelState.IsValid||Ilanguages.IsLanguageNameAlreadyStoraged(input, input.LanguageName)==true)
+			if (!ModelState.IsValid || ILanguages.IsLanguageNameAlreadyStoraged(input, input.LanguageName) == true)
 			{
 				ViewBag.errormsg = "LanguageCode or Language already exist.";
 				return PartialView("Create", input);
 			}
-			//var language = new Language();
-			var language= Ilanguages.GetAll().Where(x=>x.Id==Convert.ToDecimal(input.Id)).FirstOrDefault();
+
+			var language= ILanguages.GetAll().Where(x=>x.Id==Convert.ToDecimal(input.Id)).FirstOrDefault();
 			string[] selectedColumns = (string[])System.Web.HttpContext.Current.Session["SelectedColumns"];
-			if (selectedColumns != null)
+
+            if (selectedColumns != null)
 			{
 				selectedColumns = selectedColumns.Select<string,string>(s => s == language.LanguageName ? input.LanguageName : s).ToArray();
 				System.Web.HttpContext.Current.Session["SelectedColumns"] = selectedColumns;
 			}
+
 			language.LanguageCode = input.LanguageCode;
 			language.LanguageName = input.LanguageName;
-			Ilanguages.Update(language);
+
+            ILanguages.Update(language);
+
 			return Json(new { input.Id });
 		}
 
@@ -140,14 +144,18 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public ActionResult Delete(DeleteConfirmInput input)
 		{
-			var language = Ilanguages.GetLanguageID(input.Id);
+			var language = ILanguages.GetLanguageID(input.Id);
 			string[] selectedColumns = (string[])System.Web.HttpContext.Current.Session["SelectedColumns"];
 			selectedColumns = selectedColumns.Where(s => s != language.LanguageName).ToArray();
 			System.Web.HttpContext.Current.Session["SelectedColumns"] = selectedColumns;
-			Ilanguages.Delete(input.Id);
+
+            ILanguages.Delete(input.Id);
+
 			return Json(new { input.Id });
 		}
-	}
+
+        #endregion
+    }
 
 
 }

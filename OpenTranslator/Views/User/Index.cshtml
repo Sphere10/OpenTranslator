@@ -9,7 +9,7 @@
 			<fieldset>
 				<legend>Languages </legend>
 				<div>
-					@Html.Awe().AjaxCheckboxList("chkColumns").Multiselect().Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
+					@Html.Awe().AjaxCheckboxList("chkColumns").Multiselect().Value(@Request.RequestContext.HttpContext.Session["SelectedColumnsIds"]).Url(Url.Action("GetColumnsItems", "Admin")).Load(true)
 				</div>
 			</fieldset>
 			<br />
@@ -30,7 +30,7 @@
 				.Width(100)
 				.Success("RedirectToAdmin"))
 
-			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumns"]"></div>
+			<div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["SelectedColumnsIds"]"></div>
 			@(Html.Awe().InitPopupForm()
 				.Name("EditTranslation")
 				.Url(Url.Action("Edit", "User"))

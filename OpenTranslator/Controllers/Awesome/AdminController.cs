@@ -16,68 +16,63 @@ using OpenTranslator.Models;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-
-	public class AdminController : Controller
+	public class AdminController : BaseController
 	{
-		public StringTranslationEntities entities = new StringTranslationEntities();
-
-		private ITranslation ITranslation;
-		private ILanguages ILanguages;
-		private ITranslationLog ITranslation_Log;
-		private ITranslationArchive ITranslationArchive;
-		private IVotes IVotes;
-		private ITranslationMode ITranslationMode;
-
         #region Constructor
         
-        public AdminController()
-		{
-			ITranslation = new TranslationRepository();
-			ILanguages = new LanguageRepository();
-			ITranslation_Log = new TranslationLogRepository();
-			ITranslationArchive = new TranslationArchiveRepository();
-			IVotes = new VotesRepository();
-			ITranslationMode = new TranslationModeRepository();
-		}
+        public AdminController(){}
 
         #endregion
 
+        #region public methods
 
-		public ActionResult GetEnumItems()
+        /// <summary>
+        /// Get enum items
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetEnumItems()
 		{
 			string CurrentURL = Request.Url.AbsoluteUri;
 
 			var type = typeof(Models.Translationmodes);
 			var items = Enum.GetValues(type).Cast<int>().Select(o => new KeyContent(o, Enum.GetName(type, o))).ToList();
+
 			return Json(items);
 		}
 
+        /// <summary>
+        /// Get Column items
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <returns></returns>
 		public ActionResult GetColumnsItems(string[] columns)
 		{
-			List<Language> list = new List<Language>();
-			list = ILanguages.GetAll().ToList();
+			List<Language> languages = new List<Language>();
+			languages = ILanguages.GetAll().ToList();
 			var column = new List<String>();
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (!list[i].LanguageCode.Equals("en"))
-					column.Add(list[i].LanguageName.ToString());
-			}
-			var col = column.ToArray();
-			columns = columns ?? col;
-			object value = null;
+
+            for (int i = 0; i < languages.Count; i++)
+            {
+                if (!languages[i].LanguageCode.Equals("en"))
+                    column.Add(languages[i].LanguageName.ToString());
+            }
+            var col = column.ToArray();
+            columns = columns ?? col;
+
+            object value = null;
+
 			if (Session["SelectedColumns"] != null)
 			{
 				value = (string[])Session["SelectedColumns"];
 			}
 
-			//return Json(columns.Select(o => new KeyContent(o, o)));
-			return Json(new AweItems
-			{
-				Items = columns.Select(o => new KeyContent(o, o)),
-				Value = value
-			});
+			return Json(languages.Where(x=> x.LanguageCode != "en").Select(o => new KeyContent(o.Id, o.LanguageName)));
 		}
 
+        /// <summary>
+        /// Index Action Result
+        /// </summary>
+        /// <returns></returns>
 		public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] == null)
@@ -86,29 +81,25 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 
 			return View("Index","_AdminLayout");
-
 		}
 
+        /// <summary>
+        /// Return embeded Action Result
+        /// </summary>
+        /// <returns></returns>
 		public ActionResult embeded()
 		{
 			return View("Index","_LayoutEmbedAdmin");
 		}
 
-		private static object MapToGridModel(GridArrayRow o)
-		{
-			
-			return
-				new
-				{
-					o.TextId,
-					o.Values,
-
-				};
-		}
-
+		
+        /// <summary>
+        /// Get Table
+        /// </summary>
+        /// <returns></returns>
 		public DataTable getTable()
 		{
-				var languages = ILanguages.GetAll().Select(x => x.LanguageCode).Distinct();
+			var languages = ILanguages.GetAll().Select(x => x.LanguageCode);
 			var query = from r in ITranslation.GetAll().Where(x => x.OfficialBoolean == true)
 						group r by r.TextId into nameGroup
 						select new
@@ -126,12 +117,16 @@ namespace OpenTranslator.Controllers.Awesome
 						};
 
 			DataTable table = new DataTable();
-			var languagesList = ILanguages.GetAll().Select(x => x.LanguageName).Distinct();
-			table.Columns.Add("TextId");  // first column
-			foreach (var language in languagesList)
+            List<string> items = new List<string>();
+
+            var languagesList = ILanguages.GetAll().Select(x => x.LanguageName).Distinct();
+
+            table.Columns.Add("TextId");  // first column
+
+            foreach (var language in languagesList)
 				table.Columns.Add(language); // columns for each language
-			List<string> items = new List<string>();
-			foreach (var key in query)
+
+            foreach (var key in query)
 			{
 				var row = table.NewRow();
 				items = key.Values.Select(v => v.Value).ToList(); // data for columns
@@ -139,6 +134,7 @@ namespace OpenTranslator.Controllers.Awesome
 				row.ItemArray = items.ToArray();
 				table.Rows.Add(row);
 			}
+
 			return table;
 		}
 
@@ -156,8 +152,6 @@ namespace OpenTranslator.Controllers.Awesome
 					{
 						for (int i = table.Rows.Count - 1; i >= 0; i--)
 						{
-							// whatever your criteria is
-
 							if (table.Rows[i][column].ToString() != "" && System.Web.HttpContext.Current.Request.Cookies["MissingTrans"].Value == "true")
 								table.Rows[i].Delete();
 						}
@@ -204,10 +198,12 @@ namespace OpenTranslator.Controllers.Awesome
 		}
 
 
-		public ActionResult OriginalTextGridGetItems(GridParams g, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin", bool clearsession = false)
+		public ActionResult OriginalTextGridGetItems(GridParams gridParams, string[] selectedColumns, bool? choosingColumns, string UserType = "Admin", bool clearsession = false)
 		{
 			if (selectedColumns != null)
 			{
+				Session["SelectedColumnsIds"] = selectedColumns;
+				selectedColumns =  ILanguages.GetAll().Where(x=> selectedColumns.Contains(x.Id.ToString())).Select(y=>y.LanguageName).ToArray();
 				Session["SelectedColumns"] = selectedColumns;
 
 			}
@@ -218,6 +214,7 @@ namespace OpenTranslator.Controllers.Awesome
 			
 			if (clearsession)
 				Session.Clear();
+
 			if (Session["SelectedColumns"] != null)
 			{
 				selectedColumns = (string[])Session["SelectedColumns"];
@@ -229,14 +226,14 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				columns = columns.Take(columns.Count() - 1).ToArray();
 			}
-			g.Columns = columns;
+			gridParams.Columns = columns;
 
 			var baseColumns = new[] { "TextId", "English" };
 
 			//first load
-			if (g.Columns.Length == 0)
+			if (gridParams.Columns.Length == 0)
 			{
-				g.Columns = columns.ToArray();
+				gridParams.Columns = columns.ToArray();
 			}
 
 			selectedColumns = selectedColumns ?? new string[] { };
@@ -244,7 +241,7 @@ namespace OpenTranslator.Controllers.Awesome
 			//make sure we always have Id and Person columns
 			selectedColumns = selectedColumns.Union(baseColumns).ToArray();
 
-			var currectColumns = g.Columns.ToList();
+			var currectColumns = gridParams.Columns.ToList();
 
 			//remove unselected columns
 			currectColumns = currectColumns.Where(o => selectedColumns.Contains(o.Header)).ToList();
@@ -257,15 +254,16 @@ namespace OpenTranslator.Controllers.Awesome
 			if (UserType.Equals("Admin"))
 				currectColumns.Add(deletecolomn);
 			
-			g.Columns = currectColumns.ToArray();
+			gridParams.Columns = currectColumns.ToArray();
 
 
-			var model = new GridModelBuilder<GridArrayRow>(GridData.GridRows.AsQueryable(), g)
+			var model = new GridModelBuilder<GridArrayRow>(GridData.GridRows.AsQueryable(), gridParams)
 			{
 				Key = "TextId",
-				GetItem = () => GridData.GridRows.Single(x => x.TextId == g.Key),
+				GetItem = () => GridData.GridRows.Single(x => x.TextId == gridParams.Key),
 				Map = MapToGridModel
 			}.Build();
+
 			return Json(model);
 
 		}
@@ -318,10 +316,8 @@ namespace OpenTranslator.Controllers.Awesome
 
                 return Json(rowData);
 			}
-			else
-			{
-				return Json(rowData);
-			}
+
+			return Json(rowData);
 			
 		}
 
@@ -353,7 +349,6 @@ namespace OpenTranslator.Controllers.Awesome
 			}
 		
         	return Json(new { value = false });
-
 
 		}
 
@@ -400,6 +395,7 @@ namespace OpenTranslator.Controllers.Awesome
 				{
 					var voteList = IVotes.GetVoteList(cookieValue);
 					var voteResult = voteList.Where(x => items.Any(p => p.Id == x.Translation_Id));
+
 					foreach (var item in items)
 					{
 						var id = Convert.ToInt32(item.Id);
@@ -421,6 +417,7 @@ namespace OpenTranslator.Controllers.Awesome
 						}
 
 					}
+
 					if (voteResult.Count() == 0)
 					{
 						data.Votes = data.Votes + 1;
@@ -436,33 +433,32 @@ namespace OpenTranslator.Controllers.Awesome
 					ITranslation.Update(data);
 					return Json(data);
 				}
+                				
+				foreach (var item in items)
+				{
+					item.OfficialBoolean = false;
+				}
+
+				var maxVote = list.Max(s => s.Votes);
+				var mapdata = list.Where(x => x.Votes == maxVote).ToList();
+
+                if (mapdata.Count > 1)
+				{
+					data.OfficialBoolean = true;
+				}
 				else
 				{
-					foreach (var item in items)
-					{
-						item.OfficialBoolean = false;
-					}
-					var maxVote = list.Max(s => s.Votes);
+					var setdata = list.Where(x => x.Votes == maxVote).FirstOrDefault();
+					setdata.OfficialBoolean = true;
+					setdata.Votes = maxVote;
 
-					var mapdata = list.Where(x => x.Votes == maxVote).ToList();
-					if (mapdata.Count > 1)
-					{
-						
-						data.OfficialBoolean = true;
-					}
-					else
-					{
-						var setdata = list.Where(x => x.Votes == maxVote).FirstOrDefault();
-						setdata.OfficialBoolean = true;
-						setdata.Votes = maxVote;
+					ITranslation.Update(setdata);
 
-						ITranslation.Update(setdata);
-
-					}
-					ITranslation.Update(data);
-
-					return Json(data);
 				}
+				ITranslation.Update(data);
+
+				return Json(data);
+				
 
 			}
 		}
@@ -470,15 +466,8 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult Edit(string TextId, string code, string UserType = "Admin")
 		{
-			var viewname = "";
-			if (UserType.Equals("Admin"))
-			{
-				viewname = "EditTranslation";
-			}
-			else
-			{
-				viewname = "../User/EditTranslation";
-			}
+			var viewname = UserType.Equals("Admin") ? "EditTranslation" : "../User/EditTranslation" ;
+            
 			Language languages = ILanguages.GetAll().Where(x => x.LanguageName == code).FirstOrDefault();
 			Translation translation = ITranslation.GetAll().Where(x => x.TextId == TextId && x.LanguageCode == languages.LanguageCode && x.OfficialBoolean == true).FirstOrDefault();
 			var translationMode = ITranslationMode.GetTranslationModeByID(TextId, languages.LanguageCode);
@@ -487,22 +476,21 @@ namespace OpenTranslator.Controllers.Awesome
 			{
 				return PartialView(viewname, new TranslationInput { TextId = TextId, TranslationText = null, LanguageCode = languages.LanguageCode, ModeOfTranslation = 0 });
 			}
-			else
+			
+			var id = Convert.ToInt32(translation.Id.ToString());
+
+            if (translationMode == null)
 			{
-				var id = Convert.ToInt32(translation.Id.ToString());
-				if (translationMode == null)
-				{
-					return PartialView(viewname, new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation = 0 });
-				}
-				else
-				{
-					if (translationMode.Mode == 2 && viewname == "../User/EditTranslation")
-					{
-						ViewBag.errormsg = "Translation Mode is Locked you can not add vote or edit this translation.";
-					}
-					return PartialView(viewname, new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation = translationMode.Mode });
-				}
+				return PartialView(viewname, new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation = 0 });
 			}
+
+			
+			if (translationMode.Mode == 2 && viewname == "../User/EditTranslation")
+			{
+				ViewBag.errormsg = "Translation Mode is Locked you can not add vote or edit this translation.";
+			}
+
+			return PartialView(viewname, new TranslationInput { TextId = TextId, TranslationText = translation.Translated_Text, LanguageCode = languages.LanguageCode, Id = id, ModeOfTranslation = translationMode.Mode });
 
 		}
 
@@ -603,7 +591,7 @@ namespace OpenTranslator.Controllers.Awesome
 				translation_log.LanguageCode = translatedText.LanguageCode;
 				translation_log.Translated_Text = translatedText.Translated_Text;
 
-				ITranslation_Log.Save(translation_log);
+				ITranslationLog.Save(translation_log);
 				
 			}
 
@@ -657,9 +645,26 @@ namespace OpenTranslator.Controllers.Awesome
 					IVotes.Delete(int.Parse(vote.Id.ToString()));
 				}
 			}
-			ITranslation_Log.DeleteRange(input.TextId);
+			ITranslationLog.DeleteRange(input.TextId);
 			return Json(new { Id = input.TextId });
 		}
 
-	}
+
+        #endregion
+
+        #region private methods
+        private static object MapToGridModel(GridArrayRow o)
+        {
+
+            return
+                new
+                {
+                    o.TextId,
+                    o.Values,
+
+                };
+        }
+        #endregion
+
+    }
 }

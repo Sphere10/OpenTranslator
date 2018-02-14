@@ -17,27 +17,19 @@ using Ionic.Zip;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-    public class PascalTranslationController : Controller
+    public class PascalTranslationController : BaseController
     {
         #region private properties
 
         public StringBuilder sbPo = new StringBuilder();
         private String errorMessage = String.Empty;
 
-		private ITranslation ITranslation;
-		private ILanguages ILanguages;
-		private ITranslationLog ITranslation_Log;
         private static string _defaultlanguage = "en";
         
         #endregion
 
         #region Constructor
-        public PascalTranslationController()
-		{
-			ITranslation = new TranslationRepository();
-			ILanguages = new LanguageRepository();
-			ITranslation_Log = new TranslationLogRepository();
-		}
+        public PascalTranslationController(){}
         #endregion
 
         # region Public methods
@@ -401,7 +393,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 				//or only save the new translation and new translation log
 				ITranslation.Save(translation);
-				ITranslation_Log.Save(translation_log);
+				ITranslationLog.Save(translation_log);
 
 			}
 

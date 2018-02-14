@@ -5,22 +5,20 @@ using System.Web.Mvc;
 using Omu.AwesomeMvc;
 
 using OpenTranslator.Data;
-using OpenTranslator.Repostitory;
 using OpenTranslator.Models.Input;
 
 namespace OpenTranslator.Controllers.Awesome
 {
-    public class AdminUsersController : Controller
+    public class AdminUsersController : BaseController
     {
-		private IUsers IUsers;
+        #region Constructor
+        public AdminUsersController(){ }
+        #endregion
 
-        public AdminUsersController()
-		{
-			IUsers = new UsersRepository();
-		}
-		
+        #region public methods
+        
         // GET: User
-	    public ActionResult Index()
+        public ActionResult Index()
 		{
 			if (Request.Cookies["UserId"] == null)
 			{
@@ -37,7 +35,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 		public ActionResult UserDataItems(GridParams g)
 		{
-			var items = IUsers.GetAll().AsQueryable();
+			var items = IUser.GetAll().AsQueryable();
 			var key = Convert.ToInt32(g.Key);
 
             var model = new GridModelBuilder<UserMaster>(items, g)
@@ -70,7 +68,7 @@ namespace OpenTranslator.Controllers.Awesome
                     Password = input.Password,
                 };
 
-				IUsers.Save(user);
+                IUser.Save(user);
 				return Json(user);
 			}
 			catch (Exception ex)
@@ -84,7 +82,7 @@ namespace OpenTranslator.Controllers.Awesome
 		[HttpPost]
 		public bool DoesUserEmailExist(UserInput input)
 		{
-            var userQuery = IUsers.GetAll().Where(x => x.EmailId == input.EmailId);
+            var userQuery = IUser.GetAll().Where(x => x.EmailId == input.EmailId);
 
             // This means it's an update of existing user
             if (input.Id != null)
@@ -107,7 +105,7 @@ namespace OpenTranslator.Controllers.Awesome
 		public ActionResult Edit(int id)
 		{
 
-			var user = IUsers.GetUserID(id);
+			var user = IUser.GetUserID(id);
 			return PartialView(
 				"Create",
 				new UserInput
@@ -127,12 +125,12 @@ namespace OpenTranslator.Controllers.Awesome
 				return PartialView("Create", input);
 			}
 
-			var user = IUsers.GetUserID(Convert.ToInt32(input.Id));
+			var user = IUser.GetUserID(Convert.ToInt32(input.Id));
 
             user.EmailId = input.EmailId;
 			user.Password = input.Password;
 
-			IUsers.Update(user);
+            IUser.Update(user);
 
             return Json(new { input.Id });
 
@@ -151,7 +149,7 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			try
 			{
-				IUsers.Delete(input.Id);
+                IUser.Delete(input.Id);
 			}
 			catch (Exception ex)
 			{
@@ -160,5 +158,7 @@ namespace OpenTranslator.Controllers.Awesome
 
 			return Json(new { Id = input.TextId });
 		}
+
+        #endregion
     }
 }

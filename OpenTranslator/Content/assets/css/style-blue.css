@@ -7657,6 +7657,9 @@ Image placeholders: placemi.com
 {
 	display:none;
 }
+.contact-section-additional-info {
+	margin-bottom: 20% !important;
+}
 }
 
 .contactus-logo {
@@ -7674,3 +7677,7 @@ Image placeholders: placemi.com
 	.contactus_text > span {
 		color: #0099da;
 	}
+
+.contact-section {
+	margin-bottom: 7% !important;
+}
