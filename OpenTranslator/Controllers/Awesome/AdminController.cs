@@ -66,11 +66,7 @@ namespace OpenTranslator.Controllers.Awesome
 				value = (string[])Session["SelectedColumns"];
 			}
 
-			return Json(new AweItems
-			{
-				Items = columns.Select(o => new KeyContent(o, o)),
-				Value = value
-			});
+			return Json(languages.Where(x=> x.LanguageCode != "en").Select(o => new KeyContent(o.Id, o.LanguageName)));
 		}
 
         /// <summary>
@@ -206,6 +202,8 @@ namespace OpenTranslator.Controllers.Awesome
 		{
 			if (selectedColumns != null)
 			{
+				Session["SelectedColumnsIds"] = selectedColumns;
+				selectedColumns =  ILanguages.GetAll().Where(x=> selectedColumns.Contains(x.Id.ToString())).Select(y=>y.LanguageName).ToArray();
 				Session["SelectedColumns"] = selectedColumns;
 
 			}
